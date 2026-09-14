@@ -216,6 +216,7 @@ h2 { text-align: center; font-size: 2.2rem; color: var(--primary-color); margin-
     gap: 25px;
     margin-top: 30px;
     margin-bottom: 50px;
+    align-items: start; /* NEU: Verhindert, dass sich kurze Boxen nach unten strecken */
 }
 
 .comment-card, .comment-card-modern {
@@ -226,80 +227,10 @@ h2 { text-align: center; font-size: 2.2rem; color: var(--primary-color); margin-
     border: 1px solid #efe6dd;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* GEÄNDERT: Platzier Inhalt oben statt Lücken zu erzwingen */
+    height: auto; /* NEU: Passt die Höhe exakt an die Textlänge an */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.comment-card:hover, .comment-card-modern:hover { 
-    transform: translateY(-4px); 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.comment-stars, .comment-stars-display, .stars {
-    color: #f1c40f;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-}
-
-.comment-text, .comment-text-body {
-    font-style: italic;
-    color: #555;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.comment-author, .comment-author-name {
-    font-weight: bold;
-    color: var(--primary-color);
-    text-align: right;
-    font-size: 0.9rem;
-}
-
-/* Yorum Formu */
-.comment-form-container {
-    background: #ffffff;
-    padding: 35px;
-    border-radius: 16px;
-    box-shadow: var(--shadow);
-    max-width: 750px;
-    margin: 0 auto;
-    border: 1px solid #eae0d5;
-}
-
-.comment-form-container h3 { color: var(--primary-color); margin-bottom: 20px; text-align: center; }
-
-.comment-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.full-width { grid-column: 1 / -1; }
-
-.btn-submit-comment {
-    background: var(--primary-color);
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-    transition: background 0.3s ease;
-}
-.btn-submit-comment:hover { background: var(--primary-hover); }
-
 /* ==========================================
    6. PORTAL & KALENDER
    ========================================== */
