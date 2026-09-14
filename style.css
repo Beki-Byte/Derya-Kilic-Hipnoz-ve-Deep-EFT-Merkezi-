@@ -208,15 +208,13 @@ h2 { text-align: center; font-size: 2.2rem; color: var(--primary-color); margin-
 .btn-paypal:hover, .paypal-custom-btn:hover, .btn-paypal-pay:hover { background-color: #005ea6; }
 
 /* ==========================================
-   5. DANİŞAN YORUMLARI
+   5. DANİŞAN YORUMLARI (Pinterest / Masonry Style)
    ========================================== */
 .comments-modern-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
+    column-count: 2; /* 2 Spalten nebeneinander */
+    column-gap: 25px; /* Abstand zwischen den Spalten */
     margin-top: 30px;
     margin-bottom: 50px;
-    align-items: start; /* NEU: Verhindert, dass sich kurze Boxen nach unten strecken */
 }
 
 .comment-card, .comment-card-modern {
@@ -225,11 +223,18 @@ h2 { text-align: center; font-size: 2.2rem; color: var(--primary-color); margin-
     border-radius: 16px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     border: 1px solid #efe6dd;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* GEÄNDERT: Platzier Inhalt oben statt Lücken zu erzwingen */
-    height: auto; /* NEU: Passt die Höhe exakt an die Textlänge an */
+    display: inline-block; /* WICHTIG: Damit die Karten in den Spalten bleiben */
+    width: 100%;
+    margin-bottom: 25px; /* Abstand nach unten zur nächsten Karte */
+    box-sizing: border-box;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Responsive: Auf dem Handy nur 1 Spalte untereinander */
+@media (max-width: 768px) {
+    .comments-modern-grid {
+        column-count: 1;
+    }
 }
 /* ==========================================
    6. PORTAL & KALENDER
