@@ -244,6 +244,30 @@ window.handleBookingSubmit = async function(event) {
     const service = document.getElementById("serviceType").value;
 
     const appointments = await getAppointments();
+   // =========================================================
+    // 2 STUNDEN MINDESTABSTAND PRÜFUNG (NUR FÜR KLIENTEN)
+    // =========================================================
+    if (time) {
+        const [reqHours, reqMinutes] = time.split(':').map(Number);
+        const requestedTimeInMinutes = reqHours * 60 + reqMinutes;
+
+        const approvedOnDate = appointments.filter(app => app.date === date && app.status === 'approved');
+
+        for (let app of approvedOnDate) {
+            if (app.time) {
+                const [appHours, appMinutes] = app.time.split(':').map(Number);
+                const existingTimeInMinutes = appHours * 60 + appMinutes;
+
+                const timeDifference = Math.abs(requestedTimeInMinutes - existingTimeInMinutes);
+
+                if (timeDifference < 120) {
+                    alert("⚠️ Lütfen başka bir saat seçiniz. Seanslar arasında en az 2 saat ara olması gerekmektedir.");
+                    return;
+                }
+            }
+        }
+    }
+    // =========================================================
     const isConflict = appointments.some(app => app.date === date && app.time === time && app.status === 'approved');
 
     if (isConflict) {
