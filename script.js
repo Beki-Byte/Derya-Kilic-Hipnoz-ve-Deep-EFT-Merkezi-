@@ -85,6 +85,36 @@ window.acceptCookiesNow = function() {
 };
 
 /* ==========================================
+   1. SMS HELPER FUNCTION (SEVEN.IO)
+   ========================================== */
+async function sendSMS(phoneNumber, messageText) {
+    if (!phoneNumber) return;
+
+    let formattedPhone = phoneNumber.replace(/\s+/g, '');
+    if (formattedPhone.startsWith('0')) {
+        formattedPhone = '+49' + formattedPhone.substring(1);
+    }
+
+    try {
+        await fetch("https://gateway.seven.io/api/sms", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Api-Key": "pQpEiOqvTbR64F6tTMy0EwDE7oYauafXoLirVXiCJ9XPrpYcNIOtdIi99PyJ0sf3"
+            },
+            body: JSON.stringify({
+                to: formattedPhone,
+                text: messageText,
+                from: "DeryaKilic"
+            })
+        });
+        console.log("SMS erfolgreich gesendet an:", formattedPhone);
+    } catch (error) {
+        console.error("SMS Fehler:", error);
+    }
+}
+
+/* ==========================================
    2. DANIŞAN & ÖDEV TEMİZLİK LOGİĞİ (FIREBASE)
    ========================================== */
 async function getAppointments() {
@@ -244,7 +274,8 @@ window.handleBookingSubmit = async function(event) {
     const service = document.getElementById("serviceType").value;
 
     const appointments = await getAppointments();
-   // =========================================================
+
+    // =========================================================
     // 2 STUNDEN MINDESTABSTAND PRÜFUNG (NUR FÜR KLIENTEN)
     // =========================================================
     if (time) {
@@ -268,6 +299,7 @@ window.handleBookingSubmit = async function(event) {
         }
     }
     // =========================================================
+
     const isConflict = appointments.some(app => app.date === date && app.time === time && app.status === 'approved');
 
     if (isConflict) {
@@ -290,21 +322,14 @@ window.handleBookingSubmit = async function(event) {
     try {
         await addDoc(collection(db, "appointments"), newAppointment);
 
-        const mailSubject = encodeURIComponent(`Yeni Randevu Talebi: ${name}`);
-        const mailBody = encodeURIComponent(
-            `Merhaba Derya Hanım,\n\nYeni bir randevu talebi oluşturuldu:\n\n` +
-            `Danışan: ${name}\n` +
-            `E-Posta: ${email}\n` +
-            `Telefon: ${phone}\n` +
-            `Tarih: ${date}\n` +
-            `Saat: ${time}\n` +
-            `Hizmet: ${service}\n\n` +
-            `Talebi onaylamak için Yönetim Paneline giriş yapabilirsiniz.`
-        );
+        // SMS an deine Mutter mit direktem Link zum Admin-Portal
+        const portalUrl = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
+        const motherPhone = "+491708296913";
+        const smsMessage = `Yeni Randevu Talebi!\nDanışan: ${name}\nTarih: ${date}\nSaat: ${time}\nHizmet: ${service}\n\nLütfen portaldan onaylayın:\n${portalUrl}`;
 
-        window.location.href = `mailto:goldensunderya@hotmail.com?subject=${mailSubject}&body=${mailBody}`;
+        sendSMS(motherPhone, smsMessage);
 
-        alert("✅ Randevu talebiniz başarıyla alındı! Derya Hanım onayladıktan sonra randevunuz takvimde kesinleşecektir.");
+        alert("✅ Randevu talebiniz başarıyla alındı! Derya Hanım onayladıktan sonra SMS ile bilgilendirileceksiniz.");
         document.getElementById("appointmentForm").reset();
         
         initCalendar('clientCalendar', currentCode);
@@ -485,17 +510,35 @@ window.approveAppointment = async function(id) {
         }
 
         await updateDoc(doc(db, "appointments", id), { status: 'approved' });
+
+        // Automatische SMS-Bestätigung an den Klienten
+        if (appToApprove.phone) {
+            sendSMS(appToApprove.phone, `Sayın ${appToApprove.name}, Derya Kılıç ile ${appToApprove.date} saat ${appToApprove.time} randevunuz ONAYLANMIŞTIR.`);
+        }
+
         renderPendingAppointments();
         initCalendar('masterCalendar', '28SENDK29');
-        alert("✅ Randevu onaylandı.");
+        alert("✅ Randevu onaylandı ve danışana SMS gönderildi.");
     } catch (e) {
         console.error("Hata (approveAppointment):", e);
     }
 };
 
 window.rejectAppointment = async function(id) {
-    await deleteAppointment(id);
-    renderPendingAppointments();
+    try {
+        const appointments = await getAppointments();
+        const appToReject = appointments.find(a => a.id === id);
+
+        // Automatische SMS-Ablehnung an den Klienten
+        if (appToReject && appToReject.phone) {
+            sendSMS(appToReject.phone, `Sayın ${appToReject.name}, ${appToReject.date} saat ${appToReject.time} randevu talebiniz maalesef onaylanamadı. Lütfen başka bir saat seçiniz.`);
+        }
+
+        await deleteAppointment(id);
+        renderPendingAppointments();
+    } catch (e) {
+        console.error("Hata (rejectAppointment):", e);
+    }
 };
 
 window.addNewClient = async function(e) {
