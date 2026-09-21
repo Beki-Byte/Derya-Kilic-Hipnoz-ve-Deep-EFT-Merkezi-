@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Randevu & Anamnez Formu | Derya Kılıç</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+</head>
+<body class="portal-body">
+
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="logobaum.png" alt="Derya Kılıç Logo" class="tree-icon-img">
+            <div class="logo">DERYA KILIÇ</div>
+        </div>
+        <nav>
+            <a href="index.html">Ana Sayfaya Dön</a>
+            <div id="google_translate_element" class="custom-translate-box"></div>
+        </nav>
+    </header>
+
+    <main class="portal-container">
+        <section class="portal-card wide-card">
+            <div class="calendar-page-header">
+                <h2><i class="fas fa-calendar-check"></i> Online Randevu ve Ön Anamnez Formu</h2>
+                <p>Lütfen uygun bir gün ve saat seçip bilgilerinizi doldurarak randevu talebinizi iletin.</p>
+            </div>
+
+            <div class="calendar-layout-grid">
+                <!-- Takvim Görünümü -->
+                <div class="calendar-wrapper-box">
+                    <div id="publicCalendar"></div>
+                </div>
+
+                <!-- Randevu ve Anamnez Formu -->
+                <div class="booking-sidebar-card">
+                    <h3>Randevu & Anamnez Talebi</h3>
+                    <form id="publicBookingForm" onsubmit="window.handlePublicBookingSubmit(event)">
+                        
+                        <!-- İletişim Bilgileri -->
+                        <div class="form-group">
+                            <label for="pubName">Adınız Soyadınız *</label>
+                            <input type="text" id="pubName" placeholder="Örn: Ahmet Yılmaz" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pubEmail">E-Posta Adresiniz *</label>
+                            <input type="email" id="pubEmail" placeholder="ornek@email.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pubPhone">Telefon Numaranız *</label>
+                            <input type="tel" id="pubPhone" placeholder="+49 123 456789" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pubDate">Seçilen Tarih *</label>
+                            <input type="date" id="pubDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pubTime">İstediğiniz Saat *</label>
+                            <input type="time" id="pubTime" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pubService">Terapi Türü *</label>
+                            <select id="pubService" required>
+                                <option value="Hipnoterapi">Hipnoterapi (170 €)</option>
+                                <option value="Deep EFT / Diğer">Deep EFT / Diğer Terapiler (65 € / Saat)</option>
+                            </select>
+                        </div>
+
+                        <!-- Mini Anamnez Bölümü -->
+                        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                        <h4><i class="fas fa-notes-medical"></i> Mini Anamnez Formu</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Derya Hanım'ın seans öncesi durumunuzu değerlendirebilmesi için lütfen doldurunuz.</p>
+
+                        <div class="form-group">
+                            <label for="pubReason">Terapiden Beklentiniz / Temel Şikayetiniz *</label>
+                            <textarea id="pubReason" rows="3" placeholder="Destek almak istediğiniz konu nedir? (Örn: Kaygı, Sigara, Fobi...)" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pubMedicalHistory">Daha Önce Psikolojik / Tıbbi Tedavi Gördünüz mü?</label>
+                            <input type="text" id="pubMedicalHistory" placeholder="İlaç kullanımı veya terapi geçmişi (varsa)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pubExpectation">Seanstan Beklentiniz Nedir?</label>
+                            <input type="text" id="pubExpectation" placeholder="Kısaca belirtiniz">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-submit-booking"><i class="fas fa-paper-plane"></i> Randevu Talebi Gönder</button>
+                    </form>
+
+                    <!-- WhatsApp Butonu (Form gönderildikten sonra aktif olur) -->
+                    <div id="whatsappSection" style="display: none; margin-top: 20px; padding: 15px; background: #e8f8f5; border-radius: 8px; border: 1px solid #2ecc71; text-align: center;">
+                        <p style="color: #27ae60; font-weight: bold; margin-bottom: 10px;">✅ Randevu talebiniz alındı!</p>
+                        <p style="font-size: 0.9rem; margin-bottom: 15px;">Anamnez bilgilerinizi WhatsApp üzerinden doğrudan Derya Hanım'a iletmek için aşağıdaki butona tıklayın:</p>
+                        <a id="whatsappBtn" href="#" target="_blank" class="btn-submit-booking" style="background-color: #25D366; text-decoration: none; display: inline-block;">
+                            <i class="fab fa-whatsapp"></i> WhatsApp ile Anamnezi Gönder
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'tr',
+                includedLanguages: 'de,tr,fr,en,nl,ar,ru',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- FullCalendar Bibliotheken -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/tr.js"></script>
+
+    <!-- Hauptskript Module -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
