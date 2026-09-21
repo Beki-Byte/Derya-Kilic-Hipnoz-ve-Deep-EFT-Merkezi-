@@ -1001,6 +1001,9 @@ window.logoutPortal = function() {
    KALENDER.HTML - PUBLIC BOOKING & ANAMNESE LOGIC
    ========================================== */
 
+// Firebase Firestore Imports sicherstellen (falls nicht am Anfang der script.js)
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 // Initialisierung für kalender.html beim Laden
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("publicCalendar")) {
@@ -1047,14 +1050,9 @@ async function initPublicCalendar() {
     calendar.render();
 }
 
-// Öffentliches Formular verarbeiten (Talepleri Master Panel'e Gönderir)
+// Öffentliches Formular verarbeiten (Talepleri Master Panel'e Gönderir + WhatsApp Text)
 window.handlePublicBookingSubmit = async function(event) {
     event.preventDefault();
-
-    if (!db) {
-        alert("Veritabanı bağlantısı sağlanamadı.");
-        return;
-    }
 
     const name = document.getElementById("pubName").value.trim();
     const email = document.getElementById("pubEmail").value.trim();
@@ -1065,64 +1063,76 @@ window.handlePublicBookingSubmit = async function(event) {
 
     // Anamnese Daten
     const reason = document.getElementById("pubReason").value.trim();
-    const medicalHistory = document.getElementById("pubMedicalHistory").value.trim();
-    const expectation = document.getElementById("pubExpectation").value.trim();
+    const medicalHistory = document.getElementById("pubMedicalHistory").value.trim() || "Yok";
+    const expectation = document.getElementById("pubExpectation").value.trim() || "Belirtilmedi";
 
-    // Konfliktprüfung (Seanslar arası 2 saat ara ve Dolu kontrolü)
-    const appointments = await getAppointments();
-    const isConflict = appointments.some(app => app.date === date && app.time === time && app.status === 'approved');
+    // 1. WhatsApp-Nachricht vorbereiten mit sauberem encodeURIComponent
+    const motherPhone = "491708296913";
+    const textMessage = 
+`Merhaba Derya Hanım,
 
-    if (isConflict) {
-        alert("⚠️ Seçtiğiniz tarih ve saat doludur. Lütfen başka bir zaman seçiniz.");
-        return;
-    }
+*Yeni Randevu & Ön Anamnez Talebi*
 
-    const newAppointment = {
-        clientCode: "GUEST",
-        name,
-        email,
-        phone,
-        date,
-        time,
-        service,
-        anamnese: {
-            reason,
-            medicalHistory,
-            expectation
-        },
-        status: 'pending', // Direkt Derya Hanım'ın Master Paneline Düşer!
-        createdAt: new Date().toISOString()
-    };
+👤 *İsim:* ${name}
+📞 *Tel:* ${phone}
+✉️ *E-Posta:* ${email}
+📅 *Tarih:* ${date} - ⏰ *Saat:* ${time}
+🩺 *Hizmet:* ${service}
 
+📝 *Mini Anamnez:*
+• *Şikayet/Neden:* ${reason}
+• *Geçmiş Tedavi/İlaç:* ${medicalHistory}
+• *Beklenti:* ${expectation}`;
+
+    const whatsappUrl = `https://wa.me/${motherPhone}?text=${encodeURIComponent(textMessage)}`;
+
+    // 2. WhatsApp-Button und Bereich vorbereiten
+    const waBtn = document.getElementById("whatsappBtn");
+    if (waBtn) waBtn.href = whatsappUrl;
+
+    const waSection = document.getElementById("whatsappSection");
+    if (waSection) waSection.style.display = "block";
+
+    // 3. In Firebase speichern (falls Datenbank verbunden ist)
     try {
-        await addDoc(collection(db, "appointments"), newAppointment);
+        if (typeof db !== 'undefined' && db) {
+            // Konfliktprüfung
+            if (typeof getAppointments === 'function') {
+                const appointments = await getAppointments();
+                const isConflict = appointments.some(app => app.date === date && app.time === time && app.status === 'approved');
 
-        // WhatsApp-Nachricht vorbereiten für die Mutter
-        const motherPhone = "491708296913"; // Nummer von Derya Hanım ohne '+'
-        const textMessage = `Merhaba Derya Hanım,%0A%0A*Yeni Randevu & Ön Anamnez Talebi*%0A%0A` +
-            `👤 *İsim:* ${name}%0A` +
-            `📞 *Tel:* ${phone}%0A` +
-            `✉️ *E-Posta:* ${email}%0A` +
-            `📅 *Tarih:* ${date} - ⏰ *Saat:* ${time}%0A` +
-            `🩺 *Hizmet:* ${service}%0A%0A` +
-            `📝 *Mini Anamnez:*%0A` +
-            `• *Şikayet/Neden:* ${reason}%0A` +
-            `• *Geçmiş Tedavi/İlaç:* ${medicalHistory || 'Yok'}%0A` +
-            `• *Beklenti:* ${expectation || 'Belirtilmedi'}`;
+                if (isConflict) {
+                    alert("⚠️ Seçtiğiniz tarih ve saat doludur. Lütfen başka bir zaman seçiniz.");
+                    return;
+                }
+            }
 
-        const whatsappUrl = `https://wa.me/${motherPhone}?text=${textMessage}`;
+            const newAppointment = {
+                clientCode: "GUEST",
+                name,
+                email,
+                phone,
+                date,
+                time,
+                service,
+                anamnese: {
+                    reason,
+                    medicalHistory,
+                    expectation
+                },
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
 
-        // Formular ausblenden/WhatsApp-Button zeigen
-        const waBtn = document.getElementById("whatsappBtn");
-        if (waBtn) waBtn.href = whatsappUrl;
-
-        const waSection = document.getElementById("whatsappSection");
-        if (waSection) waSection.style.display = "block";
-
-        alert("✅ Randevu talebiniz başarıyla Derya Hanım'ın sistemine iletildi!\n\nLütfen açılan alandaki WhatsApp butonuna tıklayarak Anamnez formunuzu da Derya Hanım'a iletiniz.");
-
+            await addDoc(collection(db, "appointments"), newAppointment);
+        }
     } catch (e) {
-        console.error("Hata (handlePublicBookingSubmit):", e);
-        alert("⚠️ Randevu iletilirken bir hata oluştu. Lütfen tekrar deneyiniz.");
+        console.error("Firebase Speicherung (optional) fehlgeschlagen:", e);
     }
+
+    // Formular ausblenden
+    const bookingForm = document.getElementById("publicBookingForm");
+    if (bookingForm) bookingForm.style.display = "none";
+
+    alert("✅ Randevu talebiniz alındı!\n\nLütfen aşağıdaki WhatsApp butonuna tıklayarak bilgilerinizi Derya Hanım'a gönderiniz.");
 };
