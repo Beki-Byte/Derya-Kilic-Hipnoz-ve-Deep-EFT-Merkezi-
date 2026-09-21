@@ -1191,3 +1191,239 @@ h2 { text-align: center; font-size: 2.2rem; color: var(--primary-color); margin-
         font-size: 12px !important;
     }
 }
+
+/* ===================================================
+   1. GLOBAL & MOBILE-SCHUTZ (GEGEN SEITLICHES SCROLLEN)
+   =================================================== */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* ===================================================
+   2. HERO SEKTION: BEIGER HINTERGRUND MIT LILIEN & BÄLLEN
+   =================================================== */
+.hero {
+    position: relative;
+    overflow: hidden;
+    background-color: #f4efe6; /* Heller, warmer Beige-Ton */
+    padding: 100px 20px;
+    text-align: center;
+}
+
+/* LILIEN MUSTER DEZENT GANZ IM HINTERGRUND (EBENE 1) */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('lilien.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.25; /* Lilien dezent im Hintergrund */
+    z-index: 1;
+}
+
+/* ===================================================
+   3. SCHWEBENDE BÄLLE IN MATTEN BEIGE- & BRAUNTÖNEN (EBENE 2)
+   =================================================== */
+.floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.95; 
+    filter: blur(8px);
+    pointer-events: none; /* Klicks gehen durch die Bälle durch */
+    z-index: 2;
+    animation: floatAnimation 8s ease-in-out infinite alternate;
+}
+
+/* BALL 1: Warmes Mittelbraun / Mokka (260px) */
+.orb-1 {
+    width: 260px;
+    height: 260px;
+    top: -30px;
+    left: -40px;
+    background: radial-gradient(circle at 35% 35%, #d1bc9e 0%, #a88b68 70%, #826645 100%);
+    box-shadow: 0 15px 35px rgba(130, 102, 69, 0.25);
+    animation-duration: 9s;
+}
+
+/* BALL 2: Helles Sandbeige / Nude (310px) */
+.orb-2 {
+    width: 310px;
+    height: 310px;
+    top: 10%;
+    right: -60px;
+    background: radial-gradient(circle at 35% 35%, #f5ebd9 0%, #dec8a7 70%, #bf9f75 100%);
+    box-shadow: 0 15px 35px rgba(191, 159, 117, 0.25);
+    animation-duration: 11s;
+    animation-delay: -3s;
+}
+
+/* BALL 3: Sanftes Erdbraun / Taupe-Beige (340px) */
+.orb-3 {
+    width: 340px;
+    height: 340px;
+    bottom: -60px;
+    left: 15%;
+    background: radial-gradient(circle at 35% 35%, #e0d0ba 0%, #b89d7d 70%, #8c7153 100%);
+    box-shadow: 0 15px 35px rgba(140, 113, 83, 0.25);
+    animation-duration: 13s;
+    animation-delay: -5s;
+}
+
+@keyframes floatAnimation {
+    0% {
+        transform: translateY(0px) translateX(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-25px) translateX(15px) scale(1.04);
+    }
+    100% {
+        transform: translateY(20px) translateX(-10px) scale(0.96);
+    }
+}
+
+/* ===================================================
+   4. HERO INHALT (TEXT & BUNTE BUTTONS GANZ OBEN - EBENE 3)
+   =================================================== */
+.hero-content {
+    position: relative;
+    z-index: 3; /* Steht ganz oben über allen Hintergrund-Elementen */
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #8c6853; /* Das warme Braun für "Derya Kılıç" */
+    margin-bottom: 10px;
+}
+
+.hero h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #5d6d7e; /* Das elegante Blaugrau */
+    margin-bottom: 30px;
+}
+
+.hero .quote {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: #4a4a4a;
+    margin-bottom: 40px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.whatsapp-btn-modern {
+    background: #25d366 !important; /* WhatsApp Grün */
+    color: #ffffff !important;
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whatsapp-btn-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+.instagram-btn-modern {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important; /* Instagram Farbverlauf */
+    color: #ffffff !important;
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.instagram-btn-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(220, 39, 67, 0.4);
+}
+
+/* ===================================================
+   5. HANDY / SMARTPHONE OPTIMIERUNG
+   =================================================== */
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 15px;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+        margin-bottom: 8px;
+    }
+
+    .hero h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    .hero .quote {
+        font-size: 1rem;
+        margin-bottom: 30px;
+        padding: 0 10px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .whatsapp-btn-modern,
+    .instagram-btn-modern {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    /* Bälle für das Handy verkleinert (150px / 180px / 200px) */
+    .orb-1 {
+        width: 150px;
+        height: 150px;
+        top: -20px;
+        left: -30px;
+    }
+
+    .orb-2 {
+        width: 180px;
+        height: 180px;
+        top: 25%;
+        right: -40px;
+    }
+
+    .orb-3 {
+        width: 200px;
+        height: 200px;
+        bottom: -30px;
+        left: -20px;
+    }
+}
