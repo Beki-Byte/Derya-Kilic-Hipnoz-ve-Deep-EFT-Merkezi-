@@ -996,3 +996,133 @@ window.logoutPortal = function() {
 
     window.location.href = "index.html";
 };
+
+/* ==========================================
+   KALENDER.HTML - PUBLIC BOOKING & ANAMNESE LOGIC
+   ========================================== */
+
+// Initialisierung für kalender.html beim Laden
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("publicCalendar")) {
+        initPublicCalendar();
+    }
+});
+
+// Öffentlichen Kalender laden (Zeigt besetzte Zeiten als "Dolu" an)
+async function initPublicCalendar() {
+    const calendarEl = document.getElementById("publicCalendar");
+    if (!calendarEl) return;
+
+    const allAppointments = await getAppointments(); // aus Ihrer Firebase-Abfrage
+
+    // Nur bestätigte Termine als 'Dolu' anzeigen
+    const events = allAppointments
+        .filter(app => app.status === 'approved')
+        .map(app => ({
+            id: app.id,
+            title: 'Dolu',
+            start: `${app.date}T${app.time || '09:00'}:00`,
+            backgroundColor: '#e74c3c',
+            borderColor: '#e74c3c'
+        }));
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'tr',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,listWeek'
+        },
+        events: events,
+        dateClick: function(info) {
+            const pubDateInput = document.getElementById("pubDate");
+            if (pubDateInput) pubDateInput.value = info.dateStr;
+        },
+        eventClick: function() {
+            alert("Bu saat doludur. Lütfen başka bir gün veya saat seçiniz.");
+        }
+    });
+
+    calendar.render();
+}
+
+// Öffentliches Formular verarbeiten (Talepleri Master Panel'e Gönderir)
+window.handlePublicBookingSubmit = async function(event) {
+    event.preventDefault();
+
+    if (!db) {
+        alert("Veritabanı bağlantısı sağlanamadı.");
+        return;
+    }
+
+    const name = document.getElementById("pubName").value.trim();
+    const email = document.getElementById("pubEmail").value.trim();
+    const phone = document.getElementById("pubPhone").value.trim();
+    const date = document.getElementById("pubDate").value;
+    const time = document.getElementById("pubTime").value;
+    const service = document.getElementById("pubService").value;
+
+    // Anamnese Daten
+    const reason = document.getElementById("pubReason").value.trim();
+    const medicalHistory = document.getElementById("pubMedicalHistory").value.trim();
+    const expectation = document.getElementById("pubExpectation").value.trim();
+
+    // Konfliktprüfung (Seanslar arası 2 saat ara ve Dolu kontrolü)
+    const appointments = await getAppointments();
+    const isConflict = appointments.some(app => app.date === date && app.time === time && app.status === 'approved');
+
+    if (isConflict) {
+        alert("⚠️ Seçtiğiniz tarih ve saat doludur. Lütfen başka bir zaman seçiniz.");
+        return;
+    }
+
+    const newAppointment = {
+        clientCode: "GUEST",
+        name,
+        email,
+        phone,
+        date,
+        time,
+        service,
+        anamnese: {
+            reason,
+            medicalHistory,
+            expectation
+        },
+        status: 'pending', // Direkt Derya Hanım'ın Master Paneline Düşer!
+        createdAt: new Date().toISOString()
+    };
+
+    try {
+        await addDoc(collection(db, "appointments"), newAppointment);
+
+        // WhatsApp-Nachricht vorbereiten für die Mutter
+        const motherPhone = "491708296913"; // Nummer von Derya Hanım ohne '+'
+        const textMessage = `Merhaba Derya Hanım,%0A%0A*Yeni Randevu & Ön Anamnez Talebi*%0A%0A` +
+            `👤 *İsim:* ${name}%0A` +
+            `📞 *Tel:* ${phone}%0A` +
+            `✉️ *E-Posta:* ${email}%0A` +
+            `📅 *Tarih:* ${date} - ⏰ *Saat:* ${time}%0A` +
+            `🩺 *Hizmet:* ${service}%0A%0A` +
+            `📝 *Mini Anamnez:*%0A` +
+            `• *Şikayet/Neden:* ${reason}%0A` +
+            `• *Geçmiş Tedavi/İlaç:* ${medicalHistory || 'Yok'}%0A` +
+            `• *Beklenti:* ${expectation || 'Belirtilmedi'}`;
+
+        const whatsappUrl = `https://wa.me/${motherPhone}?text=${textMessage}`;
+
+        // Formular ausblenden/WhatsApp-Button zeigen
+        const waBtn = document.getElementById("whatsappBtn");
+        if (waBtn) waBtn.href = whatsappUrl;
+
+        const waSection = document.getElementById("whatsappSection");
+        if (waSection) waSection.style.display = "block";
+
+        alert("✅ Randevu talebiniz başarıyla Derya Hanım'ın sistemine iletildi!\n\nLütfen açılan alandaki WhatsApp butonuna tıklayarak Anamnez formunuzu da Derya Hanım'a iletiniz.");
+
+    } catch (e) {
+        console.error("Hata (handlePublicBookingSubmit):", e);
+        alert("⚠️ Randevu iletilirken bir hata oluştu. Lütfen tekrar deneyiniz.");
+    }
+};
