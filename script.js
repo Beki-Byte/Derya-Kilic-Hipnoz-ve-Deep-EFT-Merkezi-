@@ -258,6 +258,53 @@ async function deleteAppointment(id) {
     }
 }
 
+/* ==========================================
+   1. ICS (CALENDAR FILE) GENERATOR
+   ========================================== */
+function downloadICSFile(title, description, dateStr, timeStr) {
+    const [year, month, day] = dateStr.split('-');
+    const [hours, minutes] = timeStr.split(':');
+
+    const startDate = `${year}${month}${day}T${hours}${minutes}00`;
+    
+    // Standard-Dauer: 1 Stunde
+    let endHours = parseInt(hours, 10) + 1;
+    let endHoursStr = endHours < 10 ? '0' + endHours : endHours.toString();
+    const endDate = `${year}${month}${day}T${endHoursStr}${minutes}00`;
+
+    const icsContent = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Derya Kilic Hipnoz//TR",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "BEGIN:VEVENT",
+        `SUMMARY:${title}`,
+        `DESCRIPTION:${description}`,
+        `DTSTART:${startDate}`,
+        `DTEND:${endDate}`,
+        "STATUS:CONFIRMED",
+        "BEGIN:VALARM",
+        "TRIGGER:-PT24H", // Automatische Erinnerung 24 Stunden vorher
+        "ACTION:DISPLAY",
+        "DESCRIPTION:Erinnerung an deinen Termin bei Derya Kılıç",
+        "END:VALARM",
+        "END:VEVENT",
+        "END:VCALENDAR"
+    ].join("\r\n");
+
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute("download", `Randevu_${dateStr}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+/* ==========================================
+   2. BOOKING SUBMIT HANDLER
+   ========================================== */
 window.handleBookingSubmit = async function(event) {
     event.preventDefault();
     if (!db) {
@@ -275,9 +322,7 @@ window.handleBookingSubmit = async function(event) {
 
     const appointments = await getAppointments();
 
-    // =========================================================
-    // 2 STUNDEN MINDESTABSTAND PRÜFUNG (NUR FÜR KLIENTEN)
-    // =========================================================
+    // 2 Stunden Mindestabstand prüfen
     if (time) {
         const [reqHours, reqMinutes] = time.split(':').map(Number);
         const requestedTimeInMinutes = reqHours * 60 + reqMinutes;
@@ -298,7 +343,6 @@ window.handleBookingSubmit = async function(event) {
             }
         }
     }
-    // =========================================================
 
     const isConflict = appointments.some(app => app.date === date && app.time === time && app.status === 'approved');
 
@@ -322,14 +366,14 @@ window.handleBookingSubmit = async function(event) {
     try {
         await addDoc(collection(db, "appointments"), newAppointment);
 
-        // SMS an deine Mutter mit direktem Link zum Admin-Portal
+        // SMS an deine Mutter (spart Guthaben)
         const portalUrl = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
         const motherPhone = "+491708296913";
-        const smsMessage = `Yeni Randevu Talebi!\nDanışan: ${name}\nTarih: ${date}\nSaat: ${time}\nHizmet: ${service}\n\nLütfen portaldan onaylayın:\n${portalUrl}`;
+        const smsMessage = `Yeni talep: ${portalUrl}`;
 
         sendSMS(motherPhone, smsMessage);
 
-        alert("✅ Randevu talebiniz başarıyla alındı! Derya Hanım onayladıktan sonra SMS ile bilgilendirileceksiniz.");
+        alert("✅ Randevu talebiniz başarıyla alındı! Derya Hanım onayladıktan sonra randevunuz aktif olacaktır.");
         document.getElementById("appointmentForm").reset();
         
         initCalendar('clientCalendar', currentCode);
@@ -338,7 +382,6 @@ window.handleBookingSubmit = async function(event) {
         alert("⚠️ Bir hata oluştu. Lütfen tekrar deneyiniz.");
     }
 };
-
 /* Admin-Formular zum direkten Eintragen von Randevus */
 window.addNewAppointment = async function(event) {
     event.preventDefault();
