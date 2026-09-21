@@ -517,19 +517,26 @@ async function renderPendingAppointments() {
         return;
     }
 
-    listEl.innerHTML = appointments.map(app => `
-        <div class="pending-item" style="padding: 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
-            <div class="pending-info">
-                <strong>${app.name}</strong> (${app.service})<br>
-                📅 ${app.date} - ⏰ ${app.time}<br>
-                📞 ${app.phone} | ✉️ ${app.email}
+    listEl.innerHTML = appointments.map(app => {
+        // Prüfen, ob der Termin vom Online-Formular / neuen Danışan kommt
+        const isNewBadge = app.isNewClient 
+            ? `<span style="background-color: #27ae60; color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: bold;">🆕 YENİ DANIŞAN</span>` 
+            : '';
+
+        return `
+            <div class="pending-item" style="padding: 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                <div class="pending-info">
+                    <strong>${app.name}</strong> (${app.service}) ${isNewBadge}<br>
+                    📅 ${app.date} - ⏰ ${app.time}<br>
+                    📞 ${app.phone} | ✉️ ${app.email}
+                </div>
+                <div class="pending-actions">
+                    <button onclick="approveAppointment('${app.id}')" class="btn-approve" style="background:#27ae60; color:#fff; border:none; padding: 6px 12px; border-radius:4px; cursor:pointer; margin-right: 5px;">Onayla</button>
+                    <button onclick="rejectAppointment('${app.id}')" class="btn-reject" style="background:#c0392b; color:#fff; border:none; padding: 6px 12px; border-radius:4px; cursor:pointer;">Reddet</button>
+                </div>
             </div>
-            <div class="pending-actions">
-                <button onclick="approveAppointment('${app.id}')" class="btn-approve" style="background:#27ae60; color:#fff; border:none; padding: 6px 12px; border-radius:4px; cursor:pointer; margin-right: 5px;">Onayla</button>
-                <button onclick="rejectAppointment('${app.id}')" class="btn-reject" style="background:#c0392b; color:#fff; border:none; padding: 6px 12px; border-radius:4px; cursor:pointer;">Reddet</button>
-            </div>
-        </div>
-    `).join("");
+        `;
+    }).join("");
 }
 
 window.approveAppointment = async function(id) {
