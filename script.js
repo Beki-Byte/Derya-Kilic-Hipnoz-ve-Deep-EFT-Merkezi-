@@ -26,6 +26,7 @@ const firebaseConfig = {
     measurementId: "G-DE18012D63"
 };
 
+// ABSICHERUNG: Falls Firebase fehlschlägt, stürzt nicht die ganze Website ab!
 let app;
 let db;
 try {
@@ -36,79 +37,53 @@ try {
 }
 
 /* ==========================================
-   ULTRA-SICHERER COOKIE BANNER
+   1. INITIALISIERUNG & COOKIE BANNER
    ========================================== */
 document.addEventListener("DOMContentLoaded", () => {
-    // Falls bereits akzeptiert, direkt abbrechen
+    if (db) {
+        renderComments();
+        cleanExpiredHomework();
+    }
+    initCookieBanner();
+});
+
+function initCookieBanner() {
+    const cookieOverlay = document.getElementById("cookieModalOverlay");
+    const acceptBtn = document.getElementById("btnAcceptCookies");
+
     if (localStorage.getItem("cookies_accepted") === "true") {
+        if (cookieOverlay) cookieOverlay.style.display = "none";
         return;
     }
 
-    // Zur Sicherheit: Alten Müll im DOM sofort löschen
-    const oldBox = document.getElementById("cookieBox");
-    if (oldBox) oldBox.remove();
-    const oldOverlay = document.getElementById("cookieModalOverlay");
-    if (oldOverlay) oldOverlay.remove();
-
-    // 1. Erstelle das Banner-Element direkt
-    const banner = document.createElement("div");
-    banner.id = "cookieBox";
-    banner.style.cssText = `
-        position: fixed !important;
-        bottom: 20px !important;
-        right: 20px !important;
-        z-index: 2147483647 !important;
-        background: #ffffff !important;
-        color: #333333 !important;
-        padding: 20px !important;
-        border-radius: 12px !important;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
-        max-width: 350px !important;
-        width: calc(100% - 40px) !important;
-        border: 2px solid #a88865 !important;
-        font-family: Arial, sans-serif !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    `;
-
-    banner.innerHTML = `
-        <div style="font-size:24px; margin-bottom:8px;">🍪</div>
-        <p style="margin:0 0 15px 0; font-size:14px; color:#333333; line-height: 1.4;">
-            Bu web sitesi deneyiminizi geliştirmek için çerezler kullanmaktadır.
-        </p>
-        <button id="cookieAcceptBtn" style="
-            cursor: pointer !important;
-            width: 100% !important;
-            padding: 12px !important;
-            background: #a88865 !important;
-            color: #ffffff !important;
-            border: none !important;
-            border-radius: 6px !important;
-            font-weight: bold !important;
-            font-size: 14px !important;
-        ">Kabul Et / Akzeptieren</button>
-    `;
-
-    // Hänge es direkt an den HTML-Body an
-    document.body.appendChild(banner);
-
-    // 2. Klick-Event mit absolutem Fokus erzwingen
-    const acceptBtn = document.getElementById("cookieAcceptBtn");
-    if (acceptBtn) {
-        acceptBtn.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // In localStorage speichern
-            localStorage.setItem("cookies_accepted", "true");
-            
-            // Banner weghauen
-            banner.remove();
-            console.log("Cookies wurden erfolgreich akzeptiert.");
-        };
+    if (cookieOverlay) {
+        cookieOverlay.style.display = "flex";
+    } else {
+        const banner = document.createElement("div");
+        banner.className = "cookie-overlay-box";
+        banner.id = "cookieBox";
+        banner.innerHTML = `
+            <div style="font-size:24px; margin-bottom:5px;">🍪</div>
+            <p style="margin:0; font-size:0.88rem; color:#444;">
+                Bu web sitesi deneyiminizi geliştirmek ve güvenli bir hizmet sunmak için çerezler kullanmaktadır.
+            </p>
+            <button onclick="acceptCookiesNow()" class="cookie-btn-accept">Kabul Et / Akzeptieren</button>
+        `;
+        document.body.appendChild(banner);
     }
-});
+
+    if (acceptBtn) {
+        acceptBtn.addEventListener("click", acceptCookiesNow);
+    }
+}
+
+window.acceptCookiesNow = function() {
+    localStorage.setItem("cookies_accepted", "true");
+    const box = document.getElementById("cookieBox");
+    if (box) box.remove();
+    const cookieOverlay = document.getElementById("cookieModalOverlay");
+    if (cookieOverlay) cookieOverlay.style.display = "none";
+};
 /* ==========================================
    1. SMS HELPER FUNCTION (SEVEN.IO)
    ========================================== */
