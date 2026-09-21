@@ -46,10 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initCookieBanner();
 });
 
-// Funktion global bereitstellen
+// Globale Funktion zum Akzeptieren
 window.acceptCookiesNow = function() {
     localStorage.setItem("cookies_accepted", "true");
     
+    // Entferne alle möglichen Cookie-Boxen oder Overlays
     const box = document.getElementById("cookieBox");
     if (box) box.remove();
     
@@ -58,47 +59,45 @@ window.acceptCookiesNow = function() {
 };
 
 function initCookieBanner() {
+    // Wenn bereits akzeptiert, direkt ausblenden
     if (localStorage.getItem("cookies_accepted") === "true") {
         const cookieOverlay = document.getElementById("cookieModalOverlay");
         if (cookieOverlay) cookieOverlay.style.display = "none";
         return;
     }
 
+    // Alten HTML-Overlay-Container komplett verstecken, falls er blockiert
     const cookieOverlay = document.getElementById("cookieModalOverlay");
-    const acceptBtn = document.getElementById("btnAcceptCookies");
-
     if (cookieOverlay) {
-        cookieOverlay.style.display = "flex";
-    } else {
-        if (document.getElementById("cookieBox")) return;
-
-        const banner = document.createElement("div");
-        banner.className = "cookie-overlay-box";
-        banner.id = "cookieBox";
-        
-        // z-index sorgt dafür, dass der Banner ganz oben liegt und klickbar ist
-        banner.style.cssText = "position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 350px;";
-
-        banner.innerHTML = `
-            <div style="font-size:24px; margin-bottom:5px;">🍪</div>
-            <p style="margin:0 0 10px 0; font-size:0.88rem; color:#444;">
-                Bu web sitesi deneyiminizi geliştirmek ve güvenli bir hizmet sunmak için çerezler kullanmaktadır.
-            </p>
-            <button id="dynamicCookieBtn" class="cookie-btn-accept" style="cursor: pointer; position: relative; z-index: 1000000; padding: 6px 12px; background: #a88865; color: #fff; border: none; border-radius: 4px;">Kabul Et / Akzeptieren</button>
-        `;
-        document.body.appendChild(banner);
-
-        const dynBtn = document.getElementById("dynamicCookieBtn");
-        if (dynBtn) {
-            dynBtn.addEventListener("click", window.acceptCookiesNow);
-        }
+        cookieOverlay.style.display = "none"; 
     }
 
-    if (acceptBtn) {
-        acceptBtn.addEventListener("click", window.acceptCookiesNow);
+    // Falls schon eine Box da ist, abbrechen
+    if (document.getElementById("cookieBox")) return;
+
+    // Erstelle einen absolut sicheren, klickbaren Banner direkt am Ende des Bodys
+    const banner = document.createElement("div");
+    banner.id = "cookieBox";
+    banner.style.cssText = "position: fixed; bottom: 20px; right: 20px; z-index: 2147483647; background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); max-width: 350px; border: 1px solid #ddd; font-family: inherit;";
+
+    banner.innerHTML = `
+        <div style="font-size:26px; margin-bottom:8px;">🍪</div>
+        <p style="margin:0 0 15px 0; font-size:0.9rem; color:#333; line-height: 1.4;">
+            Bu web sitesi deneyiminizi geliştirmek ve güvenli bir hizmet sunmak için çerezler kullanmaktadır.
+        </p>
+        <button id="realAcceptBtn" style="cursor: pointer; width: 100%; padding: 10px; background: #a88865; color: #fff; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem;">Kabul Et / Akzeptieren</button>
+    `;
+    
+    document.body.appendChild(banner);
+
+    // Event-Listener direkt an den brandneuen Button hängen
+    const realBtn = document.getElementById("realAcceptBtn");
+    if (realBtn) {
+        realBtn.addEventListener("click", () => {
+            window.acceptCookiesNow();
+        });
     }
 }
-
 /* ==========================================
    1. SMS HELPER FUNCTION (SEVEN.IO)
    ========================================== */
