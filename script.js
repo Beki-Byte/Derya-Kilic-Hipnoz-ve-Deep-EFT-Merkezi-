@@ -1115,6 +1115,8 @@ window.handlePublicBookingSubmit = async function(event) {
                 date,
                 time,
                 service,
+                isNewClient: true, // 👈 Hier für das Master-Panel gekennzeichnet!
+                source: "web",
                 anamnese: {
                     reason,
                     medicalHistory,
