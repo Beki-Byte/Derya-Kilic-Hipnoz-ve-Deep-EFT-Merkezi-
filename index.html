@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derya Kılıç | Hipnoz & Deep EFT</title>
 
-   <meta name="google-site-verification" content="AdZR63SkINOrwMYZ1tefn71snwi8K_zQpB1CFkwFUYU" />
-    <!-- Meta Description für Google -->
-   <meta name="description" content="Derya Kılıç - Hipnoz & Deep EFT Merkezi Kornwestheim. Türkçe ve Almanca seanslar. İlk adım için WhatsApp veya DM'den iletişime geçin!">
+    <meta name="google-site-verification" content="AdZR63SkINOrwMYZ1tefn71snwi8K_zQpB1CFkwFUYU" />
+    <meta name="description" content="Derya Kılıç - Hipnoz & Deep EFT Merkezi Kornwestheim. Türkçe ve Almanca seanslar. İlk adım için WhatsApp veya DM'den iletişime geçin!">
     
     <!-- CSS Verbindungen -->
     <link rel="stylesheet" href="style.css">
@@ -16,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
-<body>
+<body class="dark-theme">
 
     <!-- COOKIE MODAL POPUP -->
     <div id="cookieModalOverlay" class="cookie-overlay">
@@ -60,9 +59,14 @@
             <a href="index.html#pricing">Fiyatlar & Şartlar</a>
             <a href="basari.html">Başarı Hikayeleri</a>
             <a href="odeme.html">Ödeme</a>
-            <a href="portal.html" class="login-nav-btn"><i class="fas fa-user-lock"></i> Randevu Al / Portal Girişi</a>
             
-            <!-- Feedback-Button -->
+            <a href="kalender.html" class="login-nav-btn" style="background: #bfa182; border-color: #bfa182; color: #121613;">
+                <i class="fas fa-calendar-alt"></i> Randevu Al
+            </a>
+            <a href="portal.html" class="login-nav-btn" style="background: transparent; border: 1px solid #bfa182; color: #bfa182;">
+                <i class="fas fa-user-lock"></i> Portal Girişi
+            </a>
+            
             <a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakkında%20geri%20bildirimde%20bulunmak%20istiyorum:" 
                target="_blank" 
                rel="noopener noreferrer" 
@@ -76,8 +80,13 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
+        <!-- Hero Section (Nutzt lilien.png als Seitenhintergrund via CSS) -->
         <section id="hero" class="hero page-section">
+            <!-- Schwebende Bälle als sanfte Glüh-Akkzente -->
+            <div class="floating-orb orb-1"></div>
+            <div class="floating-orb orb-2"></div>
+            <div class="floating-orb orb-3"></div>
+
             <div class="hero-content">
                 <h1>Derya Kılıç</h1>
                 <h2>Hipnoz & Deep EFT</h2>
@@ -87,10 +96,10 @@
                 </blockquote>
 
                 <div class="button-group">
-                    <a href="https://wa.me/491708296913?text=Merhaba%20Derya%20Han%C4%B1m,%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="btn whatsapp-btn">
+                    <a href="https://wa.me/491708296913?text=Merhaba%20Derya%20Han%C4%B1m,%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="btn whatsapp-btn-modern">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
-                    <a href="https://ig.me/m/deryakilic2829" target="_blank" rel="noopener" class="btn insta-btn">
+                    <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener" class="btn instagram-btn-modern">
                         <i class="fab fa-instagram"></i> Instagram DM
                     </a>
                 </div>
@@ -103,7 +112,7 @@
                 <div class="about-text">
                     <h2>Hoş Geldiniz</h2>
                     <p class="quote-style">
-                        "Ben Derya Kılıç. 38 yaşındayım, evli ve iki çocuk annesiyim.   Danışanlarıma sunduğum bu alanda; her şeyden önce insan insana kurulan güven bağına inanıyorum. Zihninizi yoran düşüncelerden sıyrılmak, kalbinizi daraltan yükleri hafifletmek ve kendi yaşam dengenizi yeniden kurmanız için buradayım. Kendinize doğru atacağınız bu kıymetli adımda ve dönüşüm sürecinizde size eşlik etmekten mutluluk duyarım."
+                        "Ben Derya Kılıç. 38 yaşındayım, evli ve iki çocuk annesiyim. Danışanlarıma sunduğum bu alanda; her şeyden önce insan insana kurulan güven bağına inanıyorum. Zihninizi yoran düşüncelerden sıyrılmak, kalbinizi daraltan yükleri hafifletmek ve kendi yaşam dengenizi yeniden kurmanız için buradayım. Kendinize doğru atacağınız bu kıymetli adımda ve dönüşüm sürecinizde size eşlik etmekten mutluluk duyarım."
                     </p>
                     <p class="signature-style">- Derya Kılıç</p>
                 </div>
@@ -116,7 +125,7 @@
         </section>
 
         <!-- Hizmetler Section -->
-        <section id="services" class="container gray-bg page-section">
+        <section id="services" class="container page-section">
             <h2>Hizmetlerim & Uzmanlık Alanları</h2>
             
             <div class="lang-info-card">
@@ -204,8 +213,27 @@
             </div>
         </section>
 
+        <!-- BUCHUNGS-CALL-TO-ACTION BANNER -->
+        <section class="container page-section" style="margin: 40px auto;">
+            <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(191, 161, 130, 0.3); border-radius: 20px; padding: 40px 20px; text-align: center; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; overflow: hidden;">
+                <h2 style="color: #bfa182; margin-bottom: 15px; font-size: 2em;">Değişim İçin İlk Adımı Atın ✨</h2>
+                <p style="max-width: 650px; margin: 0 auto 25px auto; font-size: 1.1em; line-height: 1.6; color: #d0d0d0;">
+                    Kendinize bir iyilik yapın ve içsel huzurunuza giden yolda ilk randevunuzu hemen takvim üzerinden kolayca oluşturun.
+                </p>
+                
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="kalender.html" style="background: #bfa182; color: #121613; padding: 15px 32px; border-radius: 30px; font-weight: bold; font-size: 1.05em; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-calendar-alt"></i> Online Randevu Al
+                    </a>
+                    <a href="portal.html" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 15px 32px; border-radius: 30px; font-weight: bold; font-size: 1.05em; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-key"></i> Danışan Portalı
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Danışan Yorumları Section -->
-        <section id="reviews-section" class="container gray-bg page-section">
+        <section id="reviews-section" class="container page-section">
             <h2>Danışan Yorumları</h2>
             <p class="section-desc">Terapi seanslarımızdan sonra danışanlarımızın bıraktığı değerlendirmeler.</p>
             
@@ -230,7 +258,7 @@
                     </div>
                     <div class="form-group full-width">
                         <label for="commentText">Yorumunuz:</label>
-                        <textarea id="commentText" rows="4" placeholder="Seans deneyiminizi ve hislerinizi buraya yazabilirsiniz..." required></textarea>
+                        <textarea id="commentText" rows="4" placeholder="Seans deneyiminizi buraya yazabilirsiniz..." required></textarea>
                     </div>
                     <div class="form-group full-width">
                         <button type="submit" class="btn-submit-comment"><i class="fas fa-paper-plane"></i> Yorumu Gönder</button>
@@ -239,23 +267,6 @@
             </div>
         </section>
     </main>
-
-    <!-- FEEDBACK BANNER BOX -->
-    <div class="feedback-card-container">
-        <div class="feedback-card-content">
-            <div class="feedback-icon">💡</div>
-            <div class="feedback-text">
-                <h3>Geri Bildiriminiz Bizim İçin Değerli!</h3>
-                <p>Sitemiz henüz test aşamasındadır. Tasarımına ve gelişimine katkıda bulunmak için görüşlerinizi bizimle paylaşabilirsiniz.</p>
-            </div>
-            <a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakkında%20geri%20bildirimde%20bulunmak%20istiyorum:" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="feedback-wa-card-btn">
-                <i class="fab fa-whatsapp"></i> WhatsApp ile İletişime Geç
-            </a>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="dark-footer">
