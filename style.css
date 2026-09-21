@@ -1427,3 +1427,24 @@ html, body {
         left: -20px;
     }
 }
+
+/* Basis-Style für die Header-Buttons */
+.login-nav-btn, .nav-feedback-btn {
+    transition: all 0.3s ease !important;
+}
+
+/* Hover-Effekte */
+a[href="kalender.html"]:hover {
+    background-color: #a88865 !important;
+    border-color: #a88865 !important;
+}
+
+a[href="portal.html"]:hover {
+    background-color: #937352 !important;
+    border-color: #937352 !important;
+}
+
+.nav-feedback-btn:hover {
+    background-color: #1ebe5d !important;
+    border-color: #1ebe5d !important;
+}
