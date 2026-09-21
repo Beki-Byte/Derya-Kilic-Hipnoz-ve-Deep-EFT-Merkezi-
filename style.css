@@ -1448,3 +1448,35 @@ a[href="portal.html"]:hover {
     background-color: #1ebe5d !important;
     border-color: #1ebe5d !important;
 }
+
+/* Layout für kalender.html: Kalender links, Formular rechts */
+.calendar-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 450px; /* Kalender nimmt Platz ein, Formular rechts 450px */
+    gap: 25px;
+    margin-top: 20px;
+    align-items: start;
+}
+
+.calendar-wrapper-box {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #f0e8df;
+}
+
+.booking-sidebar-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #f0e8df;
+}
+
+/* Anpassung auf kleineren Bildschirmen / Mobil */
+@media (max-width: 992px) {
+    .calendar-layout-grid {
+        grid-template-columns: 1fr; /* Untereinander auf Handys/Tablets */
+    }
+}
