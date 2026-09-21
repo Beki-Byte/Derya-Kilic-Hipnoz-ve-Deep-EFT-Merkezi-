@@ -2,19 +2,7 @@
    FIREBASE MODULAR IMPORTS & INITIALISIERUNG
    ========================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-    getFirestore, 
-    collection, 
-    getDocs, 
-    doc, 
-    getDoc, 
-    setDoc, 
-    addDoc, 
-    updateDoc, 
-    deleteDoc, 
-    query, 
-    orderBy 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyBYSifQ5m7G_sdyN0JAkkC8SV6x9gY0-Oo",
