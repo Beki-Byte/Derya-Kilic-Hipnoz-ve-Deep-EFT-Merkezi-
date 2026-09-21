@@ -39,50 +39,65 @@ try {
    1. INITIALISIERUNG & COOKIE BANNER
    ========================================== */
 document.addEventListener("DOMContentLoaded", () => {
-    if (db) {
+    if (typeof db !== "undefined" && db) {
         renderComments();
         cleanExpiredHomework();
     }
     initCookieBanner();
 });
 
-function initCookieBanner() {
+// Funktion global bereitstellen
+window.acceptCookiesNow = function() {
+    localStorage.setItem("cookies_accepted", "true");
+    
+    const box = document.getElementById("cookieBox");
+    if (box) box.remove();
+    
     const cookieOverlay = document.getElementById("cookieModalOverlay");
-    const acceptBtn = document.getElementById("btnAcceptCookies");
+    if (cookieOverlay) cookieOverlay.style.display = "none";
+};
 
+function initCookieBanner() {
     if (localStorage.getItem("cookies_accepted") === "true") {
+        const cookieOverlay = document.getElementById("cookieModalOverlay");
         if (cookieOverlay) cookieOverlay.style.display = "none";
         return;
     }
 
+    const cookieOverlay = document.getElementById("cookieModalOverlay");
+    const acceptBtn = document.getElementById("btnAcceptCookies");
+
     if (cookieOverlay) {
         cookieOverlay.style.display = "flex";
     } else {
+        if (document.getElementById("cookieBox")) return;
+
         const banner = document.createElement("div");
         banner.className = "cookie-overlay-box";
         banner.id = "cookieBox";
+        
+        // z-index sorgt dafür, dass der Banner ganz oben liegt und klickbar ist
+        banner.style.cssText = "position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 350px;";
+
         banner.innerHTML = `
             <div style="font-size:24px; margin-bottom:5px;">🍪</div>
-            <p style="margin:0; font-size:0.88rem; color:#444;">
+            <p style="margin:0 0 10px 0; font-size:0.88rem; color:#444;">
                 Bu web sitesi deneyiminizi geliştirmek ve güvenli bir hizmet sunmak için çerezler kullanmaktadır.
             </p>
-            <button onclick="acceptCookiesNow()" class="cookie-btn-accept">Kabul Et / Akzeptieren</button>
+            <button id="dynamicCookieBtn" class="cookie-btn-accept" style="cursor: pointer; position: relative; z-index: 1000000; padding: 6px 12px; background: #a88865; color: #fff; border: none; border-radius: 4px;">Kabul Et / Akzeptieren</button>
         `;
         document.body.appendChild(banner);
+
+        const dynBtn = document.getElementById("dynamicCookieBtn");
+        if (dynBtn) {
+            dynBtn.addEventListener("click", window.acceptCookiesNow);
+        }
     }
 
     if (acceptBtn) {
-        acceptBtn.addEventListener("click", acceptCookiesNow);
+        acceptBtn.addEventListener("click", window.acceptCookiesNow);
     }
 }
-
-window.acceptCookiesNow = function() {
-    localStorage.setItem("cookies_accepted", "true");
-    const box = document.getElementById("cookieBox");
-    if (box) box.remove();
-    const cookieOverlay = document.getElementById("cookieModalOverlay");
-    if (cookieOverlay) cookieOverlay.style.display = "none";
-};
 
 /* ==========================================
    1. SMS HELPER FUNCTION (SEVEN.IO)
