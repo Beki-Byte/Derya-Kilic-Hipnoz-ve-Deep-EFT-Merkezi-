@@ -1490,3 +1490,38 @@ a[href="portal.html"]:hover {
 #publicCalendar .fc-daygrid-day-frame {
     min-height: 80px !important; 
 }
+
+/* Styling für den "Yorumu Gönder" Button (Desktop & Mobile optimiert) */
+button[type="submit"], 
+input[type="submit"], 
+.yorum-gonder-btn {
+    background: #bfa182 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 30px !important;
+    padding: 14px 30px !important;
+    font-weight: bold !important;
+    font-size: 1.05em !important;
+    cursor: pointer !important;
+    display: block !important;
+    margin: 20px auto 0 auto !important; /* Zentriert den Button automatisch */
+    box-shadow: 0 4px 15px rgba(191, 161, 130, 0.4) !important;
+    transition: all 0.2s ease !important;
+}
+
+button[type="submit"]:hover, 
+input[type="submit"]:hover {
+    background: #a88865 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(191, 161, 130, 0.6) !important;
+}
+
+/* Extra-Anpassung für Handys (Bildschirmbreite unter 768px) */
+@media (max-width: 768px) {
+    button[type="submit"], 
+    input[type="submit"], 
+    .yorum-gonder-btn {
+        width: 100% !important; /* Nimmt auf dem Handy den Platz optimal ein, lässt sich super mit dem Daumen antippen */
+        max-width: 300px !important;
+    }
+}
