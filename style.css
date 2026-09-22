@@ -1480,3 +1480,13 @@ a[href="portal.html"]:hover {
         grid-template-columns: 1fr; /* Untereinander auf Handys/Tablets */
     }
 }
+
+/* FullCalendar nach unten vergrößern */
+#publicCalendar {
+    min-height: 600px !important; /* Hier kannst du den Wert erhöhen oder verringern (z.B. 650px) */
+}
+
+/* Damit sich die einzelnen Tag-Zellen im Kalender ebenfalls anpassen */
+#publicCalendar .fc-daygrid-day-frame {
+    min-height: 80px !important; 
+}
