@@ -87,7 +87,7 @@
 
     <main>
         
-<!-- Hero Section (Mit perfekt zentrierten Google-Farbstreifen im weißen Button) -->
+<!-- Hero Section (Mit absolut fest zentrierten Google-Farbstreifen) -->
         <section id="hero" class="hero page-section">
             <!-- Schwebende Bälle ohne Leuchten -->
             <div class="floating-orb orb-1" style="box-shadow: none !important; filter: drop-shadow(0 0 5px rgba(0,0,0,0.05));"></div>
@@ -109,8 +109,18 @@
                     <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener" class="btn instagram-btn-modern">
                         <i class="fab fa-instagram"></i> Instagram DM
                     </a>
-                    <a href="https://share.google/mgpyGtfY3ryCuBYZp" target="_blank" rel="noopener" class="btn whatsapp-btn-modern" style="background: linear-gradient(135deg, #ffffff 38%, #EA4335 38%, #EA4335 45%, #FBBC05 45%, #FBBC05 52%, #34A853 52%, #34A853 59%, #4285F4 59%, #4285F4 66%, #ffffff 66%) !important; color: #222222 !important;">
-                        <i class="fab fa-google" style="color: #4285F4;"></i> Google'da Puan Ver
+                    <a href="https://share.google/mgpyGtfY3ryCuBYZp" target="_blank" rel="noopener" class="btn whatsapp-btn-modern" style="background: #ffffff !important; color: #222222 !important; box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4) !important; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <!-- Fester, zentrierter Hintergrund-Streifen-Block -->
+                        <div style="position: absolute; left: 50%; top: 0; bottom: 0; transform: translateX(-50%); width: 120px; display: flex; opacity: 0.85; pointer-events: none; z-index: 1;">
+                            <div style="flex: 1; background: #EA4335; transform: skewX(-20deg);"></div>
+                            <div style="flex: 1; background: #FBBC05; transform: skewX(-20deg);"></div>
+                            <div style="flex: 1; background: #34A853; transform: skewX(-20deg);"></div>
+                            <div style="flex: 1; background: #4285F4; transform: skewX(-20deg);"></div>
+                        </div>
+                        <!-- Icon und Text liegen sicher über den Streifen -->
+                        <span style="position: relative; z-index: 2; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-map-marker-alt"></i> Google'da Puan Ver
+                        </span>
                     </a>
                 </div>
             </div>
