@@ -1015,23 +1015,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Öffentlichen Kalender laden (Zeigt besetzte Zeiten als "Dolu" an)
+// Öffentlichen Kalender laden (Zeigt eigene Termine grün, andere als "Dolu" an)
 async function initPublicCalendar() {
     const calendarEl = document.getElementById("publicCalendar");
     if (!calendarEl) return;
 
-    const allAppointments = await getAppointments(); // aus Ihrer Firebase-Abfrage
+    const allAppointments = await getAppointments(); // aus deiner Firebase-Abfrage
 
-    // Nur bestätigte Termine als 'Dolu' anzeigen
+    // Lokale Tokens des Nutzers aus dem Browser auslesen
+    const myTokens = JSON.parse(localStorage.getItem('myAppointmentTokens')) || [];
+
+    // Termine filtern und je nach Besitzer (eigenes Token oder approved) darstellen
     const events = allAppointments
-        .filter(app => app.status === 'approved')
-        .map(app => ({
-            id: app.id,
-            title: 'Dolu',
-            start: `${app.date}T${app.time || '09:00'}:00`,
-            backgroundColor: '#e74c3c',
-            borderColor: '#e74c3c'
-        }));
+        .filter(app => app.status === 'approved' || myTokens.includes(app.ownerToken))
+        .map(app => {
+            const isMyAppointment = myTokens.includes(app.ownerToken);
+
+            if (isMyAppointment) {
+                // Eigener Termin des Nutzers (Grün)
+                const statusText = app.status === 'approved' ? 'Onaylandı' : 'Onay Bekliyor';
+                return {
+                    id: app.id,
+                    title: `Randevunuz (${statusText})`,
+                    start: `${app.date}T${app.time || '09:00'}:00`,
+                    backgroundColor: '#2ecc71',
+                    borderColor: '#2ecc71'
+                };
+            } else {
+                // Fremder Termin für alle anderen (Rot / Dolu)
+                return {
+                    id: app.id,
+                    title: 'Dolu',
+                    start: `${app.date}T${app.time || '09:00'}:00`,
+                    backgroundColor: '#e74c3c',
+                    borderColor: '#e74c3c'
+                };
+            }
+        });
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -1111,8 +1131,12 @@ window.handlePublicBookingSubmit = async function(event) {
                 }
             }
 
+            // Einzigartiges Token für diesen Browser/Termin generieren
+            const appointmentToken = crypto.randomUUID();
+
             const newAppointment = {
                 clientCode: "GUEST",
+                ownerToken: appointmentToken, // 👈 Hier wird das Token mitgespeichert
                 name,
                 email,
                 phone,
@@ -1131,6 +1155,11 @@ window.handlePublicBookingSubmit = async function(event) {
             };
 
             await addDoc(collection(db, "appointments"), newAppointment);
+
+            // Token lokal im Browser des Nutzers abspeichern
+            let myTokens = JSON.parse(localStorage.getItem('myAppointmentTokens')) || [];
+            myTokens.push(appointmentToken);
+            localStorage.setItem('myAppointmentTokens', JSON.stringify(myTokens));
         }
     } catch (e) {
         console.error("Firebase Speicherung (optional) fehlgeschlagen:", e);
