@@ -85,35 +85,54 @@ window.acceptCookiesNow = function() {
     if (cookieOverlay) cookieOverlay.style.display = "none";
 };
 /* ==========================================
-   1. SMS HELPER FUNCTION (SEVEN.IO)
+   1. WHATSAPP HELPER FUNCTIONS (ERSETZT SMS)
    ========================================== */
-async function sendSMS(phoneNumber, messageText) {
-    if (!phoneNumber) return;
 
-    let formattedPhone = phoneNumber.replace(/\s+/g, '');
-    if (formattedPhone.startsWith('0')) {
-        formattedPhone = '+49' + formattedPhone.substring(1);
-    }
+// Deine Mutters WhatsApp-Nummer (hier eintragen, Format im internationalen Format ohne +, z.B. 491708296913)
+const MOTHER_WHATSAPP_NUMBER = "491708296913"; 
 
-    try {
-        await fetch("https://gateway.seven.io/api/sms", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Api-Key": "pQpEiOqvTbR64F6tTMy0EwDE7oYauafXoLirVXiCJ9XPrpYcNIOtdIi99PyJ0sf3"
-            },
-            body: JSON.stringify({
-                to: formattedPhone,
-                text: messageText,
-                from: "DeryaKilic"
-            })
-        });
-        console.log("SMS erfolgreich gesendet an:", formattedPhone);
-    } catch (error) {
-        console.error("SMS Fehler:", error);
+// Hilfsfunktion zum Formatieren der Telefonnummer für WhatsApp
+function formatWhatsAppNumber(phoneNumber) {
+    if (!phoneNumber) return "";
+    let cleaned = phoneNumber.replace(/\D/g, ''); // Nur Ziffern behalten
+    if (cleaned.startsWith('0')) {
+        cleaned = '49' + cleaned.substring(1); // Deutsches Format anpassen
     }
+    return cleaned;
 }
 
+// 1. Benachrichtigung an deine Mutter bei neuer Terminanfrage
+function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId) {
+    const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
+    
+    const message = `✨ *Neue Termin-Anfrage!* ✨\n\n` +
+                    `👤 Name: ${clientName}\n` +
+                    `📞 Telefon: ${clientPhone}\n` +
+                    `📅 Datum: ${date}\n` +
+                    `⏰ Uhrzeit: ${time}\n\n` +
+                    `Bitte verwalte diesen Termin im Admin-Portal:\n${portalLink}`;
+
+    const url = `https://wa.me/${MOTHER_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    
+    // Öffnet WhatsApp (kann bei Bedarf in einem versteckten Iframe oder direkt aufgerufen werden)
+    console.log("WhatsApp an Mutter vorbereitet:", url);
+    return url;
+}
+
+// 2. Benachrichtigung an den Klienten bei Bestätigung oder Absage
+function sendWhatsAppToClient(clientPhone, status, date, time) {
+    const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
+    let statusText = status === 'approved' ? 'bestätigt! ✅' : 'abgesagt bzw. verschoben. ❌';
+    
+    const message = `Hallo! 👋 Deine Terminanfrage für den ${date} um ${time} Uhr wurde von Derya Kılıç ${statusText}\n\n` +
+                    `Den aktuellen Status kannst du jederzeit hier einsehen:\n${portalLink}`;
+
+    const formattedPhone = formatWhatsAppNumber(clientPhone);
+    const url = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+    
+    console.log("WhatsApp an Klient vorbereitet:", url);
+    return url;
+}
 /* ==========================================
    2. DANIŞAN & ÖDEV TEMİZLİK LOGİĞİ (FIREBASE)
    ========================================== */
