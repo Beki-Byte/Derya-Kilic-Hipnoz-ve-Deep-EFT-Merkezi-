@@ -385,12 +385,8 @@ window.handleBookingSubmit = async function(event) {
     try {
         await addDoc(collection(db, "appointments"), newAppointment);
 
-        // SMS an deine Mutter (spart Guthaben)
-        const portalUrl = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
-        const motherPhone = "+491708296913";
-        const smsMessage = `Yeni talep: ${portalUrl}`;
-
-        sendSMS(motherPhone, smsMessage);
+        // WhatsApp-Benachrichtigung an deine Mutter
+        sendWhatsAppToMother(name, phone, date, time);
 
         alert("✅ Randevu talebiniz başarıyla alındı! Derya Hanım onayladıktan sonra randevunuz aktif olacaktır.");
         document.getElementById("appointmentForm").reset();
@@ -401,6 +397,7 @@ window.handleBookingSubmit = async function(event) {
         alert("⚠️ Bir hata oluştu. Lütfen tekrar deneyiniz.");
     }
 };
+
 /* Admin-Formular zum direkten Eintragen von Randevus */
 window.addNewAppointment = async function(event) {
     event.preventDefault();
@@ -578,16 +575,16 @@ window.approveAppointment = async function(id) {
             return;
         }
 
-        await updateDoc(doc(db, "appointments", id), { status: 'approved' });
+     await updateDoc(doc(db, "appointments", id), { status: 'approved' });
 
-        // Automatische SMS-Bestätigung an den Klienten
+        // WhatsApp-Bestätigung an den Klienten
         if (appToApprove.phone) {
-            sendSMS(appToApprove.phone, `Sayın ${appToApprove.name}, Derya Kılıç ile ${appToApprove.date} saat ${appToApprove.time} randevunuz ONAYLANMIŞTIR.`);
+            sendWhatsAppToClient(appToApprove.phone, 'approved', appToApprove.date, appToApprove.time);
         }
 
         renderPendingAppointments();
         initCalendar('masterCalendar', '28SENDK29');
-        alert("✅ Randevu onaylandı ve danışana SMS gönderildi.");
+        alert("✅ Randevu onaylandı ve danışana WhatsApp mesajı hazırlandı.");
     } catch (e) {
         console.error("Hata (approveAppointment):", e);
     }
@@ -598,9 +595,9 @@ window.rejectAppointment = async function(id) {
         const appointments = await getAppointments();
         const appToReject = appointments.find(a => a.id === id);
 
-        // Automatische SMS-Ablehnung an den Klienten
+        // WhatsApp-Absage an den Klienten
         if (appToReject && appToReject.phone) {
-            sendSMS(appToReject.phone, `Sayın ${appToReject.name}, ${appToReject.date} saat ${appToReject.time} randevu talebiniz maalesef onaylanamadı. Lütfen başka bir saat seçiniz.`);
+            sendWhatsAppToClient(appToReject.phone, 'rejected', appToReject.date, appToReject.time);
         }
 
         await deleteAppointment(id);
