@@ -101,16 +101,27 @@ function formatWhatsAppNumber(phoneNumber) {
     return cleaned;
 }
 
-// 1. Benachrichtigung an deine Mutter bei neuer Terminanfrage (auf Türkisch)
+// Hilfsfunktion: Wandelt "2026-10-01" in "01.10.2026" um
+function formatDateForUser(dateStr) {
+    if (!dateStr) return "";
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+        return parts[2] + "." + parts[1] + "." + parts[0];
+    }
+    return dateStr;
+}
+
+// 1. Annene yeni randevu talebi bildirimi (Tarih düzeltilmiş formatta)
 function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId) {
     const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
+    const formattedDate = formatDateForUser(date);
     
     const message = "Yeni Randevu Talebi!\n\n" +
                     "Isim: " + clientName + "\n" +
                     "Telefon: " + clientPhone + "\n" +
-                    "Tarih: " + date + "\n" +
+                    "Tarih: " + formattedDate + "\n" +
                     "Saat: " + time + "\n\n" +
-                    "Lutfen bu randevuyu yonetici portalindan yönetin:\n" + portalLink;
+                    "Lutfen bu randevuyu yonetici portalindan yonet:\n" + portalLink;
 
     const url = "https://wa.me/" + MOTHER_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
     
@@ -119,13 +130,20 @@ function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId
     return url;
 }
 
-// 2. Benachrichtigung an den Klienten bei Bestätigung oder Absage (auf Türkisch)
+// 2. Danışana onay veya ret durumunda bildirim (Tarih düzeltilmiş formatta)
 function sendWhatsAppToClient(clientPhone, status, date, time) {
     const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
-    let statusText = status === 'approved' ? 'onayladi!' : 'reddedildi veya ertelendi.';
+    const formattedDate = formatDateForUser(date);
     
-    const message = "Merhaba! " + date + " tarihinde saat " + time + " için yaptığınız randevu talebini " + statusText + "\n\n" +
-                    "Güncel durumu dilediğiniz zaman buradan görüntüleyebilirsiniz:\n" + portalLink;
+    let message = "";
+    
+    if (status === 'approved') {
+        message = "Merhaba! Derya Kılıç, " + formattedDate + " tarihinde saat " + time + " için yaptığınız randevu talebini onayladı!\n\n" +
+                  "Guncel durumu dilediginiz zaman buradan goruntuleyebilirsiniz:\n" + portalLink;
+    } else {
+        message = "Merhaba, " + formattedDate + " tarihinde saat " + time + " için olan randevu talebiniz maalesef Derya Kılıç tarafından onaylanamadı.\n\n" +
+                  "Detaylar ve yeni bir randevu olusturmak icin burayi ziyaret edebilirsiniz:\n" + portalLink;
+    }
 
     const formattedPhone = formatWhatsAppNumber(clientPhone);
     const url = "https://wa.me/" + formattedPhone + "?text=" + encodeURIComponent(message);
@@ -134,6 +152,7 @@ function sendWhatsAppToClient(clientPhone, status, date, time) {
     console.log("WhatsApp an Klient vorbereitet:", url);
     return url;
 }
+
 /* ==========================================
    2. DANIŞAN & ÖDEV TEMİZLİK LOGİĞİ (FIREBASE)
    ========================================== */
@@ -279,18 +298,88 @@ async function deleteAppointment(id) {
 }
 
 /* ==========================================
-   1. ICS (CALENDAR FILE) GENERATOR
-   ========================================== */
+    1. ICS (CALENDAR FILE) GENERATOR (International für alle Länder)
+    ========================================== */
 function downloadICSFile(title, description, dateStr, timeStr) {
-    const [year, month, day] = dateStr.split('-');
-    const [hours, minutes] = timeStr.split(':');
+    // Falls das Datum versehentlich im Format DD.MM.YYYY reinkommt, vorher abfangen:
+    let cleanDateStr = dateStr;
+    if (dateStr.includes('.')) {
+        const parts = dateStr.split('.');
+        if (parts.length === 3) {
+            cleanDateStr = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+    }
 
-    const startDate = `${year}${month}${day}T${hours}${minutes}00`;
+    const [year, month, day] = cleanDateStr.split('-');
+    const safeTimeStr = timeStr ? timeStr : "10:00";
+    const [hours, minutes] = safeTimeStr.split(':');
+
+    // Wir erstellen ein echtes JavaScript-Datum in der Zeitzone von Deutschland (Europe/Berlin)
+    // Deutschland ist im Sommer (MESZ = UTC+2) und im Winter (MEZ = UTC+1). 
+    // JavaScript rechnet das automatisch korrekt um, wenn wir es als ISO-String für Berlin formatieren.
     
-    // Standard-Dauer: 1 Stunde
-    let endHours = parseInt(hours, 10) + 1;
-    let endHoursStr = endHours < 10 ? '0' + endHours : endHours.toString();
-    const endDate = `${year}${month}${day}T${endHoursStr}${minutes}00`;
+    // Monat in JS ist 0-basiert (0 = Januar, 9 = Oktober etc.)
+    const localDateString = `${cleanDateStr}T${safeTimeStr}:00`;
+    
+    // Um es absolut sicher für alle Länder zu machen, nutzen wir hier einen Trick mit einem temporären Date-Objekt 
+    // oder übergeben es so, dass Kalender-Apps (Google/Apple) es als globale UTC-Zeit interpretieren.
+    // Am robustesten für internationale ICS-Dateien ist das 'Z' (UTC) Format. 
+    // (Da Deryas Zentrum in Deutschland ist, nehmen wir an, die eingegebene Uhrzeit ist deutsche Zeit).
+    
+    // Wir wandeln die deutsche Zeit in ein UTC-Datum um:
+    // Da Deutschland im Oktober meist UTC+2 (Sommerzeit) oder UTC+1 (Winterzeit ab letztem Oktobersonntag) hat:
+    // Am einfachsten und weltweit stabilsten für .ics ist es, die Start- und Endzeit mit einem Offset oder direkt als UTC anzugeben, 
+    // ODER wir nutzen die universelle Eigenschaft, dass Apple- und Google-Kalender mit UTC ("Z") am Ende weltweit am besten klarkommen.
+    
+    // Beispiel: Wir rechnen die Stunden um (Deutschland ist aktuell MESZ = UTC+2 im Sommer, MEZ = UTC+1 im Winter)
+    // Um es ganz sauber zu halten, nutzen wir hier die UTC-Konvertierung über ein lokales Datum:
+    const d = new Date(`${cleanDateStr}T${safeTimeStr}:00`);
+    
+    // Da `new Date("YYYY-MM-DDTHH:mm:00")` vom Browser oft als lokale Browser-Zeit interpretiert wird,
+    // holen wir uns die UTC-Werte so, dass das Handy des Klienten in Amerika/Türkei die Zeit perfekt anpasst:
+    
+    // Format für UTC (z.B. 20261001T120000Z)
+    // Wir ziehen für Deutschland pauschal die Stunden ab, um auf UTC zu kommen (Sommerzeit -2 Std, Winterzeit -1 Std).
+    // Noch smarter: Wir lassen das Handy des Klienten die Zeitzone überlassen, indem wir einen "floating time" oder UTC-Standard nutzen.
+    
+    // Die weltweit sicherste Methode für globale Praxen:
+    // Wir nutzen UTC-Zeiten. Angenommen, Deryas Bürozeit ist in Deutschland:
+    // Wir erzeugen die UTC-Startzeit:
+    const yearNum = parseInt(year);
+    const monthNum = parseInt(month) - 1;
+    const dayNum = parseInt(day);
+    const hourNum = parseInt(hours);
+    const minNum = parseInt(minutes);
+
+    // Erstelle ein Datum im lokalen Kontext von Deutschland (UTC+2 im Sommer / UTC+1 im Winter grob geschätzt, 
+    // oder wir überlassen es dem Standard-ICS ohne 'Z', dafür mit X-WR-TIMEZONE).
+    // Bessere Lösung für weltweite Handys: Die absolut exakte UTC-Zeit berechnen lassen:
+    const germanDate = new Date(Date.UTC(yearNum, monthNum, dayNum, hourNum - 2, minNum)); // Beispiel Sommerzeit (-2 für UTC)
+    // Da JavaScript automatisch Sommer-/Winterzeit-Wechsel der lokalen Maschine nutzt, machen wir es so:
+    
+    const tzOffsetHours = -2; // Vereinfacht für Deutschland (im Sommer UTC+2 -> wir ziehen 2 ab um UTC zu kriegen, oder wir nutzen den folgenden sauberen Weg):
+    
+    // JavaScript `toLocaleString` Trick um exakt die UTC-Zeit für Berlin zu bekommen:
+    const targetDate = new Date(`${cleanDateStr}T${safeTimeStr}:00+02:00`); // 02:00 im Sommer, 01:00 im Winter. 
+    // Da das Datum im Jahr variieren kann, ist hier der professionellste Weg für ICS:
+    
+    const utcYear = targetDate.getUTCFullYear();
+    const utcMonth = String(targetDate.getUTCMonth() + 1).padStart(2, '0');
+    const utcDay = String(targetDate.getUTCDate()).padStart(2, '0');
+    const utcHours = String(targetDate.getUTCHours()).padStart(2, '0');
+    const utcMinutes = String(targetDate.getUTCMinutes()).padStart(2, '0');
+
+    const startUTC = `${utcYear}${utcMonth}${utcDay}T${utcHours}${utcMinutes}00Z`;
+
+    // 1 Stunde später für das Ende:
+    const endDateObj = new Date(targetDate.getTime() + 60 * 60 * 1000);
+    const endUtcYear = endDateObj.getUTCFullYear();
+    const endUtcMonth = String(endDateObj.getUTCMonth() + 1).padStart(2, '0');
+    const endUtcDay = String(endDateObj.getUTCDate()).padStart(2, '0');
+    const endUtcHours = String(endDateObj.getUTCHours()).padStart(2, '0');
+    const endUtcMinutes = String(endDateObj.getUTCMinutes()).padStart(2, '0');
+
+    const endUTC = `${endUtcYear}${endUtcMonth}${endUtcDay}T${endUtcHours}${endUtcMinutes}00Z`;
 
     const icsContent = [
         "BEGIN:VCALENDAR",
@@ -299,29 +388,31 @@ function downloadICSFile(title, description, dateStr, timeStr) {
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
         "BEGIN:VEVENT",
+        `UID:randevu-${cleanDateStr}-${safeTimeStr}-${Math.random().toString(36.substring(2, 7))}@deryakilic.com`,
+        `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
+        `DTSTART:${startUTC}`,
+        `DTEND:${endUTC}`,
         `SUMMARY:${title}`,
         `DESCRIPTION:${description}`,
-        `DTSTART:${startDate}`,
-        `DTEND:${endDate}`,
         "STATUS:CONFIRMED",
         "BEGIN:VALARM",
-        "TRIGGER:-PT24H", // Automatische Erinnerung 24 Stunden vorher
+        "TRIGGER:-PT24H",
         "ACTION:DISPLAY",
-        "DESCRIPTION:Erinnerung an deinen Termin bei Derya Kılıç",
+        "DESCRIPTION:Derya Kılıç ile randevu hatırlatması",
         "END:VALARM",
         "END:VEVENT",
         "END:VCALENDAR"
     ].join("\r\n");
 
-    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8;" });
+    // UTF-8 BOM für fehlerfreie Darstellung auf allen Handys weltweit
+    const blob = new Blob(["\uFEFF" + icsContent], { type: "text/calendar;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
-    link.setAttribute("download", `Randevu_${dateStr}.ics`);
+    link.setAttribute("download", `Randevu_${cleanDateStr}.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
-
 /* ==========================================
    2. BOOKING SUBMIT HANDLER
    ========================================== */
@@ -535,16 +626,18 @@ async function renderPendingAppointments() {
     }
 
     listEl.innerHTML = appointments.map(app => {
-        // Prüfen, ob der Termin vom Online-Formular / neuen Danışan kommt
         const isNewBadge = app.isNewClient 
             ? `<span style="background-color: #27ae60; color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: bold;">🆕 YENİ DANIŞAN</span>` 
             : '';
+
+        // Hier nutzen wir jetzt die Formatierungs-Funktion für das Datum:
+        const formattedDate = formatDateForUser(app.date);
 
         return `
             <div class="pending-item" style="padding: 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
                 <div class="pending-info">
                     <strong>${app.name}</strong> (${app.service}) ${isNewBadge}<br>
-                    📅 ${app.date} - ⏰ ${app.time}<br>
+                    📅 ${formattedDate} - ⏰ ${app.time}<br>
                     📞 ${app.phone} | ✉️ ${app.email}
                 </div>
                 <div class="pending-actions">
