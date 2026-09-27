@@ -1525,3 +1525,25 @@ input[type="submit"]:hover {
         max-width: 300px !important;
     }
 }
+
+/* Container für die Aktions-Buttons in den Termin-Karten */
+.appointment-actions, /* Falls du eine spezifische Klasse hast, ansonsten anpassen */
+.booking-card-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap; /* Erlaubt das Umbrechen, falls der Platz nicht reicht */
+    margin-top: 10px;
+}
+
+/* Stil für die Buttons selbst, damit sie auf Handys voll breit oder sauber klickbar sind */
+.booking-card button, 
+.appointment-actions button {
+    flex: 1; /* Teilen sich den Platz gleichmäßig */
+    min-width: 90px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
