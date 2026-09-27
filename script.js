@@ -388,7 +388,7 @@ function downloadICSFile(title, description, dateStr, timeStr) {
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
         "BEGIN:VEVENT",
-        `UID:randevu-${cleanDateStr}-${safeTimeStr}-${Math.random().toString(36.substring(2, 7))}@deryakilic.com`,
+       `UID:randevu-${cleanDateStr}-${safeTimeStr}-${Math.random().toString(36).substring(2, 7)}@deryakilic.com`,
         `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
         `DTSTART:${startUTC}`,
         `DTEND:${endUTC}`,
