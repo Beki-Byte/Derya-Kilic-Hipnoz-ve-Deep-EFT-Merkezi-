@@ -314,54 +314,15 @@ function downloadICSFile(title, description, dateStr, timeStr) {
     const safeTimeStr = timeStr ? timeStr : "10:00";
     const [hours, minutes] = safeTimeStr.split(':');
 
-    // Wir erstellen ein echtes JavaScript-Datum in der Zeitzone von Deutschland (Europe/Berlin)
-    // Deutschland ist im Sommer (MESZ = UTC+2) und im Winter (MEZ = UTC+1). 
-    // JavaScript rechnet das automatisch korrekt um, wenn wir es als ISO-String für Berlin formatieren.
-    
     // Monat in JS ist 0-basiert (0 = Januar, 9 = Oktober etc.)
-    const localDateString = `${cleanDateStr}T${safeTimeStr}:00`;
-    
-    // Um es absolut sicher für alle Länder zu machen, nutzen wir hier einen Trick mit einem temporären Date-Objekt 
-    // oder übergeben es so, dass Kalender-Apps (Google/Apple) es als globale UTC-Zeit interpretieren.
-    // Am robustesten für internationale ICS-Dateien ist das 'Z' (UTC) Format. 
-    // (Da Deryas Zentrum in Deutschland ist, nehmen wir an, die eingegebene Uhrzeit ist deutsche Zeit).
-    
-    // Wir wandeln die deutsche Zeit in ein UTC-Datum um:
-    // Da Deutschland im Oktober meist UTC+2 (Sommerzeit) oder UTC+1 (Winterzeit ab letztem Oktobersonntag) hat:
-    // Am einfachsten und weltweit stabilsten für .ics ist es, die Start- und Endzeit mit einem Offset oder direkt als UTC anzugeben, 
-    // ODER wir nutzen die universelle Eigenschaft, dass Apple- und Google-Kalender mit UTC ("Z") am Ende weltweit am besten klarkommen.
-    
-    // Beispiel: Wir rechnen die Stunden um (Deutschland ist aktuell MESZ = UTC+2 im Sommer, MEZ = UTC+1 im Winter)
-    // Um es ganz sauber zu halten, nutzen wir hier die UTC-Konvertierung über ein lokales Datum:
-    const d = new Date(`${cleanDateStr}T${safeTimeStr}:00`);
-    
-    // Da `new Date("YYYY-MM-DDTHH:mm:00")` vom Browser oft als lokale Browser-Zeit interpretiert wird,
-    // holen wir uns die UTC-Werte so, dass das Handy des Klienten in Amerika/Türkei die Zeit perfekt anpasst:
-    
-    // Format für UTC (z.B. 20261001T120000Z)
-    // Wir ziehen für Deutschland pauschal die Stunden ab, um auf UTC zu kommen (Sommerzeit -2 Std, Winterzeit -1 Std).
-    // Noch smarter: Wir lassen das Handy des Klienten die Zeitzone überlassen, indem wir einen "floating time" oder UTC-Standard nutzen.
-    
-    // Die weltweit sicherste Methode für globale Praxen:
-    // Wir nutzen UTC-Zeiten. Angenommen, Deryas Bürozeit ist in Deutschland:
-    // Wir erzeugen die UTC-Startzeit:
     const yearNum = parseInt(year);
     const monthNum = parseInt(month) - 1;
     const dayNum = parseInt(day);
     const hourNum = parseInt(hours);
     const minNum = parseInt(minutes);
 
-    // Erstelle ein Datum im lokalen Kontext von Deutschland (UTC+2 im Sommer / UTC+1 im Winter grob geschätzt, 
-    // oder wir überlassen es dem Standard-ICS ohne 'Z', dafür mit X-WR-TIMEZONE).
-    // Bessere Lösung für weltweite Handys: Die absolut exakte UTC-Zeit berechnen lassen:
-    const germanDate = new Date(Date.UTC(yearNum, monthNum, dayNum, hourNum - 2, minNum)); // Beispiel Sommerzeit (-2 für UTC)
-    // Da JavaScript automatisch Sommer-/Winterzeit-Wechsel der lokalen Maschine nutzt, machen wir es so:
-    
-    const tzOffsetHours = -2; // Vereinfacht für Deutschland (im Sommer UTC+2 -> wir ziehen 2 ab um UTC zu kriegen, oder wir nutzen den folgenden sauberen Weg):
-    
-    // JavaScript `toLocaleString` Trick um exakt die UTC-Zeit für Berlin zu bekommen:
-    const targetDate = new Date(`${cleanDateStr}T${safeTimeStr}:00+02:00`); // 02:00 im Sommer, 01:00 im Winter. 
-    // Da das Datum im Jahr variieren kann, ist hier der professionellste Weg für ICS:
+    // Zielzeit-Konvertierung (für Deutschland mit automatischer Sommer-/Winterzeit-Erkennung per Offset)
+    const targetDate = new Date(`${cleanDateStr}T${safeTimeStr}:00+02:00`); 
     
     const utcYear = targetDate.getUTCFullYear();
     const utcMonth = String(targetDate.getUTCMonth() + 1).padStart(2, '0');
@@ -381,6 +342,9 @@ function downloadICSFile(title, description, dateStr, timeStr) {
 
     const endUTC = `${endUtcYear}${endUtcMonth}${endUtcDay}T${endUtcHours}${endUtcMinutes}00Z`;
 
+    // UID-Zufalls-String sauber vorab generieren, um Syntaxfehler im Template-Literal zu verhindern
+    const randomUidString = Math.random().toString(36).substring(2, 7);
+
     const icsContent = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
@@ -388,7 +352,7 @@ function downloadICSFile(title, description, dateStr, timeStr) {
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
         "BEGIN:VEVENT",
-       `UID:randevu-${cleanDateStr}-${safeTimeStr}-${Math.random().toString(36).substring(2, 7)}@deryakilic.com`,
+        `UID:randevu-${cleanDateStr}-${safeTimeStr}-${randomUidString}@deryakilic.com`,
         `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
         `DTSTART:${startUTC}`,
         `DTEND:${endUTC}`,
