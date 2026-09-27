@@ -101,16 +101,16 @@ function formatWhatsAppNumber(phoneNumber) {
     return cleaned;
 }
 
-// 1. Benachrichtigung an deine Mutter bei neuer Terminanfrage
+// 1. Benachrichtigung an deine Mutter bei neuer Terminanfrage (auf Türkisch)
 function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId) {
     const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
     
-    const message = "Neue Termin-Anfrage!\n\n" +
-                    "Name: " + clientName + "\n" +
+    const message = "Yeni Randevu Talebi!\n\n" +
+                    "Isim: " + clientName + "\n" +
                     "Telefon: " + clientPhone + "\n" +
-                    "Datum: " + date + "\n" +
-                    "Uhrzeit: " + time + "\n\n" +
-                    "Bitte verwalte diesen Termin im Admin-Portal:\n" + portalLink;
+                    "Tarih: " + date + "\n" +
+                    "Saat: " + time + "\n\n" +
+                    "Lutfen bu randevuyu yonetici portalindan yönetin:\n" + portalLink;
 
     const url = "https://wa.me/" + MOTHER_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
     
@@ -119,13 +119,13 @@ function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId
     return url;
 }
 
-// 2. Benachrichtigung an den Klienten bei Bestätigung oder Absage
+// 2. Benachrichtigung an den Klienten bei Bestätigung oder Absage (auf Türkisch)
 function sendWhatsAppToClient(clientPhone, status, date, time) {
     const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
-    let statusText = status === 'approved' ? 'bestätigt!' : 'abgesagt bzw. verschoben.';
+    let statusText = status === 'approved' ? 'onayladi!' : 'reddedildi veya ertelendi.';
     
-    const message = "Hallo! Deine Terminanfrage für den " + date + " um " + time + " Uhr wurde von Derya Kılıç " + statusText + "\n\n" +
-                    "Den aktuellen Status kannst du jederzeit hier einsehen:\n" + portalLink;
+    const message = "Merhaba! " + date + " tarihinde saat " + time + " için yaptığınız randevu talebini " + statusText + "\n\n" +
+                    "Güncel durumu dilediğiniz zaman buradan görüntüleyebilirsiniz:\n" + portalLink;
 
     const formattedPhone = formatWhatsAppNumber(clientPhone);
     const url = "https://wa.me/" + formattedPhone + "?text=" + encodeURIComponent(message);
@@ -134,7 +134,6 @@ function sendWhatsAppToClient(clientPhone, status, date, time) {
     console.log("WhatsApp an Klient vorbereitet:", url);
     return url;
 }
-
 /* ==========================================
    2. DANIŞAN & ÖDEV TEMİZLİK LOGİĞİ (FIREBASE)
    ========================================== */
