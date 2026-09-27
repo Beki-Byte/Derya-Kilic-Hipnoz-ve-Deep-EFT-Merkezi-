@@ -114,7 +114,9 @@ function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId
 
     const url = `https://wa.me/${MOTHER_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     
-    // Öffnet WhatsApp (kann bei Bedarf in einem versteckten Iframe oder direkt aufgerufen werden)
+    // 👇 DAS HIER HAT GEFEHLT:
+    window.open(url, '_blank');
+
     console.log("WhatsApp an Mutter vorbereitet:", url);
     return url;
 }
@@ -130,6 +132,9 @@ function sendWhatsAppToClient(clientPhone, status, date, time) {
     const formattedPhone = formatWhatsAppNumber(clientPhone);
     const url = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
     
+    // 👇 DAS HIER HAT GEFEHLT:
+    window.open(url, '_blank');
+
     console.log("WhatsApp an Klient vorbereitet:", url);
     return url;
 }
