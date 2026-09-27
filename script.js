@@ -105,18 +105,16 @@ function formatWhatsAppNumber(phoneNumber) {
 function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId) {
     const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
     
-    const message = `✨ *Neue Termin-Anfrage!* ✨\n\n` +
-                    `👤 Name: ${clientName}\n` +
-                    `📞 Telefon: ${clientPhone}\n` +
-                    `📅 Datum: ${date}\n` +
-                    `⏰ Uhrzeit: ${time}\n\n` +
-                    `Bitte verwalte diesen Termin im Admin-Portal:\n${portalLink}`;
+    const message = "Neue Termin-Anfrage!\n\n" +
+                    "Name: " + clientName + "\n" +
+                    "Telefon: " + clientPhone + "\n" +
+                    "Datum: " + date + "\n" +
+                    "Uhrzeit: " + time + "\n\n" +
+                    "Bitte verwalte diesen Termin im Admin-Portal:\n" + portalLink;
 
-    const url = `https://wa.me/${MOTHER_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    const url = "https://wa.me/" + MOTHER_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
     
-    // 👇 DAS HIER HAT GEFEHLT:
     window.open(url, '_blank');
-
     console.log("WhatsApp an Mutter vorbereitet:", url);
     return url;
 }
@@ -124,20 +122,19 @@ function sendWhatsAppToMother(clientName, clientPhone, date, time, appointmentId
 // 2. Benachrichtigung an den Klienten bei Bestätigung oder Absage
 function sendWhatsAppToClient(clientPhone, status, date, time) {
     const portalLink = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/portal.html";
-    let statusText = status === 'approved' ? 'bestätigt! ✅' : 'abgesagt bzw. verschoben. ❌';
+    let statusText = status === 'approved' ? 'bestätigt!' : 'abgesagt bzw. verschoben.';
     
-    const message = `Hallo! 👋 Deine Terminanfrage für den ${date} um ${time} Uhr wurde von Derya Kılıç ${statusText}\n\n` +
-                    `Den aktuellen Status kannst du jederzeit hier einsehen:\n${portalLink}`;
+    const message = "Hallo! Deine Terminanfrage für den " + date + " um " + time + " Uhr wurde von Derya Kılıç " + statusText + "\n\n" +
+                    "Den aktuellen Status kannst du jederzeit hier einsehen:\n" + portalLink;
 
     const formattedPhone = formatWhatsAppNumber(clientPhone);
-    const url = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+    const url = "https://wa.me/" + formattedPhone + "?text=" + encodeURIComponent(message);
     
-    // 👇 DAS HIER HAT GEFEHLT:
     window.open(url, '_blank');
-
     console.log("WhatsApp an Klient vorbereitet:", url);
     return url;
 }
+
 /* ==========================================
    2. DANIŞAN & ÖDEV TEMİZLİK LOGİĞİ (FIREBASE)
    ========================================== */
