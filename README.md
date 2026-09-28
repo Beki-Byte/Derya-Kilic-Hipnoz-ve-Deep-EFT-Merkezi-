@@ -1,6 +1,6 @@
 # Derya Kılıç | Hipnoz & Deep EFT Danışmanlık Merkezi Kornwestheim
 
-Profesyonel hipnoterapi, Deep EFT, BDT, şema terapisi ve spiritüel danışmanlık hizmetleri sunan resmi web sitemiz.
+Profesyonel Hipnoterapi, Deep EFT, BDT, Şema Terapisi ve Manevi danışmanlık hizmetleri sunulur.
 
 ## 🌿 Hakkımızda
 Danışanlarımıza güven bağı içinde zihinsel hafiflik, içsel huzur ve yaşam dengesi sunuyoruz. Tüm seanslarımız **Türkçe** ve **Almanca (Deutsch)** dillerinde yürütülmektedir.
