@@ -176,10 +176,10 @@ export const PAGE = {
 "de": "Wie kann ich meinen Termin absagen?",
 "en": "How can I cancel my appointment?"
 },
-"t28e7c3eb": {
-"tr": "Randevunuzu en geç 24 saat öncesinden WhatsApp üzerinden iptal edebilir veya değiştirebilirsiniz. Daha kısa süre kala yapılan iptallerde seans ücreti tahsil edilir (Hipnoterapi 170 €, diğer terapiler 65 €).",
-"de": "Sie können Ihren Termin bis spätestens 24 Stunden vorher per WhatsApp absagen oder verschieben. Bei kurzfristigeren Absagen wird das Sitzungshonorar berechnet (Hypnotherapie 170 €, andere Therapien 65 €).",
-"en": "You can cancel or reschedule via WhatsApp up to 24 hours before your appointment. For later cancellations the session fee is charged (hypnotherapy 170 €, other therapies 65 €)."
+"td9e6b467": {
+"tr": "Randevunuzu en geç 24 saat öncesinden WhatsApp üzerinden iptal edebilir veya değiştirebilirsiniz. Daha kısa süre kala yapılan iptallerde iptal ücreti alınır (Hipnoterapi 50 €, diğer terapiler 30 €).",
+"de": "Sie können Ihren Termin bis spätestens 24 Stunden vorher per WhatsApp absagen oder verschieben. Bei kurzfristigeren Absagen wird eine Ausfallgebühr berechnet (Hypnotherapie 50 €, andere Therapien 30 €).",
+"en": "You can cancel or reschedule via WhatsApp up to 24 hours before your appointment. For later cancellations a cancellation fee is charged (hypnotherapy 50 €, other therapies 30 €)."
 },
 "ta95ffba3": {
 "tr": "Danışan portalı giriş kodumu nereden alırım?",
@@ -466,10 +466,10 @@ export const PAGE = {
 "de": "Stornierungsbedingungen",
 "en": "Cancellation Policy"
 },
-"t55fb7dc2": {
-"tr": "Randevularınızı en geç <strong>24 saat öncesinden</strong> iptal etmeniz veya değiştirmeniz gerekmektedir. 24 saatten daha kısa bir süre kala yapılan iptallerde veya seansa gelinmediğinde seans ücreti tahsil edilir:",
-"de": "Termine müssen spätestens <strong>24 Stunden vorher</strong> abgesagt oder verschoben werden. Bei kurzfristigeren Absagen oder Nichterscheinen wird das Sitzungshonorar berechnet:",
-"en": "Appointments must be cancelled or rescheduled at least <strong>24 hours in advance</strong>. For later cancellations or no-shows, the session fee will be charged:"
+"tb1d06028": {
+"tr": "Randevularınızı en geç <strong>24 saat öncesinden</strong> iptal etmeniz veya değiştirmeniz gerekmektedir. 24 saatten daha kısa bir süre kala yapılan iptallerde aşağıdaki iptal ücreti bakiyenize eklenir (seansa hiç gelinmediğinde seans ücretinin tamamı tahsil edilir):",
+"de": "Termine müssen spätestens <strong>24 Stunden vorher</strong> abgesagt oder verschoben werden. Bei kurzfristigeren Absagen wird folgende Ausfallgebühr auf Ihr Konto gebucht (bei Nichterscheinen wird das volle Sitzungshonorar berechnet):",
+"en": "Appointments must be cancelled or rescheduled at least <strong>24 hours in advance</strong>. For later cancellations the following cancellation fee is added to your balance (no-shows are charged the full session fee):"
 },
 "t2f25b4a8": {
 "tr": "Deep EFT ve diğer terapiler:",
@@ -805,6 +805,11 @@ export const PAGE = {
 "tr": "Seçili gün",
 "de": "Ausgewählter Tag",
 "en": "Selected day"
+},
+"t796b14b8": {
+"tr": "Hafta sonu kapalı",
+"de": "Wochenende geschlossen",
+"en": "Closed on weekends"
 },
 "t7556be23": {
 "tr": "Bir güne tıklayın – tarih aşağıdaki forma otomatik aktarılır.",
@@ -1588,6 +1593,51 @@ export const UI = {
   "de": " (unbestätigt)",
   "en": " (pending)"
  },
+ "slot_weekend": {
+  "tr": "Cumartesi ve pazar günleri randevu verilmemektedir. Lütfen hafta içi bir gün seçin.",
+  "de": "Samstags und sonntags finden keine Termine statt. Bitte wählen Sie einen Wochentag.",
+  "en": "There are no appointments on Saturdays and Sundays. Please choose a weekday."
+ },
+ "cancelled_late_bal": {
+  "tr": "Randevunuz iptal edildi. Kısa süreli iptal nedeniyle {fee} bakiyenize eklendi.",
+  "de": "Ihr Termin wurde abgesagt. Wegen der kurzfristigen Absage wurden {fee} zu Ihrem offenen Betrag hinzugefügt.",
+  "en": "Your appointment has been cancelled. Due to the late cancellation, {fee} has been added to your balance."
+ },
+ "lock_title": {
+  "tr": "Portalınız geçici olarak kilitlendi",
+  "de": "Ihr Portal ist vorübergehend gesperrt",
+  "en": "Your portal is temporarily locked"
+ },
+ "lock_text": {
+  "tr": "Ödeme süresi {d} tarihinde doldu. Açık tutar: {a}. Ödeme yapıldığında veya Derya Hanım kilidi açtığında portalı yeniden tam olarak kullanabilirsiniz.",
+  "de": "Die Zahlungsfrist ist am {d} abgelaufen. Offener Betrag: {a}. Sobald die Zahlung eingegangen ist oder Derya Hanım das Portal freigibt, können Sie es wieder vollständig nutzen.",
+  "en": "The payment deadline expired on {d}. Outstanding amount: {a}. Once payment is received or Derya Hanım unlocks your portal, you can use it fully again."
+ },
+ "lock_book": {
+  "tr": "Portalınız kilitli olduğu için şu anda randevu alamazsınız. Lütfen önce açık tutarı ödeyin.",
+  "de": "Da Ihr Portal gesperrt ist, können Sie derzeit keine Termine buchen. Bitte begleichen Sie zuerst den offenen Betrag.",
+  "en": "Your portal is locked, so you cannot book appointments right now. Please pay the outstanding amount first."
+ },
+ "deadline_note": {
+  "tr": "Son ödeme tarihi: {d}",
+  "de": "Zahlungsfrist: {d}",
+  "en": "Payment due: {d}"
+ },
+ "cancel_until": {
+  "tr": "Ücretsiz iptal için son süre: {d}",
+  "de": "Kostenlos absagen bis: {d}",
+  "en": "Free cancellation until: {d}"
+ },
+ "cancel_window_over": {
+  "tr": "Ücretsiz iptal süresi doldu (randevuya 24 saatten az kaldı).",
+  "de": "Die kostenlose Absagefrist ist abgelaufen (weniger als 24 Stunden bis zum Termin).",
+  "en": "The free cancellation period has ended (less than 24 hours to go)."
+ },
+ "cal_loading": {
+  "tr": "Randevular yükleniyor…",
+  "de": "Termine werden geladen…",
+  "en": "Loading appointments…"
+ },
  "cal_fallback": {
   "tr": "Takvim şu anda yüklenemedi. Tarih ve saati formdan doğrudan seçebilirsiniz.",
   "de": "Der Kalender konnte nicht geladen werden. Sie können Datum und Uhrzeit direkt im Formular wählen.",
@@ -1679,9 +1729,9 @@ export const UI = {
   "en": "Note: less than 24 hours left"
  },
  "late_cancel_text": {
-  "tr": "Randevunuza 24 saatten az kaldığı için iptal etseniz de seans ücreti ({fee}) tahsil edilir.\n\nYine de iptal etmek istiyor musunuz?",
-  "de": "Da Ihr Termin in weniger als 24 Stunden stattfindet, wird das Sitzungshonorar ({fee}) auch bei einer Absage berechnet.\n\nMöchten Sie trotzdem absagen?",
-  "en": "As your appointment is less than 24 hours away, the session fee ({fee}) will still be charged if you cancel.\n\nDo you still want to cancel?"
+  "tr": "Randevunuza 24 saatten az kaldığı için iptal ederseniz {fee} iptal ücreti alınır.\n\nYine de iptal etmek istiyor musunuz?",
+  "de": "Da Ihr Termin in weniger als 24 Stunden stattfindet, wird bei einer Absage eine Ausfallgebühr von {fee} berechnet.\n\nMöchten Sie trotzdem absagen?",
+  "en": "As your appointment is less than 24 hours away, a cancellation fee of {fee} will be charged if you cancel.\n\nDo you still want to cancel?"
  },
  "cancelled_ok": {
   "tr": "Randevunuz iptal edildi. Derya Hanım bilgilendirildi.",
@@ -1864,9 +1914,14 @@ export const UI = {
   "en": "✓ Nothing outstanding."
  },
  "pay_amount_label": {
-  "tr": "Ödenecek tutar (€)",
-  "de": "Zu zahlender Betrag (€)",
-  "en": "Amount to pay (€)"
+  "tr": "Şimdi ödemek istediğiniz tutar (€)",
+  "de": "Betrag, den Sie jetzt zahlen möchten (€)",
+  "en": "Amount you want to pay now (€)"
+ },
+ "pay_amount_hint": {
+  "tr": "Tamamını veya bir kısmını ödeyebilirsiniz – en fazla {max}.",
+  "de": "Sie können alles oder einen Teil zahlen – höchstens {max}.",
+  "en": "You can pay all or part of it – max. {max}."
  },
  "pay_paypal": {
   "tr": "PayPal ile öde",
@@ -2064,9 +2119,9 @@ export const UI = {
   "en": "Forgot your code? No problem! Message us on WhatsApp or Instagram with your full name and we’ll send it to you again right away."
  },
  "r_cancel": {
-  "tr": "Randevunuzu en geç 24 saat öncesinden iptal edebilir veya değiştirebilirsiniz. Daha kısa süre kala yapılan iptallerde seans ücreti tahsil edilir (Hipnoterapi 170 €, diğer terapiler 65 €).",
-  "de": "Sie können Ihren Termin bis spätestens 24 Stunden vorher absagen oder verschieben. Bei kurzfristigeren Absagen wird das Honorar berechnet (Hypnotherapie 170 €, andere Therapien 65 €).",
-  "en": "You can cancel or reschedule up to 24 hours in advance. Later cancellations are charged the session fee (hypnotherapy 170 €, other therapies 65 €)."
+  "tr": "Randevunuzu en geç 24 saat öncesinden iptal edebilir veya değiştirebilirsiniz. Daha kısa süre kala yapılan iptallerde iptal ücreti alınır (Hipnoterapi 50 €, diğer terapiler 30 €).",
+  "de": "Sie können Ihren Termin bis spätestens 24 Stunden vorher absagen oder verschieben. Bei kurzfristigeren Absagen wird eine Ausfallgebühr berechnet (Hypnotherapie 50 €, andere Therapien 30 €).",
+  "en": "You can cancel or reschedule up to 24 hours in advance. Later cancellations are charged a cancellation fee (hypnotherapy 50 €, other therapies 30 €)."
  },
  "r_online": {
   "tr": "Evet, online seans mümkün! Dünyanın her yerinden evinizin konforunda katılabilirsiniz. Randevu formunda seans şeklini “Online” olarak seçmeniz yeterli.",

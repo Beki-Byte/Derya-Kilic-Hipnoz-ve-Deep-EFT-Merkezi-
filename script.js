@@ -65,7 +65,9 @@ const dbReady = (async () => {
         const [appMod, fsMod] = await Promise.all([import(`${FB}/firebase-app.js`), import(`${FB}/firebase-firestore.js`)]);
         fbApp = appMod.initializeApp(firebaseConfig);
         fs = fsMod;
-        db = fsMod.getFirestore(fbApp);
+        // Long-Polling: auf manchen Handy-Netzen hängt die Standard-Verbindung sonst sehr lange
+        try { db = fsMod.initializeFirestore(fbApp, { experimentalForceLongPolling: true }); }
+        catch { db = fsMod.getFirestore(fbApp); }
         return true;
     } catch (e) {
         console.warn("Firebase konnte nicht geladen werden:", e);
@@ -93,8 +95,7 @@ function detectLang() {
     let l = null;
     try { l = new URLSearchParams(location.search).get("lang") || localStorage.getItem("lang"); } catch { /* ignore */ }
     if (LANGS.includes(l)) return l;
-    const n = ((navigator.languages && navigator.languages[0]) || navigator.language || "tr").slice(0, 2).toLowerCase();
-    return n === "tr" || n === "de" ? n : "en";
+    return "tr"; // Hauptsprache Türkisch – DE/EN über den Sprachumschalter
 }
 
 function t(key, vars = {}, lang = LANG) {
@@ -266,6 +267,10 @@ function parseAmount(v) {
     return isNaN(n) ? 0 : n;
 }
 const getBalance = (c) => round2(typeof c?.balance === "number" ? c.balance : parseAmount(c?.payment));
+/* Zahlungsfrist: nach Ablauf (und offenem Betrag) ist das Klienten-Portal gesperrt */
+const isPortalLocked = (c) => !!c && Number(c.payDeadlineMs) > 0 && Date.now() > Number(c.payDeadlineMs) && getBalance(c) > 0;
+const deadlineLocal = (c) => { const l = toLocal(new Date(Number(c.payDeadlineMs))); return `${formatDateLong(l.date)} · ${l.time}`; };
+const deadlineTR = (c) => { const [d, tm] = String(c.payDeadline || "").split("T"); return d ? `${formatDateForUser(d)} ${tm || ""}`.trim() : ""; };
 function money(n, lang = LANG) {
     n = round2(n);
     return new Intl.NumberFormat(lang === "en" ? "en-GB" : "de-DE", { style: "currency", currency: "EUR", minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }).format(n);
@@ -316,7 +321,7 @@ function downloadICSFile(title, description, dateStr, timeStr, hours = 1) {
         `DTSTART:${icsStamp(start)}`, `DTEND:${icsStamp(end)}`,
         `SUMMARY:${icsEscape(title)}`, `DESCRIPTION:${icsEscape(description)}`,
         "LOCATION:Biberweg 53\\, 70806 Kornwestheim", "STATUS:TENTATIVE",
-        "BEGIN:VALARM", "TRIGGER:-PT24H", "ACTION:DISPLAY", `DESCRIPTION:${icsEscape(title)}`, "END:VALARM",
+        "BEGIN:VALARM", "TRIGGER:-PT26H", "ACTION:DISPLAY", `DESCRIPTION:${icsEscape(title)}`, "END:VALARM",
         "END:VEVENT", "END:VCALENDAR"
     ].join("\r\n");
     const a = document.createElement("a");
@@ -751,6 +756,9 @@ function checkSlot(busyList, req, ignoreId = null) {
     return null;
 }
 const isPastInstant = (d) => d instanceof Date && d.getTime() < Date.now();
+/* Sa/So keine Termine (maßgeblich ist der Tag in Deutschland) */
+const isWeekendISO = (iso) => { const d = new Date(iso + "T12:00:00Z").getUTCDay(); return d === 0 || d === 6; };
+const isWeekendInstant = (inst) => inst instanceof Date && !isNaN(inst) && isWeekendISO(toBerlin(inst).date);
 function isPast(date, time) {
     if (!date) return false;
     return isPastInstant(berlinToUTC(date, time || "23:59"));
@@ -793,7 +801,23 @@ async function initCalendar(elementId, opts = {}) {
     const el = document.getElementById(elementId);
     if (!el) return null;
 
-    const data = await loadCalendarData(mode, clientCode);
+    // Kalender sofort zeigen – Termine werden nachgeladen
+    const calLang0 = mode === "master" ? "tr" : LANG;
+    if (typeof FullCalendar !== "undefined" && !calendars[elementId]) {
+        const small0 = window.matchMedia("(max-width: 640px)").matches;
+        el.innerHTML = "";
+        calendars[elementId] = new FullCalendar.Calendar(el, {
+            initialView: "dayGridMonth", locale: calLang0 === "en" ? "en" : calLang0, firstDay: 1, height: "auto",
+            headerToolbar: small0 ? { left: "prev,next", center: "title", right: "today" } : { left: "prev,next today", center: "title", right: "dayGridMonth,timeGridWeek,listMonth" },
+            buttonText: { today: t("cal_today", {}, calLang0), month: t("cal_month", {}, calLang0), week: t("cal_week", {}, calLang0), list: t("cal_list", {}, calLang0) }
+        });
+        calendars[elementId].render();
+        el.dataset.loading = t("cal_loading", {}, calLang0);
+        el.classList.add("is-loading");
+    }
+    let data;
+    try { data = await loadCalendarData(mode, clientCode); }
+    finally { el.classList.remove("is-loading"); }
     if (typeof FullCalendar === "undefined") {
         el.innerHTML = `<div class="calendar-fallback"><i class="fas fa-calendar-xmark"></i><br>${escapeHTML(t("cal_fallback"))}</div>`;
         return data;
@@ -837,10 +861,12 @@ async function initCalendar(elementId, opts = {}) {
         dayCellDidMount(info) {
             const iso = info.date.getFullYear() + "-" + String(info.date.getMonth() + 1).padStart(2, "0") + "-" + String(info.date.getDate()).padStart(2, "0");
             if (iso === lastSelectedDate) info.el.classList.add("is-selected");
+            if (mode !== "master" && (info.date.getDay() === 0 || info.date.getDay() === 6)) info.el.classList.add("is-closed");
         },
         dateClick(info) {
             const d = info.dateStr.slice(0, 10);
             if (mode !== "master" && d < todayISO()) { toast(t("cal_past", {}, calLang), "warn", 2500); return; }
+            if (mode !== "master" && isWeekendISO(d)) { toast(t("slot_weekend", {}, calLang), "warn", 3000); return; }
             $$(".fc-daygrid-day.is-selected", el).forEach((x) => x.classList.remove("is-selected"));
             info.dayEl?.classList.add("is-selected");
             lastSelectedDate = d;
@@ -890,7 +916,8 @@ langHooks.push(() => {
 });
 
 /* Eigener Termin: Daten anzeigen, absagen (24-Stunden-Regel), Kalender-Datei */
-const sessionFee = (service) => (service === "Hipnoterapi" ? 170 : 65);
+/* Ausfallgebühr bei Absage < 24 h: Hipnoterapi 50 €, alle anderen 30 € */
+const lateFee = (service) => (service === "Hipnoterapi" ? 50 : 30);
 const hoursUntil = (app) => (appInstant(app).getTime() - Date.now()) / 3600000;
 
 async function openOwnAppointment(app, elementId) {
@@ -916,7 +943,7 @@ async function openOwnAppointment(app, elementId) {
     if (choice !== true) return;
 
     const late = hoursUntil(app) < CANCEL_FREE_HOURS && app.status === "approved";
-    const fee = sessionFee(app.service);
+    const fee = lateFee(app.service);
     const sure = await dialog({
         title: late ? t("late_cancel_title") : t("cancel_confirm_title"),
         text: late ? t("late_cancel_text", { fee: money(fee) }) : t("cancel_confirm_text"),
@@ -924,14 +951,34 @@ async function openOwnAppointment(app, elementId) {
     });
     if (!sure) return;
     try {
-        // Erlaubt ist nur: Status auf "cancelled" setzen (siehe Regeln). Die Ausfallgebühr bucht das Admin-Panel automatisch.
-        await fs.updateDoc(fs.doc(db, app._path), { status: "cancelled", cancelledAt: new Date().toISOString(), lateCancel: late });
+        const cancelData = { status: "cancelled", cancelledAt: new Date().toISOString(), lateCancel: late };
+        const clientCode = app._path.startsWith("clients/") ? app._path.split("/")[1] : null;
+        let charged = false;
+        if (late && clientCode) {
+            // Ausfallgebühr sofort auf den offenen Betrag buchen (in einem Schritt mit der Absage)
+            try {
+                const cref = fs.doc(db, "clients", clientCode);
+                const before = getBalance((await fs.getDoc(cref)).data());
+                const after = round2(before + fee);
+                const batch = fs.writeBatch(db);
+                batch.update(fs.doc(db, app._path), { ...cancelData, feeCharged: true });
+                batch.update(cref, { balance: after, payment: money(after, "tr") });
+                batch.set(fs.doc(fs.collection(db, "clients", clientCode, "payments")), {
+                    type: "charge", amount: fee, method: "", source: "late-cancel", status: "confirmed",
+                    balanceAfter: after, createdAt: new Date().toISOString()
+                });
+                await batch.commit();
+                charged = true;
+            } catch (err) { console.warn("Gebühr nicht sofort gebucht – Admin-Panel bucht nach:", err); }
+        }
+        // Sonst nur absagen; eine offene Gebühr bucht das Admin-Panel beim nächsten Öffnen automatisch
+        if (!charged) await fs.updateDoc(fs.doc(db, app._path), cancelData);
         notifyMother(late ? "⚠️ GEÇ İPTAL (24 saatten az)" : "❌ Randevu iptal edildi", {
             "Danışan": app.name, "Telefon": app.phone, "Tarih": formatDateForUser(app.date), "Saat (Almanya)": app.time, "Hizmet": app.service,
             ...(app.clientCode && app.clientCode !== "GUEST" ? { "Kod": app.clientCode } : {}),
             ...(late ? { "Not": `24 saatten az kala iptal – ücret: ${money(fee, "tr")}` } : {})
         });
-        toast(late ? t("cancelled_late", { fee: money(fee) }) : t("cancelled_ok"), late ? "warn" : "success", 6000);
+        toast(late ? t(clientCode ? "cancelled_late_bal" : "cancelled_late", { fee: money(fee) }) : t("cancelled_ok"), late ? "warn" : "success", 6000);
         if (clientState) loadClientDashboard(clientState.code);
         else await initCalendar(elementId, calendarOpts[elementId]);
     } catch (e) {
@@ -970,7 +1017,7 @@ function bindSlotChecker({ dateInput, timeInput, statusEl, chipsEl = null, getAp
             const chips = !date ? BERLIN_HOURS.map((h) => ({ local: h, busy: false })) : BERLIN_HOURS.map((h) => {
                 const inst = berlinToUTC(date, h);
                 const loc = toLocal(inst);
-                return loc.date === date ? { local: loc.time, busy: !!(checkSlot(busy, inst) || isPastInstant(inst)) } : null;
+                return loc.date === date ? { local: loc.time, busy: !!(checkSlot(busy, inst) || isPastInstant(inst) || isWeekendInstant(inst)) } : null;
             }).filter(Boolean);
             chipsEl.innerHTML = chips.map((c) => `<button type="button" data-t="${c.local}" aria-pressed="${c.local === time}" ${c.busy ? "disabled" : ""}>${c.local}</button>`).join("");
         }
@@ -979,6 +1026,7 @@ function bindSlotChecker({ dateInput, timeInput, statusEl, chipsEl = null, getAp
         if (!date || !time) { statusEl.textContent = ""; return; }
         const inst = localInstant(date, time);
         if (isPastInstant(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_past"))}`; return; }
+        if (isWeekendInstant(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_weekend"))}`; return; }
         const err = checkSlot(busy, inst);
         if (err) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t(err.key))}`; return; }
         let msg = t("slot_free", { d: formatDateLong(date), t: time });
@@ -1082,6 +1130,7 @@ async function initPublicBooking() {
             expectation: ($("#pubExpectation").value.trim() || "-").slice(0, 1000)
         };
         if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
+        if (isWeekendInstant(inst)) { toast(t("slot_weekend"), "warn"); return; }
         if (data.phone.replace(/\D/g, "").length < 6) { toast(t("book_phone"), "warn"); $("#pubPhone").focus(); return; }
 
         const oldHTML = submitBtn.innerHTML;
@@ -1201,7 +1250,7 @@ async function recordTransaction(code, { type, amount, method = "", source = "ad
     const before = getBalance(snap.data());
     amount = round2(amount);
     const after = type === "payment" ? Math.max(0, round2(before - amount)) : round2(before + amount);
-    await fs.updateDoc(ref, { balance: after, payment: money(after, "tr") });
+    await fs.updateDoc(ref, { balance: after, payment: money(after, "tr"), ...(after <= 0 ? { payDeadline: null, payDeadlineMs: 0 } : {}) });
     await fs.addDoc(fs.collection(db, "clients", code, "payments"), {
         type, amount, method, source, status: "confirmed", balanceAfter: after,
         paypalOrderId, note, createdAt: new Date().toISOString()
@@ -1229,7 +1278,7 @@ function renderPayHistory(el, payments, lang) {
         const pending = p.status === "pending";
         return `<div class="pay-row ${isPay ? "is-pay" : "is-charge"}${pending ? " is-pending" : ""}">
             <span class="pay-ico"><i class="fas ${pending ? "fa-hourglass-half" : isPay ? "fa-arrow-down" : "fa-plus"}"></i></span>
-            <span class="pay-what">${escapeHTML(t(isPay ? "hist_payment" : (p.note === "late" ? "hist_late" : "hist_charge"), {}, lang))}${p.method ? ` · ${escapeHTML(UI["m_" + p.method] ? t("m_" + p.method, {}, lang) : p.method)}` : ""}${pending ? ` · ${escapeHTML(t("hist_pending", {}, lang))}` : ""}<small>${escapeHTML(date)}</small></span>
+            <span class="pay-what">${escapeHTML(t(isPay ? "hist_payment" : (p.note === "late" || p.source === "late-cancel" ? "hist_late" : "hist_charge"), {}, lang))}${p.method ? ` · ${escapeHTML(UI["m_" + p.method] ? t("m_" + p.method, {}, lang) : p.method)}` : ""}${pending ? ` · ${escapeHTML(t("hist_pending", {}, lang))}` : ""}<small>${escapeHTML(date)}</small></span>
             <strong>${isPay ? "−" : "+"}${escapeHTML(money(p.amount, lang))}</strong>
         </div>`;
     }).join("");
@@ -1440,7 +1489,7 @@ async function syncAdmin() {
             }
             if (a.status === "cancelled" && a.lateCancel && !a.feeCharged && a._path.startsWith("clients/")) {
                 const code = a._path.split("/")[1];
-                try { await recordTransaction(code, { type: "charge", amount: sessionFee(a.service), source: "late-cancel", note: "late" }); } catch (e) { console.error(e); }
+                try { await recordTransaction(code, { type: "charge", amount: lateFee(a.service), source: "late-cancel", note: "late" }); } catch (e) { console.error(e); }
                 await fs.updateDoc(fs.doc(db, a._path), { feeCharged: true });
             }
         }
@@ -1478,6 +1527,10 @@ async function loadMasterDashboard() {
         });
         $("#pendingPayments")?.addEventListener("click", onPendingPaymentClick);
         $("#debtsList")?.addEventListener("click", onDebtClick);
+        $("#remindersList")?.addEventListener("click", onReminderClick);
+        setInterval(() => { if (!$("#masterDashboard").hidden) renderReminders(); }, 10 * 60 * 1000);
+        $("#deadlineSaveBtn").addEventListener("click", adminSetDeadline);
+        $("#deadlineClearBtn").addEventListener("click", adminClearDeadline);
         $("#masterCommentsList").addEventListener("click", onCommentAdminClick);
     }
     await syncAdmin();
@@ -1486,6 +1539,76 @@ async function loadMasterDashboard() {
     populateClientSelect();
     renderPendingPayments();
     renderMasterComments();
+}
+
+/* ---------- Hatırlatmalar: 26–30 Stunden vor dem Termin erinnern (Text immer Türkisch) ---------- */
+const REMIND_FROM_H = 26, REMIND_TO_H = 30;
+const fmtBerlinShort = (d) => { const b = toBerlin(d); return `${formatDateForUser(b.date)} ${b.time}`; };
+function reminderText(a) {
+    const inst = appInstant(a);
+    const tomorrow = toBerlin(new Date(Date.now() + 86400000)).date === a.date;
+    const local = a.tz && differsFromBerlin(inst, a.tz) ? toLocal(inst, a.tz) : null;
+    return `Merhaba ${a.name || ""},
+
+${tomorrow ? "Yarın randevunuz var" : "Yaklaşan randevunuzu hatırlatmak isteriz"} 🌿
+
+📅 Tarih: ${formatDateForUser(a.date)}
+⏰ Saat: ${a.time} (Almanya saati)${local ? `\n🌍 Sizin saatinizle: ${local.time} (${tzCity(a.tz)})` : ""}
+🩺 Hizmet: ${a.service || "-"}${a.format ? `\n📍 Seans şekli: ${a.format}` : ""}
+
+Randevunuzu iptal etmeniz gerekirse lütfen en geç randevudan 24 saat önce bildirin. Daha geç yapılan iptallerde ${money(lateFee(a.service), "tr")} iptal ücreti alınır.
+
+Görüşmek üzere,
+Derya Kılıç`;
+}
+async function renderReminders() {
+    const box = $("#remindersList");
+    if (!box) return;
+    const all = await getAllAppointmentsAdmin();
+    const now = Date.now();
+    const items = all
+        .filter((a) => a.status === "approved" && !a.personal && a.clientCode !== "SAHSI" && a.date && a.time)
+        .map((a) => ({ ...a, h: (appInstant(a).getTime() - now) / 3600000 }))
+        .filter((a) => a.h > 0 && a.h <= REMIND_TO_H + 18)
+        .sort((x, y) => x.h - y.h);
+    const open = items.filter((a) => !a.remindedAt && a.h <= REMIND_TO_H);
+    const cnt = $("#reminderCount");
+    if (cnt) { cnt.textContent = open.length ? `🔔 ${open.length}` : ""; cnt.dataset.n = open.length; }
+    if (!items.length) { box.innerHTML = `<p class="empty-note">Önümüzdeki 2 gün için hatırlatılacak randevu yok.</p>`; return; }
+    box.innerHTML = items.map((a) => {
+        const hrs = Math.floor(a.h), mins = Math.round((a.h - hrs) * 60);
+        const inH = `${hrs} saat${mins ? ` ${mins} dk` : ""} sonra`;
+        let state, cls;
+        if (a.remindedAt) { state = `✅ Hatırlatıldı: ${fmtBerlinShort(new Date(a.remindedAt))}${a.remindedVia ? ` (${a.remindedVia === "whatsapp" ? "WhatsApp" : a.remindedVia === "email" ? "E-posta" : "elle"})` : ""}`; cls = "done"; }
+        else if (a.h > REMIND_TO_H) { const at = new Date(appInstant(a).getTime() - REMIND_TO_H * 3600000); state = `🕒 Hatırlatma zamanı: ${fmtBerlinShort(at)}'den itibaren`; cls = "later"; }
+        else if (a.h >= REMIND_FROM_H) { state = "🔔 Şimdi hatırlatın – tam zamanı"; cls = "now"; }
+        else if (a.h > 24) { state = "⚠️ Hemen hatırlatın – 24 saat sınırı yaklaşıyor"; cls = "late"; }
+        else { state = "⚠️ 24 saatten az kaldı – yine de hatırlatabilirsiniz"; cls = "late"; }
+        const wa = a.phone ? waLink(formatWhatsAppNumber(a.phone), reminderText(a)) : "";
+        const mail = a.email ? `mailto:${encodeURIComponent(a.email)}?subject=${encodeURIComponent("Randevu hatırlatması – Derya Kılıç")}&body=${encodeURIComponent(reminderText(a))}` : "";
+        const p = escapeHTML(a._path);
+        return `
+        <div class="list-item reminder-item reminder-item--${cls}">
+            <div><strong>${escapeHTML(a.name || "?")}</strong> · ${escapeHTML(formatDateForUser(a.date))} ${escapeHTML(a.time)} · ${escapeHTML(a.service || "")}
+                <div class="meta"><span><i class="fas fa-clock"></i>${escapeHTML(inH)}</span><span class="reminder-state">${escapeHTML(state)}</span>${!a.phone && !a.email ? `<span>Telefon / e-posta kayıtlı değil</span>` : ""}</div></div>
+            <div class="list-actions">
+                ${wa ? `<a class="btn btn--whatsapp btn--sm" href="${escapeHTML(wa)}" target="_blank" rel="noopener noreferrer" data-remind="${p}" data-via="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ""}
+                ${mail ? `<a class="btn btn--ghost btn--sm" href="${escapeHTML(mail)}" data-remind="${p}" data-via="email"><i class="fas fa-envelope"></i> E-posta</a>` : ""}
+                ${a.remindedAt ? "" : `<button type="button" class="btn btn--ghost btn--sm" data-remind="${p}" data-via="manual" title="Başka yolla hatırlattıysanız"><i class="fas fa-check"></i> Hatırlatıldı</button>`}
+            </div>
+        </div>`;
+    }).join("");
+}
+async function onReminderClick(e) {
+    const el = e.target.closest("[data-remind]");
+    if (!el) return;
+    try {
+        const snap = await fs.getDoc(fs.doc(db, el.dataset.remind));
+        if (snap.exists() && snap.data().remindedAt && el.dataset.via !== "manual") return; // erster Nachweis bleibt
+        await fs.updateDoc(fs.doc(db, el.dataset.remind), { remindedAt: new Date().toISOString(), remindedVia: el.dataset.via });
+        if (el.dataset.via === "manual") toast("Hatırlatıldı olarak işaretlendi.", "success");
+        setTimeout(renderReminders, 400);
+    } catch (er) { console.error(er); toast("Kaydedilemedi.", "error"); }
 }
 
 async function cleanExpiredHomework() {
@@ -1516,6 +1639,7 @@ function initTabs() {
 
 async function refreshMaster() {
     await renderPendingAppointments();
+    renderReminders();
     await initCalendar("masterCalendar", {
         mode: "master",
         onDateClick: (d, tm) => { $("#appDate").value = d; if (tm) $("#appTime").value = tm; scrollToCard($("#adminAddCard"), $("#appClientSelect")); }
@@ -1583,10 +1707,11 @@ function clientMessage(status, app) {
     const inst = appInstant(app);
     const tzOther = app.tz && differsFromBerlin(inst, app.tz);
     const loc = tzOther ? toLocal(inst, app.tz) : null;
+    // Vorgefertigte Nachrichten immer auf Türkisch
     const when = tzOther
-        ? t("tz_both", { de: app.time, here: loc.time, zone: tzCity(app.tz) }, lang)
-        : t("tz_de_only", { t: app.time }, lang);
-    return t(status === "approved" ? "msg_approved" : "msg_rejected", { n: app.name, d: formatDateForUser(tzOther ? loc.date : app.date), t: when, link }, lang);
+        ? t("tz_both", { de: app.time, here: loc.time, zone: tzCity(app.tz) }, "tr")
+        : t("tz_de_only", { t: app.time }, "tr");
+    return t(status === "approved" ? "msg_approved" : "msg_rejected", { n: app.name, d: formatDateForUser(tzOther ? loc.date : app.date), t: when, link }, "tr");
 }
 
 async function approveAppointment(path) {
@@ -1771,8 +1896,48 @@ async function loadClientData() {
         const st = $("#adminBalanceState");
         st.textContent = adminBalance > 0 ? "Açık" : "Ödendi ✓";
         st.className = "balance-state " + (adminBalance > 0 ? "open" : "paid");
+        adminClient = c;
+        $("#payDeadline").value = c.payDeadline && Number(c.payDeadlineMs) > 0 ? c.payDeadline : "";
+        renderDeadlineState(c);
         renderPayHistory($("#adminPayHistory"), await getPayments(code), "tr");
     } catch (e) { console.error("loadClientData:", e); }
+}
+
+let adminClient = null;
+function renderDeadlineState(c) {
+    const el = $("#deadlineState");
+    if (!el) return;
+    el.className = "deadline-state";
+    if (!(Number(c?.payDeadlineMs) > 0)) { el.textContent = "Süre tanımlı değil – portal açık."; return; }
+    if (isPortalLocked(c)) { el.classList.add("locked"); el.textContent = `🔒 Portal kilitli – süre ${deadlineTR(c)} tarihinde doldu.`; return; }
+    if (getBalance(c) <= 0) { el.textContent = `Süre: ${deadlineTR(c)} – borç yok, portal açık.`; return; }
+    el.classList.add("waiting");
+    el.textContent = `⏳ ${deadlineTR(c)} tarihine kadar ödeme bekleniyor (sonra portal kilitlenir).`;
+}
+async function adminSetDeadline() {
+    const code = $("#clientSelect").value, v = $("#payDeadline").value;
+    if (!code) return;
+    if (!v) { toast("Lütfen tarih ve saat seçin.", "warn"); $("#payDeadline").focus(); return; }
+    const [d, tm] = v.split("T");
+    const ms = berlinToUTC(d, tm.slice(0, 5)).getTime();
+    if (ms < Date.now() && !(await dialog({ title: "Tarih geçmişte", text: `Seçilen tarih geçmişte. Borç varsa portal hemen kilitlenir.
+
+Devam edilsin mi?`, okText: "Evet, kilitle", cancelText: "Vazgeç", danger: true }))) return;
+    try {
+        await fs.updateDoc(fs.doc(db, "clients", code), { payDeadline: `${d}T${tm.slice(0, 5)}`, payDeadlineMs: ms });
+        toast(`Son ödeme tarihi kaydedildi: ${formatDateForUser(d)} ${tm.slice(0, 5)}`, "success");
+        await populateClientSelect(code);
+    } catch (e) { console.error(e); toast("Kaydedilemedi.", "error"); }
+}
+async function adminClearDeadline() {
+    const code = $("#clientSelect").value;
+    if (!code) return;
+    try {
+        await fs.updateDoc(fs.doc(db, "clients", code), { payDeadline: null, payDeadlineMs: 0 });
+        $("#payDeadline").value = "";
+        toast("Süre kaldırıldı – portal açık.", "success");
+        await populateClientSelect(code);
+    } catch (e) { console.error(e); toast("Kaydedilemedi.", "error"); }
 }
 
 async function adminRecordPayment() {
@@ -1826,7 +1991,7 @@ async function renderDebts(clients) {
     list.innerHTML = debtors.map((c) => `
         <button type="button" class="list-item debt-row" data-debt="${escapeHTML(c.id)}" title="Danışanı aç">
             <div><strong>${escapeHTML(c.name || c.id)}</strong>
-                <div class="meta"><span>${escapeHTML(c.id)}</span>${pendingBy[c.id] ? `<span class="debt-pending"><i class="fab fa-paypal"></i> ${escapeHTML(money(pendingBy[c.id], "tr"))} onay bekliyor</span>` : ""}</div></div>
+                <div class="meta"><span>${escapeHTML(c.id)}</span>${isPortalLocked(c) ? `<span class="debt-lock">🔒 Portal kilitli</span>` : Number(c.payDeadlineMs) > 0 ? `<span class="debt-due">⏳ Son tarih: ${escapeHTML(deadlineTR(c))}</span>` : ""}${pendingBy[c.id] ? `<span class="debt-pending"><i class="fab fa-paypal"></i> ${escapeHTML(money(pendingBy[c.id], "tr"))} onay bekliyor</span>` : ""}</div></div>
             <span class="debt-amount">${escapeHTML(money(c.bal, "tr"))} <i class="fas fa-chevron-right"></i></span>
         </button>`).join("");
 }
@@ -1874,7 +2039,7 @@ async function onPendingPaymentClick(e) {
             const cref = fs.doc(db, "clients", code);
             const before = getBalance((await fs.getDoc(cref)).data());
             const after = Math.max(0, round2(before - amount));
-            await fs.updateDoc(cref, { balance: after, payment: money(after, "tr") });
+            await fs.updateDoc(cref, { balance: after, payment: money(after, "tr"), ...(after <= 0 ? { payDeadline: null, payDeadlineMs: 0 } : {}) });
             await fs.updateDoc(fs.doc(db, path), { status: "confirmed", balanceAfter: after, confirmedAt: new Date().toISOString() });
             toast(`${money(amount, "tr")} onaylandı. Kalan: ${money(after, "tr")}`, "success");
         } else {
@@ -2002,11 +2167,30 @@ function renderClientDashboard() {
     const mine = own
         .filter((a) => (a.status === "approved" || a.status === "pending") && !isPast(a.date, a.time))
         .sort((a, b) => appInstant(a) - appInstant(b))[0];
+    const cn = $("#nextCancelNote");
+    if (cn) {
+        cn.hidden = !(mine && mine.status === "approved");
+        if (!cn.hidden) {
+            const until = new Date(appInstant(mine).getTime() - CANCEL_FREE_HOURS * 3600000);
+            const l = toLocal(until);
+            cn.innerHTML = until.getTime() > Date.now()
+                ? `<i class="fas fa-circle-info"></i> ${escapeHTML(t("cancel_until", { d: `${formatDateLong(l.date)} · ${l.time}` }))}`
+                : `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("cancel_window_over"))}`;
+        }
+    }
     $("#displayNext").textContent = mine
         ? `${formatDateLong(toLocal(appInstant(mine)).date)} · ${localTimeLabel(mine)}\n${optionLabel(mine.service)}${mine.status === "approved" ? "" : t("cal_pending_suffix")}`
         : t("next_none");
 
     const balance = getBalance(client);
+    const locked = isPortalLocked(client);
+    const banner = $("#clientLockBanner");
+    banner.hidden = !locked;
+    if (locked) banner.innerHTML = `<i class="fas fa-lock"></i><div><strong>${escapeHTML(t("lock_title"))}</strong><p>${escapeHTML(t("lock_text", { d: deadlineLocal(client), a: money(balance) }))}</p></div>`;
+    ["#tileHomework", "#tileNext", "#clientBookingStack"].forEach((sel) => { const el = $(sel); if (el) el.hidden = locked; });
+    const dn = $("#clientDeadlineNote");
+    dn.hidden = locked || !(Number(client.payDeadlineMs) > 0) || balance <= 0;
+    if (!dn.hidden) dn.innerHTML = `<i class="fas fa-hourglass-half"></i> ${escapeHTML(t("deadline_note", { d: deadlineLocal(client) }))}`;
     $("#displayPayment").textContent = money(balance);
     $("#displayPayment").classList.toggle("is-zero", balance <= 0);
     renderClientPayArea(balance);
@@ -2024,8 +2208,9 @@ async function renderClientPayArea(balance) {
     area.innerHTML = `
         <label class="field-label" for="payNow">${escapeHTML(t("pay_amount_label"))}</label>
         <div class="pay-now">
-            <input type="number" id="payNow" class="input" min="1" step="0.01" max="${open}" value="${open}">
+            <input type="number" id="payNow" class="input" min="1" step="0.01" max="${open}" value="${open}" inputmode="decimal">
         </div>
+        <p class="hint" style="margin:4px 0 10px">${escapeHTML(t("pay_amount_hint", { max: money(open) }))}</p>
         <div id="paypalButtons"></div>
         <a id="paypalMe" class="btn btn--paypal btn--sm btn--block" target="_blank" rel="noopener noreferrer"><i class="fab fa-paypal"></i> ${escapeHTML(t("pay_paypal"))}</a>
         <p class="hint pay-note"></p>`;
@@ -2035,7 +2220,15 @@ async function renderClientPayArea(balance) {
         return v > 0 && v <= open ? v : null;
     };
     const syncMe = () => { const v = amountOK() || open; me.href = `${PAYPAL_ME}/${v.toFixed(2)}EUR`; };
-    input.addEventListener("input", syncMe);
+    // Nur Beträge zwischen 1 € und dem offenen Betrag zulassen
+    const clamp = () => {
+        const v = round2(parseAmount(input.value));
+        if (!(v > 0)) input.value = open;
+        else if (v > open) { input.value = open; toast(t("pay_invalid", { max: money(open) }), "warn", 3500); }
+        syncMe();
+    };
+    input.addEventListener("input", () => { if (round2(parseAmount(input.value)) > open) clamp(); else syncMe(); });
+    input.addEventListener("blur", clamp);
     syncMe();
 
     const pp = await loadPayPalSDK();
@@ -2090,6 +2283,8 @@ async function handleClientBooking(e) {
         date: de.date, time: de.time, service: $("#serviceType").value
     };
     if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
+    if (isWeekendInstant(inst)) { toast(t("slot_weekend"), "warn"); return; }
+    if (isPortalLocked(clientState.client)) { toast(t("lock_book"), "error"); return; }
     clientState.busy = (await loadCalendarData("client", code)).busy;
     const conflict = checkSlot(clientState.busy, inst);
     if (conflict) { toast(t(conflict.key), "warn"); return; }

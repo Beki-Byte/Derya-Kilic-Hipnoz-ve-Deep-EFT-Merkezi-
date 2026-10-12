@@ -25,14 +25,30 @@ service cloud.firestore {
         && d.email is string && d.email.size() <= 120
         && d.date is string && d.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
         && d.time is string && d.time.matches('^[0-9]{2}:[0-9]{2}$')
-        && d.service is string && d.service.size() <= 80;
+        && d['service'] is string && d['service'].size() <= 80;
     }
 
     // Klient/Gast darf seinen Termin NUR absagen (Status -> cancelled), sonst nichts ändern
     function cancelOnly() {
-      return onlyChanges(['status', 'cancelledAt', 'lateCancel'])
+      return onlyChanges(['status', 'cancelledAt', 'lateCancel', 'feeCharged'])
         && request.resource.data.status == 'cancelled'
         && resource.data.status in ['pending', 'approved'];
+    }
+
+    // Zahlungsfrist abgelaufen + offener Betrag -> Klient darf nicht buchen
+    function isLocked(code) {
+      let c = get(/databases/$(database)/documents/clients/$(code)).data;
+      return c.get('payDeadlineMs', 0) > 0
+        && request.time.toMillis() > c.get('payDeadlineMs', 0)
+        && c.get('balance', 0) > 0;
+    }
+
+    // Ausfallgebühr bei Absage < 24 h: Klient darf seinen offenen Betrag nur um genau 30 € oder 50 € erhöhen
+    function lateFeeOnly() {
+      return onlyChanges(['balance', 'payment'])
+        && request.resource.data.balance is number
+        && (request.resource.data.balance - resource.data.get('balance', 0) == 30
+            || request.resource.data.balance - resource.data.get('balance', 0) == 50);
     }
 
     // ---------- Öffentlicher Kalender: nur Datum/Uhrzeit, keine Personendaten ----------
@@ -56,24 +72,30 @@ service cloud.firestore {
     // ---------- Klienten: der Code (Dokument-ID) ist das Passwort ----------
     match /clients/{code} {
       allow get: if true;                       // nur wer den genauen Code kennt
-      allow list, create, update, delete: if isAdmin();
+      allow update: if isAdmin() || lateFeeOnly();
+      allow list, create, delete: if isAdmin();
 
       match /appointments/{id} {
         allow read: if true;                    // Pfad enthält den Code
-        allow create: if isAdmin() || (validBooking(request.resource.data) && request.resource.data.clientCode == code);
+        allow create: if isAdmin() || (validBooking(request.resource.data) && request.resource.data.clientCode == code && !isLocked(code));
         allow update: if isAdmin() || cancelOnly();
         allow delete: if isAdmin();
       }
 
       match /payments/{id} {
         allow read: if true;
-        // Klient darf nur eine PayPal-Zahlung "zur Prüfung" melden – den Saldo ändert nur Derya Hanım
+        // Klient darf nur: eine PayPal-Zahlung "zur Prüfung" melden ODER die Ausfallgebühr (30/50 €) bei einer kurzfristigen Absage buchen
         allow create: if isAdmin() || (
              request.resource.data.keys().hasOnly(['type', 'amount', 'method', 'source', 'status', 'paypalOrderId', 'createdAt'])
           && request.resource.data.type == 'payment'
           && request.resource.data.status == 'pending'
           && request.resource.data.amount is number
-          && request.resource.data.amount > 0 && request.resource.data.amount < 5000);
+          && request.resource.data.amount > 0 && request.resource.data.amount < 5000)
+          || (request.resource.data.keys().hasOnly(['type', 'amount', 'method', 'source', 'status', 'balanceAfter', 'createdAt'])
+          && request.resource.data.type == 'charge'
+          && request.resource.data.source == 'late-cancel'
+          && request.resource.data.status == 'confirmed'
+          && request.resource.data.amount in [30, 50]);
         allow update, delete: if isAdmin();
       }
     }
