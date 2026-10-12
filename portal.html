@@ -132,9 +132,16 @@
                 </div>
 
                 <div class="tab-panel" role="tabpanel" id="tabClients" aria-labelledby="t-cli" hidden>
+                    <div class="card debts-card" id="debtsCard" style="margin-bottom:24px">
+                        <div class="debts-head">
+                            <h3><i class="fas fa-file-invoice-dollar"></i> Borçlar</h3>
+                            <div class="debts-total"><small>Toplam alacak</small><strong id="debtsTotal">0 €</strong><span id="debtsCount"></span></div>
+                        </div>
+                        <div class="list" id="debtsList"></div>
+                    </div>
                     <div class="card" id="pendingPayments" hidden style="margin-bottom:24px"></div>
                     <div class="two-col">
-                        <div class="card">
+                        <div class="card" id="clientEditCard">
                             <h3><i class="fas fa-user-pen"></i> Danışan Düzenle</h3>
                             <div class="field">
                                 <label for="clientSelect">Danışan</label>

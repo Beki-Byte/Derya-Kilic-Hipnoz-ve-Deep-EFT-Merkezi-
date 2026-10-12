@@ -1477,6 +1477,7 @@ async function loadMasterDashboard() {
             if (rj) rejectAppointment(rj.dataset.reject);
         });
         $("#pendingPayments")?.addEventListener("click", onPendingPaymentClick);
+        $("#debtsList")?.addEventListener("click", onDebtClick);
         $("#masterCommentsList").addEventListener("click", onCommentAdminClick);
     }
     await syncAdmin();
@@ -1736,10 +1737,12 @@ async function populateClientSelect(selectCode = null) {
     try {
         const clients = snapList(await fs.getDocs(fs.collection(db, "clients"))).sort((a, b) => (a.name || "").localeCompare(b.name || "", "tr"));
         if (!clients.length) {
+            renderDebts([]);
             sel.innerHTML = `<option value="">Kayıtlı danışan yok</option>`;
             appSel.innerHTML = sahsiOpt;
             return;
         }
+        renderDebts(clients);
         const opts = clients.map((c) => `<option value="${escapeHTML(c.id)}" data-name="${escapeHTML(c.name)}">${escapeHTML(c.name)} (${escapeHTML(c.id)}) · ${escapeHTML(money(getBalance(c), "tr"))}</option>`).join("");
         const prev = selectCode || sel.value;
         const prevApp = appSel.value;
@@ -1803,6 +1806,36 @@ async function adminCharge(amount) {
         console.error("adminCharge:", e);
         toast("Kaydedilemedi.", "error");
     }
+}
+
+/* Borçlar: Übersicht aller offenen Beträge + Gesamtsumme */
+async function renderDebts(clients) {
+    const list = $("#debtsList");
+    if (!list) return;
+    let pendingBy = {};
+    try {
+        snapList(await fs.getDocs(fs.collectionGroup(db, "payments")))
+            .filter((p) => p.status === "pending")
+            .forEach((p) => { const c = p._path.split("/")[1]; pendingBy[c] = round2((pendingBy[c] || 0) + (Number(p.amount) || 0)); });
+    } catch (e) { pendingBy = {}; }
+    const debtors = clients.map((c) => ({ ...c, bal: getBalance(c) })).filter((c) => c.bal > 0).sort((a, b) => b.bal - a.bal);
+    const total = round2(debtors.reduce((s, c) => s + c.bal, 0));
+    $("#debtsTotal").textContent = money(total, "tr");
+    $("#debtsCount").textContent = debtors.length ? `${debtors.length} danışan` : "";
+    if (!debtors.length) { list.innerHTML = `<p class="pay-ok"><i class="fas fa-circle-check"></i> Açık borç yok – herkes ödemiş.</p>`; return; }
+    list.innerHTML = debtors.map((c) => `
+        <button type="button" class="list-item debt-row" data-debt="${escapeHTML(c.id)}" title="Danışanı aç">
+            <div><strong>${escapeHTML(c.name || c.id)}</strong>
+                <div class="meta"><span>${escapeHTML(c.id)}</span>${pendingBy[c.id] ? `<span class="debt-pending"><i class="fab fa-paypal"></i> ${escapeHTML(money(pendingBy[c.id], "tr"))} onay bekliyor</span>` : ""}</div></div>
+            <span class="debt-amount">${escapeHTML(money(c.bal, "tr"))} <i class="fas fa-chevron-right"></i></span>
+        </button>`).join("");
+}
+function onDebtClick(e) {
+    const row = e.target.closest("[data-debt]");
+    if (!row) return;
+    $("#clientSelect").value = row.dataset.debt;
+    loadClientData();
+    scrollToCard($("#clientEditCard"), $("#payAmount"));
 }
 
 /* PayPal-Zahlungen aus dem Portal: erst nach Prüfung durch Derya Hanım verrechnen */
