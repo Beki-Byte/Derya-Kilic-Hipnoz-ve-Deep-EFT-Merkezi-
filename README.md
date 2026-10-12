@@ -22,9 +22,12 @@ Danışanlarımıza güven bağı içinde zihinsel hafiflik, içsel huzur ve ya�
 | `style.css` | Ein gemeinsames Stylesheet (Farben als CSS-Variablen in `:root`) |
 | `script.js` | Gesamte Logik; Firebase wird dynamisch geladen, die Seite funktioniert auch ohne |
 
-* Der Admin-Code steht nur noch als SHA-256-Hash in `script.js` (`MASTER_CODE_HASH`).
-  Neuen Code setzen: Hash z. B. mit `printf 'NEUERCODE' | sha256sum` erzeugen und eintragen.
-* Analytics lädt nur nach „Tümünü kabul et“ im Cookie-Hinweis. Google Übersetzer lädt erst beim Klick auf das Sprach-Symbol.
-* **Wichtig:** Die echte Absicherung der Daten muss über Firestore-Sicherheitsregeln + Firebase Authentication passieren – Code im Browser ist immer öffentlich.
+* **Admin-Anmeldung:** über Firebase Authentication (E-Mail + Passwort). Die UID von Derya Hanıms Konto steht in `script.js` (`ADMIN_UID`) **und** in `firestore.rules`.
+* **Datenbank-Regeln:** stehen in `firestore.rules` – in der Firebase-Konsole unter Firestore → Regeln einfügen.
+* **Datenaufbau:** `slots` (öffentlich, ohne Personendaten) · `appointments` (Gast-Anfragen, geheime ID) · `clients/{CODE}` mit `appointments` und `payments` · `adminNotes` · `privateSlots` · `comments`. Alte Daten werden bei der ersten Admin-Anmeldung automatisch umgezogen.
+* **Benachrichtigung bei neuen Terminen/Absagen:** per E-Mail an `NOTIFY_EMAIL` (FormSubmit). Beim allerersten Termin kommt eine Bestätigungs-Mail von FormSubmit → einmal „Activate“ klicken. Optional Push aufs Handy: `NTFY_TOPIC` setzen und das Thema in der App „ntfy“ abonnieren.
+* **Kalender-Regeln:** 2 Std. Abstand zwischen bestätigten Terminen · fremde Termine nur als „Dolu/Belegt/Booked“ ohne Daten · eigener Termin zeigt alle Daten und kann abgesagt werden · unter 24 Std. Hinweis auf Ausfallgebühr (Portal-Klienten: wird automatisch auf den offenen Betrag gebucht).
+* **Sprachen:** Texte stehen in `i18n.js` (TR/DE/EN). Der Admin-Bereich bleibt Türkisch.
+* Analytics lädt nur nach „Tümünü kabul et“ im Cookie-Hinweis.
 
 *Geliştiren: Betül Erva Kılıç*

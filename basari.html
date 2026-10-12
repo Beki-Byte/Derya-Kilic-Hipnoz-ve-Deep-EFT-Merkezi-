@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Başarı Hikayeleri | Derya Kılıç</title>
-    <meta name="description" content="Danışanlarımızın gerçek değişim süreçleri – Derya Kılıç Hipnoz & Deep EFT Instagram öne çıkanları.">
+    <title data-i18n="t1e4daf23">Başarı Hikayeleri | Derya Kılıç</title>
+    <meta name="description" content="Danışanlarımızın gerçek değişim süreçleri – Derya Kılıç Hipnoz &amp; Deep EFT Instagram öne çıkanları." data-i18n-content="tfcae1101">
     <meta name="theme-color" content="#faf6f0">
     <meta property="og:title" content="Başarı Hikayeleri | Derya Kılıç">
-    <meta property="og:description" content="Danışanlarımızın gerçek değişim süreçleri – Derya Kılıç Hipnoz & Deep EFT Instagram öne çıkanları.">
+    <meta property="og:description" content="Danışanlarımızın gerçek değişim süreçleri – Derya Kılıç Hipnoz &amp; Deep EFT Instagram öne çıkanları.">
     <meta property="og:image" content="profil.jpg">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/png" href="favicon.png">
@@ -18,48 +18,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script>
-        document.documentElement.classList.remove('no-js');
-        /* Sicherheitsnetz: falls script.js nicht lädt, Inhalte trotzdem anzeigen */
-        setTimeout(function () { if (!window.__siteReady) document.documentElement.classList.add('no-js'); }, 2500);
+        /* Sprache früh setzen, damit kein türkischer Text aufblitzt */
+        (function () {
+            var d = document.documentElement, l = null;
+            d.classList.remove('no-js');
+            try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('lang'); } catch (e) {}
+            if (!l) { var n = (navigator.languages && navigator.languages[0]) || navigator.language || 'tr'; n = n.slice(0, 2).toLowerCase(); l = (n === 'tr' || n === 'de') ? n : 'en'; }
+            if (l !== 'tr') d.classList.add('i18n-wait');
+            setTimeout(function () { d.classList.remove('i18n-wait'); if (!window.__siteReady) d.classList.add('no-js'); }, 2500);
+        })();
     </script>
 </head>
 <body>
-    <a class="skip-link" href="#main">İçeriğe geç</a>
+    <a class="skip-link" href="#main" data-i18n="t0cff8040">İçeriğe geç</a>
 
     <header class="site-header" id="siteHeader">
         <div class="header-inner">
-            <a href="index.html" class="brand" aria-label="Derya Kılıç – Ana Sayfa">
+            <a href="index.html" class="brand" aria-label="Derya Kılıç – Ana Sayfa" data-i18n-al="t9f682e5e">
                 <img src="logobaum.png" alt="" width="44" height="46">
                 <span class="brand-text">
                     <span class="brand-name">DERYA KILIÇ</span>
-                    <span class="brand-sub">Hipnoz &amp; Deep EFT</span>
+                    <span class="brand-sub" data-i18n="t2f7374c8">Hipnoz &amp; Deep EFT</span>
                 </span>
             </a>
-
-            <nav class="main-nav" id="mainNav" aria-label="Ana menü">
-                <a href="index.html" data-nav="home">Ana Sayfa</a>
-                <a href="index.html#about" data-nav="about">Hakkımda</a>
-                <a href="index.html#services" data-nav="services">Hizmetler</a>
-                <a href="index.html#pricing" data-nav="pricing">Fiyatlar</a>
-                <a href="index.html#faq" data-nav="faq">SSS</a>
-                <a href="basari.html" data-nav="basari" class="active">Başarı Hikayeleri</a>
-                <a href="odeme.html" data-nav="odeme">Ödeme</a>
-                <div class="nav-actions">
-                    <a href="portal.html" class="btn btn--ghost btn--sm"><i class="fas fa-user-lock"></i> Portal</a>
-                    <a href="kalender.html" class="btn btn--primary btn--sm"><i class="fas fa-calendar-check"></i> Randevu Al</a>
-                    <div class="translate-wrap">
-                        <button type="button" class="translate-btn" id="translateBtn" aria-expanded="false" aria-controls="translatePop" title="Çeviri / Übersetzen">
-                            <i class="fas fa-language"></i><span class="sr-only">Sayfayı çevir</span>
-                        </button>
-                        <div class="translate-pop" id="translatePop">
-                            <div id="google_translate_element"></div>
-                            <small>Google Çeviri yalnızca tıkladığınızda yüklenir.<br>Google Übersetzer wird erst bei Klick geladen.</small>
-                        </div>
-                    </div>
-                </div>
+            <nav class="main-nav" id="mainNav" aria-label="Ana menü" data-i18n-al="t6b234ed6">
+                <a href="index.html" data-nav="home" data-i18n="t3d9a9ea7">Ana Sayfa</a>
+                <a href="index.html#about" data-nav="about" data-i18n="t16f921da">Hakkımda</a>
+                <a href="index.html#services" data-nav="services" data-i18n="t55aeb9f9">Hizmetler</a>
+                <a href="index.html#pricing" data-nav="pricing" data-i18n="td7ce9ba5">Fiyatlar</a>
+                <a href="index.html#faq" data-nav="faq" data-i18n="ted13db16">SSS</a>
+                <a href="basari.html" data-nav="basari" class="active" aria-current="page" data-i18n="tba6a0fe3">Başarı Hikayeleri</a>
+                <a href="odeme.html" data-nav="odeme" data-i18n="tc70540a3">Ödeme</a>
+                <a href="kalender.html" data-nav="kalender" data-i18n="t842d15a4">Randevu Al</a>
+                <a href="portal.html" data-nav="portal" data-i18n="tf4cb8ca8">Portal</a>
             </nav>
-
-            <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mainNav"><span></span></button>
+            <div class="lang-switch" role="group" aria-label="Dil / Sprache / Language">
+                <button type="button" data-lang="tr" aria-pressed="true" title="Türkçe">TR</button>
+                <button type="button" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
+                <button type="button" data-lang="en" aria-pressed="false" title="English">EN</button>
+            </div>
         </div>
     </header>
 
@@ -67,10 +64,10 @@
         
         <section class="page-hero">
             <div class="container">
-                <p class="breadcrumb"><a href="index.html">Ana Sayfa</a> / Başarı Hikayeleri</p>
-                <span class="eyebrow">Başarı Hikayeleri</span>
-                <h1>Başarı Hikayeleri &amp; Deneyimler</h1>
-                <p>Danışanlarımızın gerçek değişim süreçlerini Instagram öne çıkanlarımızdan inceleyebilirsiniz.</p>
+                <p class="breadcrumb"><a href="index.html" data-i18n="t3d9a9ea7">Ana Sayfa</a> / <span data-i18n="tba6a0fe3">Başarı Hikayeleri</span></p>
+                <span class="eyebrow" data-i18n="tba6a0fe3">Başarı Hikayeleri</span>
+                <h1 data-i18n="te8e39378">Başarı Hikayeleri &amp; Deneyimler</h1>
+                <p data-i18n="t71b8ed68">Danışanlarımızın gerçek değişim süreçlerini Instagram öne çıkanlarımızdan inceleyebilirsiniz.</p>
             </div>
         </section>
         <section class="section">
@@ -81,72 +78,72 @@
                         <span class="story-ring"><span><i class="fas fa-weight-scale"></i></span></span>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                     </div>
-                    <h3>Kilo Verme</h3>
-                    <p>Bilinçaltı beslenme değişimi hikayeleri</p>
-                    <span class="link-arrow">Instagram’da incele <i class="fas fa-arrow-right"></i></span>
+                    <h3 data-i18n="t02c448a0">Kilo Verme</h3>
+                    <p data-i18n="t3784896d">Bilinçaltı beslenme değişimi hikayeleri</p>
+                    <span class="link-arrow"><span data-i18n="tcf5562f1">Instagram’da incele</span> <i class="fas fa-arrow-right"></i></span>
                 </a>
                 <a href="https://www.instagram.com/stories/highlights/18118711297761461/" target="_blank" rel="noopener noreferrer" class="story-card reveal" style="--d:0.08s">
                     <div class="story-top">
                         <span class="story-ring"><span><i class="fas fa-user-graduate"></i></span></span>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                     </div>
-                    <h3>Ergenler</h3>
-                    <p>Gençlerde sınav stresi ve özgüven süreci</p>
-                    <span class="link-arrow">Instagram’da incele <i class="fas fa-arrow-right"></i></span>
+                    <h3 data-i18n="tdf396b34">Ergenler</h3>
+                    <p data-i18n="t47269f48">Gençlerde sınav stresi ve özgüven süreci</p>
+                    <span class="link-arrow"><span data-i18n="tcf5562f1">Instagram’da incele</span> <i class="fas fa-arrow-right"></i></span>
                 </a>
                 <a href="https://www.instagram.com/stories/highlights/18027827287991411/" target="_blank" rel="noopener noreferrer" class="story-card reveal" style="--d:0.16s">
                     <div class="story-top">
                         <span class="story-ring"><span><i class="fas fa-ghost"></i></span></span>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                     </div>
-                    <h3>Korkular</h3>
-                    <p>Fobiler ve kaygılardan özgürleşme</p>
-                    <span class="link-arrow">Instagram’da incele <i class="fas fa-arrow-right"></i></span>
+                    <h3 data-i18n="t25020f28">Korkular</h3>
+                    <p data-i18n="t5a6f4818">Fobiler ve kaygılardan özgürleşme</p>
+                    <span class="link-arrow"><span data-i18n="tcf5562f1">Instagram’da incele</span> <i class="fas fa-arrow-right"></i></span>
                 </a>
                 <a href="https://www.instagram.com/stories/highlights/18159279229421021/" target="_blank" rel="noopener noreferrer" class="story-card reveal" style="--d:0.00s">
                     <div class="story-top">
                         <span class="story-ring"><span><i class="fas fa-ribbon"></i></span></span>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                     </div>
-                    <h3>Rahim Kanseri</h3>
-                    <p>Duygusal blokaj ve zihinsel destek</p>
-                    <span class="link-arrow">Instagram’da incele <i class="fas fa-arrow-right"></i></span>
+                    <h3 data-i18n="ta6a1e817">Rahim Kanseri</h3>
+                    <p data-i18n="tdbd38816">Duygusal blokaj ve zihinsel destek</p>
+                    <span class="link-arrow"><span data-i18n="tcf5562f1">Instagram’da incele</span> <i class="fas fa-arrow-right"></i></span>
                 </a>
                 <a href="https://www.instagram.com/stories/highlights/17911031952164877/" target="_blank" rel="noopener noreferrer" class="story-card reveal" style="--d:0.08s">
                     <div class="story-top">
                         <span class="story-ring"><span><i class="fas fa-face-smile"></i></span></span>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                     </div>
-                    <h3>Özgüven</h3>
-                    <p>Kendi değerini fark etme ve güçlenme</p>
-                    <span class="link-arrow">Instagram’da incele <i class="fas fa-arrow-right"></i></span>
+                    <h3 data-i18n="t9282e1d8">Özgüven</h3>
+                    <p data-i18n="t2d4c84df">Kendi değerini fark etme ve güçlenme</p>
+                    <span class="link-arrow"><span data-i18n="tcf5562f1">Instagram’da incele</span> <i class="fas fa-arrow-right"></i></span>
                 </a>
                 <a href="https://www.instagram.com/stories/highlights/17855026236653225/" target="_blank" rel="noopener noreferrer" class="story-card reveal" style="--d:0.16s">
                     <div class="story-top">
                         <span class="story-ring"><span><i class="fas fa-ban"></i></span></span>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                     </div>
-                    <h3>Bağımlılık</h3>
-                    <p>Kötü alışkanlıklardan kurtulma çalışmaları</p>
-                    <span class="link-arrow">Instagram’da incele <i class="fas fa-arrow-right"></i></span>
+                    <h3 data-i18n="taf94d116">Bağımlılık</h3>
+                    <p data-i18n="t8c2e6364">Kötü alışkanlıklardan kurtulma çalışmaları</p>
+                    <span class="link-arrow"><span data-i18n="tcf5562f1">Instagram’da incele</span> <i class="fas fa-arrow-right"></i></span>
                 </a>
                 <a href="https://www.instagram.com/stories/highlights/18099932314713158/" target="_blank" rel="noopener noreferrer" class="story-card reveal" style="--d:0.00s">
                     <div class="story-top">
                         <span class="story-ring"><span><i class="fas fa-bolt"></i></span></span>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                     </div>
-                    <h3>Tikler</h3>
-                    <p>Bilinçaltı tik ve refleks rahatlama</p>
-                    <span class="link-arrow">Instagram’da incele <i class="fas fa-arrow-right"></i></span>
+                    <h3 data-i18n="t8defcef4">Tikler</h3>
+                    <p data-i18n="t3ea05a05">Bilinçaltı tik ve refleks rahatlama</p>
+                    <span class="link-arrow"><span data-i18n="tcf5562f1">Instagram’da incele</span> <i class="fas fa-arrow-right"></i></span>
                 </a>
                 </div>
                 <div class="cta-banner reveal" style="margin-top:56px">
                     <span class="eyebrow">Instagram</span>
-                    <h2>Daha Fazlası İçin Takip Edin</h2>
-                    <p>Daha fazla başarı hikayesi ve günlük paylaşımlar için Instagram hesabımızı ziyaret edin.</p>
+                    <h2 data-i18n="t87329efb">Daha Fazlası İçin Takip Edin</h2>
+                    <p data-i18n="tf0ae1ad5">Daha fazla başarı hikayesi ve günlük paylaşımlar için Instagram hesabımızı ziyaret edin.</p>
                     <div class="center-actions" style="margin-top:0">
                         <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer" class="btn btn--instagram"><i class="fab fa-instagram"></i> @deryakilic2829</a>
-                        <a href="kalender.html" class="btn btn--primary"><i class="fas fa-calendar-check"></i> Randevu Al</a>
+                        <a href="kalender.html" class="btn btn--primary"><i class="fas fa-calendar-check"></i> <span data-i18n="t44609ba4">Randevu Al</span></a>
                     </div>
                 </div>
             </div>
@@ -157,36 +154,36 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <div class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></div>
-                    <p>Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</p>
-                    <p><i class="fas fa-globe"></i>&nbsp; Seans dilleri: Türkçe &amp; Deutsch</p>
+                    <a href="index.html" class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></a>
+                    <p><span data-i18n="t2107cdf8">Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</span></p>
+                    <p><i class="fas fa-globe"></i>&nbsp; <span data-i18n="t029755c0">Seans dilleri: Türkçe &amp; Deutsch</span></p>
                     <div class="footer-social">
                         <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                         <a href="https://wa.me/491708296913" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Posta"><i class="fas fa-envelope"></i></a>
+                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Mail"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
                 <div>
-                    <h4>Sayfalar</h4>
+                    <h4 data-i18n="t1c212cfd">Sayfalar</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html#about">Hakkımda</a></li>
-                        <li><a href="index.html#services">Hizmetler</a></li>
-                        <li><a href="index.html#pricing">Fiyatlar &amp; Şartlar</a></li>
-                        <li><a href="basari.html">Başarı Hikayeleri</a></li>
-                        <li><a href="asistent.html">Sanal Asistan</a></li>
+                        <li><a href="index.html#about" data-i18n="t16f921da">Hakkımda</a></li>
+                        <li><a href="index.html#services" data-i18n="t55aeb9f9">Hizmetler</a></li>
+                        <li><a href="index.html#pricing" data-i18n="ta0c24363">Fiyatlar &amp; Şartlar</a></li>
+                        <li><a href="basari.html" data-i18n="tba6a0fe3">Başarı Hikayeleri</a></li>
+                        <li><a href="asistent.html" data-i18n="t209fd293">Sanal Asistan</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>Hızlı Erişim</h4>
+                    <h4 data-i18n="t2adc4478">Hızlı Erişim</h4>
                     <ul class="footer-links">
-                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> Randevu Al</a></li>
-                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> Danışan Portalı</a></li>
-                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> Ödeme</a></li>
-                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Geri Bildirim</a></li>
+                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> <span data-i18n="t44609ba4">Randevu Al</span></a></li>
+                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> <span data-i18n="tb8006d62">Danışan Portalı</span></a></li>
+                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> <span data-i18n="tc70540a3">Ödeme</span></a></li>
+                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> <span data-i18n="t58c72a3a">Geri Bildirim</span></a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>İletişim</h4>
+                    <h4 data-i18n="t3bb70b44">İletişim</h4>
                     <ul class="footer-links">
                         <li><a href="https://maps.app.goo.gl/nWcyLKd1SWAQBh1Y6" target="_blank" rel="noopener noreferrer"><i class="fas fa-location-dot"></i> Biberweg 53, 70806 Kornwestheim</a></li>
                         <li><a href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i> goldensunderya@hotmail.com</a></li>
@@ -194,23 +191,19 @@
                     </ul>
                 </div>
             </div>
-            <p class="footer-disclaimer">
-                Sunulan çalışmalar tıbbi veya psikiyatrik tanı ve tedavinin yerine geçmez. Devam eden bir tedaviniz varsa lütfen doktorunuzla görüşün.<br>
-                <span lang="de">Die angebotenen Sitzungen ersetzen keine ärztliche oder psychotherapeutische Diagnose und Behandlung.</span>
-            </p>
             <div class="footer-bottom">
-                <span>&copy; <span data-year>2026</span> Derya Kılıç. Tüm hakları saklıdır.</span>
+                <span>&copy; <span data-year>2026</span> Derya Kılıç. <span data-i18n="t74046796">Tüm hakları saklıdır.</span></span>
                 <span>
-                    <a href="impressum.html">Künye / Impressum</a> ·
-                    <a href="datenschutz.html">Gizlilik / Datenschutz</a> ·
-                    <a href="#" data-cookie-settings>Çerez ayarları</a> ·
-                    Tasarlayan: <a href="https://github.com/Beki-Byte" target="_blank" rel="noopener noreferrer">Betül Kılıç</a>
+                    <a href="impressum.html" data-i18n="td5bd360c">Künye / Impressum</a> ·
+                    <a href="datenschutz.html" data-i18n="teb685db1">Gizlilik / Datenschutz</a> ·
+                    <a href="#" data-cookie-settings data-i18n="t1f3a1e58">Çerez ayarları</a> ·
+                    <span data-i18n="t36701d56">Tasarlayan:</span> <a href="https://beki-byte.github.io/Betul-kilic/?from=praxis" style="color: inherit; text-decoration: underline;">Betül Kılıç</a>
                 </span>
             </div>
         </div>
     </footer>
 
-    <button class="to-top" id="toTop" aria-label="Yukarı çık"><i class="fas fa-arrow-up"></i></button>
+    <button class="to-top" id="toTop" aria-label="Yukarı çık" data-i18n-al="t8e145f18"><i class="fas fa-arrow-up"></i></button>
     <div id="chatMount" data-chat-widget></div>
     
     <script type="module" src="script.js"></script>

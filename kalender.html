@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Randevu | Derya Kılıç</title>
-    <meta name="description" content="Derya Kılıç ile online randevu talebi oluşturun: takvimden gün ve saat seçin, kısa ön görüşme formunu doldurun.">
+    <title data-i18n="t88fb384d">Online Randevu | Derya Kılıç</title>
+    <meta name="description" content="Derya Kılıç ile online randevu talebi oluşturun: takvimden gün ve saat seçin, kısa ön görüşme formunu doldurun." data-i18n-content="t345f8368">
     <meta name="theme-color" content="#faf6f0">
     <meta property="og:title" content="Online Randevu | Derya Kılıç">
     <meta property="og:description" content="Derya Kılıç ile online randevu talebi oluşturun: takvimden gün ve saat seçin, kısa ön görüşme formunu doldurun.">
@@ -19,48 +19,45 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
     <script>
-        document.documentElement.classList.remove('no-js');
-        /* Sicherheitsnetz: falls script.js nicht lädt, Inhalte trotzdem anzeigen */
-        setTimeout(function () { if (!window.__siteReady) document.documentElement.classList.add('no-js'); }, 2500);
+        /* Sprache früh setzen, damit kein türkischer Text aufblitzt */
+        (function () {
+            var d = document.documentElement, l = null;
+            d.classList.remove('no-js');
+            try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('lang'); } catch (e) {}
+            if (!l) { var n = (navigator.languages && navigator.languages[0]) || navigator.language || 'tr'; n = n.slice(0, 2).toLowerCase(); l = (n === 'tr' || n === 'de') ? n : 'en'; }
+            if (l !== 'tr') d.classList.add('i18n-wait');
+            setTimeout(function () { d.classList.remove('i18n-wait'); if (!window.__siteReady) d.classList.add('no-js'); }, 2500);
+        })();
     </script>
 </head>
 <body>
-    <a class="skip-link" href="#main">İçeriğe geç</a>
+    <a class="skip-link" href="#main" data-i18n="t0cff8040">İçeriğe geç</a>
 
     <header class="site-header" id="siteHeader">
         <div class="header-inner">
-            <a href="index.html" class="brand" aria-label="Derya Kılıç – Ana Sayfa">
+            <a href="index.html" class="brand" aria-label="Derya Kılıç – Ana Sayfa" data-i18n-al="t9f682e5e">
                 <img src="logobaum.png" alt="" width="44" height="46">
                 <span class="brand-text">
                     <span class="brand-name">DERYA KILIÇ</span>
-                    <span class="brand-sub">Hipnoz &amp; Deep EFT</span>
+                    <span class="brand-sub" data-i18n="t2f7374c8">Hipnoz &amp; Deep EFT</span>
                 </span>
             </a>
-
-            <nav class="main-nav" id="mainNav" aria-label="Ana menü">
-                <a href="index.html" data-nav="home">Ana Sayfa</a>
-                <a href="index.html#about" data-nav="about">Hakkımda</a>
-                <a href="index.html#services" data-nav="services">Hizmetler</a>
-                <a href="index.html#pricing" data-nav="pricing">Fiyatlar</a>
-                <a href="index.html#faq" data-nav="faq">SSS</a>
-                <a href="basari.html" data-nav="basari">Başarı Hikayeleri</a>
-                <a href="odeme.html" data-nav="odeme">Ödeme</a>
-                <div class="nav-actions">
-                    <a href="portal.html" class="btn btn--ghost btn--sm"><i class="fas fa-user-lock"></i> Portal</a>
-                    <a href="kalender.html" class="btn btn--primary btn--sm"><i class="fas fa-calendar-check"></i> Randevu Al</a>
-                    <div class="translate-wrap">
-                        <button type="button" class="translate-btn" id="translateBtn" aria-expanded="false" aria-controls="translatePop" title="Çeviri / Übersetzen">
-                            <i class="fas fa-language"></i><span class="sr-only">Sayfayı çevir</span>
-                        </button>
-                        <div class="translate-pop" id="translatePop">
-                            <div id="google_translate_element"></div>
-                            <small>Google Çeviri yalnızca tıkladığınızda yüklenir.<br>Google Übersetzer wird erst bei Klick geladen.</small>
-                        </div>
-                    </div>
-                </div>
+            <nav class="main-nav" id="mainNav" aria-label="Ana menü" data-i18n-al="t6b234ed6">
+                <a href="index.html" data-nav="home" data-i18n="t3d9a9ea7">Ana Sayfa</a>
+                <a href="index.html#about" data-nav="about" data-i18n="t16f921da">Hakkımda</a>
+                <a href="index.html#services" data-nav="services" data-i18n="t55aeb9f9">Hizmetler</a>
+                <a href="index.html#pricing" data-nav="pricing" data-i18n="td7ce9ba5">Fiyatlar</a>
+                <a href="index.html#faq" data-nav="faq" data-i18n="ted13db16">SSS</a>
+                <a href="basari.html" data-nav="basari" data-i18n="tba6a0fe3">Başarı Hikayeleri</a>
+                <a href="odeme.html" data-nav="odeme" data-i18n="tc70540a3">Ödeme</a>
+                <a href="kalender.html" data-nav="kalender" class="active" aria-current="page" data-i18n="t842d15a4">Randevu Al</a>
+                <a href="portal.html" data-nav="portal" data-i18n="tf4cb8ca8">Portal</a>
             </nav>
-
-            <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mainNav"><span></span></button>
+            <div class="lang-switch" role="group" aria-label="Dil / Sprache / Language">
+                <button type="button" data-lang="tr" aria-pressed="true" title="Türkçe">TR</button>
+                <button type="button" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
+                <button type="button" data-lang="en" aria-pressed="false" title="English">EN</button>
+            </div>
         </div>
     </header>
 
@@ -68,108 +65,120 @@
         
         <section class="page-hero">
             <div class="container">
-                <p class="breadcrumb"><a href="index.html">Ana Sayfa</a> / Randevu</p>
-                <span class="eyebrow">Online Randevu</span>
-                <h1>Randevu &amp; Ön Görüşme Formu</h1>
-                <p>Takvimden uygun bir gün seçin, saatinizi belirleyin ve kısa formu doldurun. Derya Hanım talebinizi onayladıktan sonra randevunuz kesinleşir.</p>
+                <p class="breadcrumb"><a href="index.html" data-i18n="t3d9a9ea7">Ana Sayfa</a> / <span data-i18n="t9d871b61">Randevu</span></p>
+                <span class="eyebrow" data-i18n="t531edc19">Online Randevu</span>
+                <h1 data-i18n="t312bb872">Randevu &amp; Ön Görüşme Formu</h1>
+                <p data-i18n="te027de56">Takvimden uygun bir gün seçin, saatinizi belirleyin ve kısa formu doldurun. Derya Hanım talebinizi onayladıktan sonra randevunuz kesinleşir.</p>
             </div>
         </section>
         <section class="section section--tight">
-            <div class="container booking-layout">
-                <div class="card calendar-card">
-                    <div id="publicCalendar"><div class="calendar-fallback"><i class="fas fa-spinner fa-spin"></i> Takvim yükleniyor…</div></div>
+            <div class="container container--wide booking-stack">
+                <div class="card calendar-card calendar-card--big">
+                    <p class="calendar-hint"><i class="fas fa-hand-pointer"></i> <span data-i18n="t7556be23">Bir güne tıklayın – tarih aşağıdaki forma otomatik aktarılır.</span></p>
+                    <div id="publicCalendar"><div class="calendar-fallback"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="t57016b0d">Takvim yükleniyor…</span></div></div>
                     <div class="calendar-legend">
-                        <span><i style="background:#c46b5d"></i> Dolu</span>
-                        <span><i style="background:#4f8a5b"></i> Sizin talebiniz / randevunuz</span>
-                        <span><i style="background:rgba(140,106,86,.25);box-shadow:inset 0 0 0 2px #8c6a56"></i> Seçili gün</span>
+                        <span><i style="background:#c46b5d"></i> <span data-i18n="tcbc59e9f">Dolu</span></span>
+                        <span><i style="background:#4f8a5b"></i> <span data-i18n="tbb1f0ab3">Sizin talebiniz / randevunuz</span></span>
+                        <span><i style="background:rgba(140,106,86,.25);box-shadow:inset 0 0 0 2px #8c6a56"></i> <span data-i18n="t3a902646">Seçili gün</span></span>
                     </div>
                 </div>
 
                 <div class="card booking-card" id="bookingCard">
                     <div id="bookingFormWrap">
-                        <h3><i class="fas fa-calendar-check"></i> Randevu Talebi</h3>
-                        <p class="card-sub">* ile işaretli alanlar zorunludur.</p>
-                        <div class="form-steps" aria-hidden="true"><span></span><span></span><span></span></div>
+                        <div class="booking-card-head">
+                            <div>
+                                <h3><i class="fas fa-calendar-check"></i> <span data-i18n="t0c632712">Randevu Talebi</span></h3>
+                                <p class="card-sub" data-i18n="t56bd7a0e">* ile işaretli alanlar zorunludur.</p>
+                            </div>
+                            <div class="form-steps" aria-hidden="true"><span></span><span></span><span></span></div>
+                        </div>
 
                         <form id="publicBookingForm" novalidate>
-                            <p class="form-section-title">1 · Tarih &amp; Saat</p>
-                            <div class="form-grid">
-                                <div class="field">
-                                    <label for="pubDate">Tarih *</label>
-                                    <input type="date" id="pubDate" required>
-                                </div>
-                                <div class="field">
-                                    <label for="pubTime">Saat *</label>
-                                    <input type="time" id="pubTime" step="900" required>
-                                </div>
-                                <div class="field full" style="gap:2px">
-                                    <span class="hint">Hızlı seçim:</span>
-                                    <div class="time-chips" id="timeChips"></div>
-                                    <span class="field-status" id="slotStatus" aria-live="polite"></span>
-                                </div>
-                                <div class="field full">
-                                    <label for="pubService">Terapi Türü *</label>
-                                    <select id="pubService" required>
-                                    <option value="Hipnoterapi">Hipnoterapi (170 € / seans)</option>
-                                    <optgroup label="65 € / saat">
-                                        <option value="Deep EFT">Deep EFT</option>
-                                        <option value="Bilişsel Davranışçı Terapi (BDT)">Bilişsel Davranışçı Terapi (BDT)</option>
-                                        <option value="Şema Terapisi">Şema Terapisi</option>
-                                        <option value="Travma ve Yas Terapisi">Travma ve Yas Terapisi</option>
-                                        <option value="Pozitif Psikoloji">Pozitif Psikoloji</option>
-                                        <option value="Mesnevi Terapisi">Mesnevi Terapisi</option>
-                                        <option value="Manevi Danışmanlık">Manevi Danışmanlık</option>
-                                        <option value="Regresyon">Regresyon</option>
-                                        <option value="Henüz emin değilim">Henüz emin değilim / Ön görüşme</option>
+                          <div class="form-cols">
+                            <div>
+                                <p class="form-section-title" data-i18n="ta4a22cff">1 · Tarih &amp; Saat</p>
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label for="pubDate" data-i18n="t44aff018">Tarih *</label>
+                                        <input type="date" id="pubDate" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="pubTime" data-i18n="t9fb2e6a6">Saat *</label>
+                                        <input type="time" id="pubTime" step="900" required>
+                                    </div>
+                                    <div class="field full" style="gap:2px">
+                                        <span class="hint" data-i18n="tbbc83e5a">Hızlı seçim:</span>
+                                        <div class="time-chips" id="timeChips"></div>
+                                        <span class="field-status" id="slotStatus" aria-live="polite"></span>
+                                        <p class="tz-note" data-tz-note hidden></p>
+                                    </div>
+                                    <div class="field full">
+                                        <label for="pubService" data-i18n="t2851b55f">Terapi Türü *</label>
+                                        <select id="pubService" required>
+                                    <option value="Hipnoterapi" data-i18n="t98a07b37">Hipnoterapi (170 € / seans)</option>
+                                    <optgroup label="65 € / saat" data-i18n-label="t6bc2734e">
+                                        <option value="Deep EFT" data-i18n="ta45b434e">Deep EFT</option>
+                                        <option value="Bilişsel Davranışçı Terapi (BDT)" data-i18n="t224aae54">Bilişsel Davranışçı Terapi (BDT)</option>
+                                        <option value="Şema Terapisi" data-i18n="t8825e21c">Şema Terapisi</option>
+                                        <option value="Travma ve Yas Terapisi" data-i18n="te62fc1cf">Travma ve Yas Terapisi</option>
+                                        <option value="Pozitif Psikoloji" data-i18n="tbc79bea5">Pozitif Psikoloji</option>
+                                        <option value="Mesnevi Terapisi" data-i18n="t57c77bee">Mesnevi Terapisi</option>
+                                        <option value="Manevi Danışmanlık" data-i18n="tca6c5797">Manevi Danışmanlık</option>
+                                        <option value="Regresyon" data-i18n="tfba8ebf3">Regresyon</option>
+                                        <option value="Henüz emin değilim" data-i18n="ta5c897b9">Henüz emin değilim / Ön görüşme</option>
                                     </optgroup>
-                                    </select>
+                                        </select>
+                                    </div>
+                                    <div class="field full">
+                                        <label for="pubFormat" data-i18n="tb02357af">Seans Şekli *</label>
+                                        <select id="pubFormat" required>
+                                            <option value="Yüz yüze (Kornwestheim)" data-i18n="t6772da85">Yüz yüze (Kornwestheim)</option>
+                                            <option value="Online" data-i18n="tca44e2c7">Online</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="field full">
-                                    <label for="pubFormat">Seans Şekli *</label>
-                                    <select id="pubFormat" required>
-                                        <option value="Yüz yüze (Kornwestheim)">Yüz yüze (Kornwestheim)</option>
-                                        <option value="Online">Online</option>
-                                    </select>
-                                </div>
-                            </div>
 
-                            <p class="form-section-title" style="margin-top:20px">2 · İletişim</p>
-                            <div class="field">
-                                <label for="pubName">Adınız Soyadınız *</label>
-                                <input type="text" id="pubName" placeholder="Örn: Ahmet Yılmaz" required autocomplete="name">
-                            </div>
-                            <div class="form-grid">
+                                <p class="form-section-title" style="margin-top:22px" data-i18n="tfd2a150c">2 · İletişim</p>
                                 <div class="field">
-                                    <label for="pubPhone">Telefon (WhatsApp) *</label>
-                                    <input type="tel" id="pubPhone" placeholder="+49 170 1234567" required autocomplete="tel">
+                                    <label for="pubName" data-i18n="tf72ed1ce">Adınız Soyadınız *</label>
+                                    <input type="text" id="pubName" placeholder="Örn: Ahmet Yılmaz" data-i18n-ph="tba7756e3" required autocomplete="name">
+                                </div>
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label for="pubPhone" data-i18n="td1ad4e8c">Telefon (WhatsApp) *</label>
+                                        <input type="tel" id="pubPhone" placeholder="+49 170 1234567" required autocomplete="tel">
+                                    </div>
+                                    <div class="field">
+                                        <label for="pubEmail" data-i18n="t0da18fa2">E-Posta *</label>
+                                        <input type="email" id="pubEmail" placeholder="ornek@email.com" data-i18n-ph="tbdeb1e61" required autocomplete="email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="form-section-title" data-i18n="t656353d8">3 · Mini Ön Görüşme</p>
+                                <p class="hint" style="margin:-6px 0 12px;font-size:.85rem;color:var(--muted)" data-i18n="tf2357a0d">Derya Hanım’ın seans öncesi durumunuzu değerlendirebilmesi için lütfen doldurunuz.</p>
+                                <div class="field">
+                                    <label for="pubReason" data-i18n="t2284599f">Temel konu / şikayetiniz *</label>
+                                    <textarea id="pubReason" rows="4" placeholder="Destek almak istediğiniz konu nedir? (Örn: Kaygı, sigara, fobi…)" data-i18n-ph="t4be17e14" required></textarea>
                                 </div>
                                 <div class="field">
-                                    <label for="pubEmail">E-Posta *</label>
-                                    <input type="email" id="pubEmail" placeholder="ornek@email.com" required autocomplete="email">
+                                    <label for="pubMedicalHistory" data-i18n="td5ddafe2">Daha önce psikolojik / tıbbi tedavi gördünüz mü?</label>
+                                    <input type="text" id="pubMedicalHistory" placeholder="İlaç kullanımı veya terapi geçmişi (varsa)" data-i18n-ph="tcce63691">
                                 </div>
-                            </div>
+                                <div class="field">
+                                    <label for="pubExpectation" data-i18n="t15079ede">Seanstan beklentiniz nedir?</label>
+                                    <input type="text" id="pubExpectation" placeholder="Kısaca belirtiniz" data-i18n-ph="t0a4c2c3e">
+                                </div>
 
-                            <p class="form-section-title" style="margin-top:20px">3 · Mini Ön Görüşme</p>
-                            <p class="hint" style="margin:-6px 0 12px;font-size:.85rem;color:var(--muted)">Derya Hanım’ın seans öncesi durumunuzu değerlendirebilmesi için lütfen doldurunuz.</p>
-                            <div class="field">
-                                <label for="pubReason">Temel konu / şikayetiniz *</label>
-                                <textarea id="pubReason" rows="3" placeholder="Destek almak istediğiniz konu nedir? (Örn: Kaygı, sigara, fobi…)" required></textarea>
-                            </div>
-                            <div class="field">
-                                <label for="pubMedicalHistory">Daha önce psikolojik / tıbbi tedavi gördünüz mü?</label>
-                                <input type="text" id="pubMedicalHistory" placeholder="İlaç kullanımı veya terapi geçmişi (varsa)">
-                            </div>
-                            <div class="field">
-                                <label for="pubExpectation">Seanstan beklentiniz nedir?</label>
-                                <input type="text" id="pubExpectation" placeholder="Kısaca belirtiniz">
-                            </div>
+                                <label class="check">
+                                    <input type="checkbox" id="pubConsent" required>
+                                    <span data-i18n="t64dd2ffb">Bilgilerimin (sağlık bilgileri dahil) randevu planlaması amacıyla işlenmesine onay veriyorum. <a href="datenschutz.html" target="_blank">Gizlilik politikası</a> *</span>
+                                </label>
 
-                            <label class="check">
-                                <input type="checkbox" id="pubConsent" required>
-                                <span>Bilgilerimin (sağlık bilgileri dahil) randevu planlaması amacıyla işlenmesine onay veriyorum. <a href="datenschutz.html" target="_blank">Gizlilik politikası</a> *</span>
-                            </label>
-
-                            <button type="submit" class="btn btn--primary btn--block" id="pubSubmit"><i class="fas fa-paper-plane"></i> Randevu Talebi Gönder</button>
+                                <button type="submit" class="btn btn--primary btn--block" id="pubSubmit"><i class="fas fa-paper-plane"></i> <span data-i18n="t618cdb10">Randevu Talebi Gönder</span></button>
+                            </div>
+                          </div>
                         </form>
                     </div>
 
@@ -183,36 +192,36 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <div class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></div>
-                    <p>Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</p>
-                    <p><i class="fas fa-globe"></i>&nbsp; Seans dilleri: Türkçe &amp; Deutsch</p>
+                    <a href="index.html" class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></a>
+                    <p><span data-i18n="t2107cdf8">Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</span></p>
+                    <p><i class="fas fa-globe"></i>&nbsp; <span data-i18n="t029755c0">Seans dilleri: Türkçe &amp; Deutsch</span></p>
                     <div class="footer-social">
                         <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                         <a href="https://wa.me/491708296913" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Posta"><i class="fas fa-envelope"></i></a>
+                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Mail"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
                 <div>
-                    <h4>Sayfalar</h4>
+                    <h4 data-i18n="t1c212cfd">Sayfalar</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html#about">Hakkımda</a></li>
-                        <li><a href="index.html#services">Hizmetler</a></li>
-                        <li><a href="index.html#pricing">Fiyatlar &amp; Şartlar</a></li>
-                        <li><a href="basari.html">Başarı Hikayeleri</a></li>
-                        <li><a href="asistent.html">Sanal Asistan</a></li>
+                        <li><a href="index.html#about" data-i18n="t16f921da">Hakkımda</a></li>
+                        <li><a href="index.html#services" data-i18n="t55aeb9f9">Hizmetler</a></li>
+                        <li><a href="index.html#pricing" data-i18n="ta0c24363">Fiyatlar &amp; Şartlar</a></li>
+                        <li><a href="basari.html" data-i18n="tba6a0fe3">Başarı Hikayeleri</a></li>
+                        <li><a href="asistent.html" data-i18n="t209fd293">Sanal Asistan</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>Hızlı Erişim</h4>
+                    <h4 data-i18n="t2adc4478">Hızlı Erişim</h4>
                     <ul class="footer-links">
-                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> Randevu Al</a></li>
-                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> Danışan Portalı</a></li>
-                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> Ödeme</a></li>
-                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Geri Bildirim</a></li>
+                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> <span data-i18n="t44609ba4">Randevu Al</span></a></li>
+                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> <span data-i18n="tb8006d62">Danışan Portalı</span></a></li>
+                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> <span data-i18n="tc70540a3">Ödeme</span></a></li>
+                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> <span data-i18n="t58c72a3a">Geri Bildirim</span></a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>İletişim</h4>
+                    <h4 data-i18n="t3bb70b44">İletişim</h4>
                     <ul class="footer-links">
                         <li><a href="https://maps.app.goo.gl/nWcyLKd1SWAQBh1Y6" target="_blank" rel="noopener noreferrer"><i class="fas fa-location-dot"></i> Biberweg 53, 70806 Kornwestheim</a></li>
                         <li><a href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i> goldensunderya@hotmail.com</a></li>
@@ -220,26 +229,23 @@
                     </ul>
                 </div>
             </div>
-            <p class="footer-disclaimer">
-                Sunulan çalışmalar tıbbi veya psikiyatrik tanı ve tedavinin yerine geçmez. Devam eden bir tedaviniz varsa lütfen doktorunuzla görüşün.<br>
-                <span lang="de">Die angebotenen Sitzungen ersetzen keine ärztliche oder psychotherapeutische Diagnose und Behandlung.</span>
-            </p>
             <div class="footer-bottom">
-                <span>&copy; <span data-year>2026</span> Derya Kılıç. Tüm hakları saklıdır.</span>
+                <span>&copy; <span data-year>2026</span> Derya Kılıç. <span data-i18n="t74046796">Tüm hakları saklıdır.</span></span>
                 <span>
-                    <a href="impressum.html">Künye / Impressum</a> ·
-                    <a href="datenschutz.html">Gizlilik / Datenschutz</a> ·
-                    <a href="#" data-cookie-settings>Çerez ayarları</a> ·
-                    Tasarlayan: <a href="https://github.com/Beki-Byte" target="_blank" rel="noopener noreferrer">Betül Kılıç</a>
+                    <a href="impressum.html" data-i18n="td5bd360c">Künye / Impressum</a> ·
+                    <a href="datenschutz.html" data-i18n="teb685db1">Gizlilik / Datenschutz</a> ·
+                    <a href="#" data-cookie-settings data-i18n="t1f3a1e58">Çerez ayarları</a> ·
+                    <span data-i18n="t36701d56">Tasarlayan:</span> <a href="https://beki-byte.github.io/Betul-kilic/?from=praxis" style="color: inherit; text-decoration: underline;">Betül Kılıç</a>
                 </span>
             </div>
         </div>
     </footer>
 
-    <button class="to-top" id="toTop" aria-label="Yukarı çık"><i class="fas fa-arrow-up"></i></button>
+    <button class="to-top" id="toTop" aria-label="Yukarı çık" data-i18n-al="t8e145f18"><i class="fas fa-arrow-up"></i></button>
     <div id="chatMount" data-chat-widget></div>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/tr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/de.js"></script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
