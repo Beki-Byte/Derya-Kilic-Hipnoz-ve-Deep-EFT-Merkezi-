@@ -1,62 +1,172 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="no-js">
 <head>
-    <!-- Browser-Tab Logo (Favicon) -->
-<link rel="icon" type="image/png" href="logobaum.png">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Güvenli Online Ödeme | Derya Kılıç</title>
+    <meta name="description" content="Seans ücretinizi PayPal ile güvenle ödeyin – Derya Kılıç Hipnoz & Deep EFT.">
+    <meta name="theme-color" content="#faf6f0">
+    <meta property="og:title" content="Güvenli Online Ödeme | Derya Kılıç">
+    <meta property="og:description" content="Seans ücretinizi PayPal ile güvenle ödeyin – Derya Kılıç Hipnoz & Deep EFT.">
+    <meta property="og:image" content="profil.jpg">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        document.documentElement.classList.remove('no-js');
+        /* Sicherheitsnetz: falls script.js nicht lädt, Inhalte trotzdem anzeigen */
+        setTimeout(function () { if (!window.__siteReady) document.documentElement.classList.add('no-js'); }, 2500);
+    </script>
 </head>
-<body style="background-color: #f5efe6;">
+<body>
+    <a class="skip-link" href="#main">İçeriğe geç</a>
 
-    <!-- HEADER (Minimalist wie im Bild) -->
-    <header style="background: transparent; box-shadow: none; padding: 20px 8%; display: flex; justify-content: space-between; align-items: center;">
-        <div class="logo-container">
-            <!-- WICHTIG: Dateiendung auf logobaum.png geändert -->
-            <img src="logobaum.png" alt="Derya Kılıç Logo" class="tree-icon-img" style="height: 40px;" onerror="this.style.display='none'">
-            <div class="logo" style="color: #8c6a56; font-size: 1.5rem; font-weight: 700;">DERYA KILIÇ</div>
-        </div>
-        <div>
-            <a href="index.html" style="color: #555; text-decoration: none; font-size: 0.95rem;">&larr; Ana Sayfaya Dön</a>
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="brand" aria-label="Derya Kılıç – Ana Sayfa">
+                <img src="logobaum.png" alt="" width="44" height="46">
+                <span class="brand-text">
+                    <span class="brand-name">DERYA KILIÇ</span>
+                    <span class="brand-sub">Hipnoz &amp; Deep EFT</span>
+                </span>
+            </a>
+
+            <nav class="main-nav" id="mainNav" aria-label="Ana menü">
+                <a href="index.html" data-nav="home">Ana Sayfa</a>
+                <a href="index.html#about" data-nav="about">Hakkımda</a>
+                <a href="index.html#services" data-nav="services">Hizmetler</a>
+                <a href="index.html#pricing" data-nav="pricing">Fiyatlar</a>
+                <a href="index.html#faq" data-nav="faq">SSS</a>
+                <a href="basari.html" data-nav="basari">Başarı Hikayeleri</a>
+                <a href="odeme.html" data-nav="odeme" class="active">Ödeme</a>
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn--ghost btn--sm"><i class="fas fa-user-lock"></i> Portal</a>
+                    <a href="kalender.html" class="btn btn--primary btn--sm"><i class="fas fa-calendar-check"></i> Randevu Al</a>
+                    <div class="translate-wrap">
+                        <button type="button" class="translate-btn" id="translateBtn" aria-expanded="false" aria-controls="translatePop" title="Çeviri / Übersetzen">
+                            <i class="fas fa-language"></i><span class="sr-only">Sayfayı çevir</span>
+                        </button>
+                        <div class="translate-pop" id="translatePop">
+                            <div id="google_translate_element"></div>
+                            <small>Google Çeviri yalnızca tıkladığınızda yüklenir.<br>Google Übersetzer wird erst bei Klick geladen.</small>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mainNav"><span></span></button>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main style="display: flex; justify-content: center; align-items: center; padding: 40px 20px;">
-        <div style="background: #ffffff; border-radius: 16px; padding: 45px 35px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-            
-            <!-- Paypal Logo Top -->
-            <i class="fab fa-paypal" style="font-size: 3.5rem; color: #0070ba; margin-bottom: 20px;"></i>
-
-            <h1 style="color: #8c6a56; font-size: 2.2rem; font-weight: 700; margin-bottom: 20px; line-height: 1.2;">Güvenli Online Ödeme</h1>
-
-            <p style="color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;">
-                Seans ücretinizi PayPal hesabınızla veya kredi kartınızla güvenle ödeyebilirsiniz. Ödemeniz doğrudan hesabımıza tanımlanacaktır.
-            </p>
-
-            <!-- Info Box für PayPal Adresse -->
-            <div style="border: 1px dashed #bda89b; background-color: #faf6f0; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
-                <p style="margin: 0; color: #333; font-size: 0.95rem;">
-                    <strong>PayPal Adresimiz:</strong> <a href="mailto:goldensunderya@hotmail.com" style="color: #333; text-decoration: underline;">goldensunderya@hotmail.com</a>
-                </p>
+    <main id="main">
+        
+        <section class="page-hero">
+            <div class="container">
+                <p class="breadcrumb"><a href="index.html">Ana Sayfa</a> / Ödeme</p>
+                <span class="eyebrow">Ödeme</span>
+                <h1>Güvenli Online Ödeme</h1>
+                <p>Seans ücretinizi PayPal hesabınızla veya kredi kartınızla güvenle ödeyebilirsiniz.</p>
             </div>
+        </section>
+        <section class="section section--tight">
+            <div class="container">
+                <div class="card pay-card reveal">
+                    <i class="fab fa-paypal pay-icon"></i>
+                    <h2 style="font-size:2rem">PayPal ile Ödeme</h2>
+                    <p class="card-sub" style="margin:8px 0 0">Ödemeniz doğrudan hesabımıza tanımlanacaktır.</p>
 
-            <!-- Pay Button (Direkt zu paypal.me/DeryaKilic2829) -->
-            <a href="https://paypal.me/DeryaKilic2829" target="_blank" rel="noopener noreferrer" class="btn-paypal-pay" style="display: block; width: 100%; background-color: #0070ba; color: white; padding: 14px; border-radius: 6px; font-weight: bold; font-size: 1.05rem; text-decoration: none; box-sizing: border-box; transition: background 0.2s;">
-                <i class="fab fa-paypal"></i> PayPal ile Şimdi Öde
-            </a>
+                    <div class="copy-box">
+                        <div>
+                            <small>PayPal adresimiz</small>
+                            <strong id="paypalMail">goldensunderya@hotmail.com</strong>
+                        </div>
+                        <button type="button" class="copy-btn" data-copy="goldensunderya@hotmail.com"><i class="far fa-copy"></i> Kopyala</button>
+                    </div>
 
-            <!-- Subtext -->
-            <p style="color: #888; font-size: 0.8rem; margin-top: 25px; margin-bottom: 0;">
-                * Ödemeniz gerçekleştikten sonra dekontunuzu WhatsApp üzerinden iletebilirsiniz.
-            </p>
+                    <a href="https://paypal.me/DeryaKilic2829" target="_blank" rel="noopener noreferrer" class="btn btn--paypal btn--block"><i class="fab fa-paypal"></i> PayPal ile Şimdi Öde</a>
 
-        </div>
+                    <ol class="pay-steps">
+                        <li>Yukarıdaki butona tıklayın veya PayPal adresini kopyalayın.</li>
+                        <li>Seans ücretini girin ve ödemeyi onaylayın.</li>
+                        <li>Ödeme dekontunuzu WhatsApp üzerinden iletin.</li>
+                    </ol>
+
+                    <div class="price-mini">
+                        <span class="badge">Hipnoterapi · 170 €</span>
+                        <span class="badge">Diğer terapiler · 65 € / saat</span>
+                    </div>
+
+                    <a href="https://wa.me/491708296913?text=Merhaba,%20%C3%B6deme%20dekontumu%20g%C3%B6nderiyorum." target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp btn--block" style="margin-top:22px"><i class="fab fa-whatsapp"></i> Dekontu WhatsApp ile Gönder</a>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <script src="script.js"></script>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></div>
+                    <p>Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</p>
+                    <p><i class="fas fa-globe"></i>&nbsp; Seans dilleri: Türkçe &amp; Deutsch</p>
+                    <div class="footer-social">
+                        <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/491708296913" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Posta"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Sayfalar</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#about">Hakkımda</a></li>
+                        <li><a href="index.html#services">Hizmetler</a></li>
+                        <li><a href="index.html#pricing">Fiyatlar &amp; Şartlar</a></li>
+                        <li><a href="basari.html">Başarı Hikayeleri</a></li>
+                        <li><a href="asistent.html">Sanal Asistan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Hızlı Erişim</h4>
+                    <ul class="footer-links">
+                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> Randevu Al</a></li>
+                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> Danışan Portalı</a></li>
+                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> Ödeme</a></li>
+                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Geri Bildirim</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>İletişim</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://maps.app.goo.gl/nWcyLKd1SWAQBh1Y6" target="_blank" rel="noopener noreferrer"><i class="fas fa-location-dot"></i> Biberweg 53, 70806 Kornwestheim</a></li>
+                        <li><a href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i> goldensunderya@hotmail.com</a></li>
+                        <li><a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> @deryakilic2829</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-disclaimer">
+                Sunulan çalışmalar tıbbi veya psikiyatrik tanı ve tedavinin yerine geçmez. Devam eden bir tedaviniz varsa lütfen doktorunuzla görüşün.<br>
+                <span lang="de">Die angebotenen Sitzungen ersetzen keine ärztliche oder psychotherapeutische Diagnose und Behandlung.</span>
+            </p>
+            <div class="footer-bottom">
+                <span>&copy; <span data-year>2026</span> Derya Kılıç. Tüm hakları saklıdır.</span>
+                <span>
+                    <a href="impressum.html">Künye / Impressum</a> ·
+                    <a href="datenschutz.html">Gizlilik / Datenschutz</a> ·
+                    <a href="#" data-cookie-settings>Çerez ayarları</a> ·
+                    Tasarlayan: <a href="https://github.com/Beki-Byte" target="_blank" rel="noopener noreferrer">Betül Kılıç</a>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <button class="to-top" id="toTop" aria-label="Yukarı çık"><i class="fas fa-arrow-up"></i></button>
+    <div id="chatMount" data-chat-widget></div>
+    
+    <script type="module" src="script.js"></script>
 </body>
 </html>

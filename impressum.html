@@ -1,44 +1,166 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="no-js">
 <head>
-    <!-- Browser-Tab Logo (Favicon) -->
-<link rel="icon" type="image/png" href="logobaum.png">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impressum | Derya Kılıç</title>
+    <meta name="description" content="Impressum / Künye – Derya Kılıç, Kornwestheim.">
+    <meta name="theme-color" content="#faf6f0">
+    <meta property="og:title" content="Impressum | Derya Kılıç">
+    <meta property="og:description" content="Impressum / Künye – Derya Kılıç, Kornwestheim.">
+    <meta property="og:image" content="profil.jpg">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <script>
+        document.documentElement.classList.remove('no-js');
+        /* Sicherheitsnetz: falls script.js nicht lädt, Inhalte trotzdem anzeigen */
+        setTimeout(function () { if (!window.__siteReady) document.documentElement.classList.add('no-js'); }, 2500);
+    </script>
 </head>
-<body class="gray-bg">
-    <header>
-        <div class="logo-container">
-            <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">DERYA KILIÇ</a></div>
+<body>
+    <a class="skip-link" href="#main">İçeriğe geç</a>
+
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="brand" aria-label="Derya Kılıç – Ana Sayfa">
+                <img src="logobaum.png" alt="" width="44" height="46">
+                <span class="brand-text">
+                    <span class="brand-name">DERYA KILIÇ</span>
+                    <span class="brand-sub">Hipnoz &amp; Deep EFT</span>
+                </span>
+            </a>
+
+            <nav class="main-nav" id="mainNav" aria-label="Ana menü">
+                <a href="index.html" data-nav="home">Ana Sayfa</a>
+                <a href="index.html#about" data-nav="about">Hakkımda</a>
+                <a href="index.html#services" data-nav="services">Hizmetler</a>
+                <a href="index.html#pricing" data-nav="pricing">Fiyatlar</a>
+                <a href="index.html#faq" data-nav="faq">SSS</a>
+                <a href="basari.html" data-nav="basari">Başarı Hikayeleri</a>
+                <a href="odeme.html" data-nav="odeme">Ödeme</a>
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn--ghost btn--sm"><i class="fas fa-user-lock"></i> Portal</a>
+                    <a href="kalender.html" class="btn btn--primary btn--sm"><i class="fas fa-calendar-check"></i> Randevu Al</a>
+                    <div class="translate-wrap">
+                        <button type="button" class="translate-btn" id="translateBtn" aria-expanded="false" aria-controls="translatePop" title="Çeviri / Übersetzen">
+                            <i class="fas fa-language"></i><span class="sr-only">Sayfayı çevir</span>
+                        </button>
+                        <div class="translate-pop" id="translatePop">
+                            <div id="google_translate_element"></div>
+                            <small>Google Çeviri yalnızca tıkladığınızda yüklenir.<br>Google Übersetzer wird erst bei Klick geladen.</small>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mainNav"><span></span></button>
         </div>
-        <nav><a href="index.html">← Zurück zur Startseite</a></nav>
     </header>
 
-    <div class="container page-section" style="max-width: 800px; text-align: left;">
-        <h1 style="text-align: center; margin-bottom: 30px;">Impressum</h1>
+    <main id="main">
         
-        <div class="legal-card">
-            <h3>Angaben gemäß § 5 TMG</h3>
-            <p><strong>Derya Kılıç</strong><br>Biberweg 53<br>70806 Kornwestheim<br>Deutschland</p>
-        </div>
+        <section class="page-hero">
+            <div class="container">
+                <p class="breadcrumb"><a href="index.html">Ana Sayfa</a> / Impressum</p>
+                <span class="eyebrow">Rechtliches</span>
+                <h1>Impressum</h1>
+                <p>Künye · Angaben gemäß § 5 DDG</p>
+            </div>
+        </section>
+        <section class="section section--tight">
+            <div class="narrow">
+                <article class="legal reveal">
+                    <h2>Angaben gemäß § 5 DDG</h2>
+                    <p><strong>Derya Kılıç</strong><br>Biberweg 53<br>70806 Kornwestheim<br>Deutschland</p>
 
-        <div class="legal-card">
-            <h3>Kontakt</h3>
-            <p><strong>E-Mail:</strong> goldensunderya@hotmail.com<br><strong>Telefon:</strong> +49 170 8296913</p>
-        </div>
+                    <h2>Kontakt</h2>
+                    <p>E-Mail: <a href="mailto:goldensunderya@hotmail.com">goldensunderya@hotmail.com</a><br>Telefon: <a href="tel:+491708296913">+49 170 8296913</a></p>
 
-        <div class="legal-card">
-            <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
-            <p>Derya Kılıç<br>Biberweg 53, 70806 Kornwestheim</p>
-        </div>
+                    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+                    <p>Derya Kılıç<br>Biberweg 53, 70806 Kornwestheim</p>
 
-        <div class="legal-card">
-            <h3>Haftungsausschluss (Disclaimer)</h3>
-            <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
+                    <h2>Hinweis</h2>
+                    <p>Die angebotenen Sitzungen ersetzen keine ärztliche oder psychotherapeutische Diagnose und Behandlung. Bei bestehenden Erkrankungen wenden Sie sich bitte an Ihre Ärztin oder Ihren Arzt.</p>
+
+                    <h2>Haftung für Inhalte</h2>
+                    <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
+
+                    <h2>Haftung für Links</h2>
+                    <p>Unser Angebot enthält Links zu externen Websites Dritter (z. B. Instagram, WhatsApp, PayPal, Google), auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich.</p>
+
+                    <h2>Verbraucherstreitbeilegung</h2>
+                    <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></div>
+                    <p>Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</p>
+                    <p><i class="fas fa-globe"></i>&nbsp; Seans dilleri: Türkçe &amp; Deutsch</p>
+                    <div class="footer-social">
+                        <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/491708296913" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Posta"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Sayfalar</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#about">Hakkımda</a></li>
+                        <li><a href="index.html#services">Hizmetler</a></li>
+                        <li><a href="index.html#pricing">Fiyatlar &amp; Şartlar</a></li>
+                        <li><a href="basari.html">Başarı Hikayeleri</a></li>
+                        <li><a href="asistent.html">Sanal Asistan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Hızlı Erişim</h4>
+                    <ul class="footer-links">
+                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> Randevu Al</a></li>
+                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> Danışan Portalı</a></li>
+                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> Ödeme</a></li>
+                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Geri Bildirim</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>İletişim</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://maps.app.goo.gl/nWcyLKd1SWAQBh1Y6" target="_blank" rel="noopener noreferrer"><i class="fas fa-location-dot"></i> Biberweg 53, 70806 Kornwestheim</a></li>
+                        <li><a href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i> goldensunderya@hotmail.com</a></li>
+                        <li><a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> @deryakilic2829</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-disclaimer">
+                Sunulan çalışmalar tıbbi veya psikiyatrik tanı ve tedavinin yerine geçmez. Devam eden bir tedaviniz varsa lütfen doktorunuzla görüşün.<br>
+                <span lang="de">Die angebotenen Sitzungen ersetzen keine ärztliche oder psychotherapeutische Diagnose und Behandlung.</span>
+            </p>
+            <div class="footer-bottom">
+                <span>&copy; <span data-year>2026</span> Derya Kılıç. Tüm hakları saklıdır.</span>
+                <span>
+                    <a href="impressum.html">Künye / Impressum</a> ·
+                    <a href="datenschutz.html">Gizlilik / Datenschutz</a> ·
+                    <a href="#" data-cookie-settings>Çerez ayarları</a> ·
+                    Tasarlayan: <a href="https://github.com/Beki-Byte" target="_blank" rel="noopener noreferrer">Betül Kılıç</a>
+                </span>
+            </div>
         </div>
-    </div>
+    </footer>
+
+    <button class="to-top" id="toTop" aria-label="Yukarı çık"><i class="fas fa-arrow-up"></i></button>
+    <div id="chatMount" data-chat-widget></div>
+    
+    <script type="module" src="script.js"></script>
 </body>
 </html>

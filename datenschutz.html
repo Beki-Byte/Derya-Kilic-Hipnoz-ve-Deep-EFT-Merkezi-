@@ -1,230 +1,211 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="no-js">
 <head>
-    <!-- Browser-Tab Logo (Favicon) -->
-<link rel="icon" type="image/png" href="logobaum.png">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gizlilik Politikası | Derya Kılıç</title>
-    
-    <!-- CSS Verbindungen -->
+    <title>Gizlilik Politikası / Datenschutz | Derya Kılıç</title>
+    <meta name="description" content="Gizlilik politikası (Datenschutzerklärung) – Derya Kılıç Hipnoz & Deep EFT.">
+    <meta name="theme-color" content="#faf6f0">
+    <meta property="og:title" content="Gizlilik Politikası / Datenschutz | Derya Kılıç">
+    <meta property="og:description" content="Gizlilik politikası (Datenschutzerklärung) – Derya Kılıç Hipnoz & Deep EFT.">
+    <meta property="og:image" content="profil.jpg">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito+Sans:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    
-    <!-- FontAwesome für Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <style>
-        .legal-page {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            line-height: 1.7;
-            color: #333333;
-        }
-        .legal-page h1 {
-            color: #8c6d58;
-            border-bottom: 2px solid #f0e6df;
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-        }
-        .legal-page h2 {
-            color: #5a4334;
-            margin-top: 25px;
-            font-size: 1.25rem;
-        }
-        .legal-page ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-        .legal-page a {
-            color: #27ae60;
-            text-decoration: none;
-        }
-        .legal-page a:hover {
-            text-decoration: underline;
-        }
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #8c6d58;
-            font-weight: bold;
-            text-decoration: none;
-        }
-    </style>
+    <script>
+        document.documentElement.classList.remove('no-js');
+        /* Sicherheitsnetz: falls script.js nicht lädt, Inhalte trotzdem anzeigen */
+        setTimeout(function () { if (!window.__siteReady) document.documentElement.classList.add('no-js'); }, 2500);
+    </script>
 </head>
 <body>
+    <a class="skip-link" href="#main">İçeriğe geç</a>
 
-    <!-- Header / Navigation -->
-    <header>
-        <div class="logo-container">
-            <img src="logobaum.jpg" alt="Derya Kılıç Logo" class="tree-icon-img">
-            <div class="logo">DERYA KILIÇ</div>
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="brand" aria-label="Derya Kılıç – Ana Sayfa">
+                <img src="logobaum.png" alt="" width="44" height="46">
+                <span class="brand-text">
+                    <span class="brand-name">DERYA KILIÇ</span>
+                    <span class="brand-sub">Hipnoz &amp; Deep EFT</span>
+                </span>
+            </a>
+
+            <nav class="main-nav" id="mainNav" aria-label="Ana menü">
+                <a href="index.html" data-nav="home">Ana Sayfa</a>
+                <a href="index.html#about" data-nav="about">Hakkımda</a>
+                <a href="index.html#services" data-nav="services">Hizmetler</a>
+                <a href="index.html#pricing" data-nav="pricing">Fiyatlar</a>
+                <a href="index.html#faq" data-nav="faq">SSS</a>
+                <a href="basari.html" data-nav="basari">Başarı Hikayeleri</a>
+                <a href="odeme.html" data-nav="odeme">Ödeme</a>
+                <div class="nav-actions">
+                    <a href="portal.html" class="btn btn--ghost btn--sm"><i class="fas fa-user-lock"></i> Portal</a>
+                    <a href="kalender.html" class="btn btn--primary btn--sm"><i class="fas fa-calendar-check"></i> Randevu Al</a>
+                    <div class="translate-wrap">
+                        <button type="button" class="translate-btn" id="translateBtn" aria-expanded="false" aria-controls="translatePop" title="Çeviri / Übersetzen">
+                            <i class="fas fa-language"></i><span class="sr-only">Sayfayı çevir</span>
+                        </button>
+                        <div class="translate-pop" id="translatePop">
+                            <div id="google_translate_element"></div>
+                            <small>Google Çeviri yalnızca tıkladığınızda yüklenir.<br>Google Übersetzer wird erst bei Klick geladen.</small>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mainNav"><span></span></button>
         </div>
-        <nav>
-            <a href="index.html">Ana Sayfa</a>
-            <a href="index.html#about">Hakkımda</a>
-            <a href="index.html#services">Hizmetler</a>
-            <a href="index.html#pricing">Fiyatlar & Şartlar</a>
-            <a href="odeme.html">Ödeme</a>
-            
-            <!-- Google Translate Widget für automatische Übersetzung -->
-            <div id="google_translate_element" class="custom-translate-box"></div>
-        </nav>
     </header>
 
-    <!-- Gizlilik Politikası İçeriği (Türkçe Original) -->
-    <main class="container">
-        <div class="legal-page">
-            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Ana Sayfaya Dön</a>
-            
-            <h1>Gizlilik Politikası (Datenschutzerklärung)</h1>
+    <main id="main">
+        
+        <section class="page-hero">
+            <div class="container">
+                <p class="breadcrumb"><a href="index.html">Ana Sayfa</a> / Gizlilik</p>
+                <span class="eyebrow">Gizlilik</span>
+                <h1>Gizlilik Politikası</h1>
+                <p>Datenschutzerklärung – kişisel verilerinizi nasıl işlediğimize dair bilgiler.</p>
+            </div>
+        </section>
+        <section class="section section--tight">
+            <div class="narrow">
+                <article class="legal reveal">
+                    <nav class="legal-toc" aria-label="İçindekiler">
+                        <a href="#d1">Genel bakış</a><a href="#d2">Sorumlu</a><a href="#d4">Randevular</a><a href="#d6">Kullanılan hizmetler</a><a href="#d7">Çerezler</a><a href="#d9">Haklarınız</a>
+                    </nav>
 
-            <h2>1. Bir Bakışta Veri Koruma</h2>
-            <p>
-                Aşağıdaki bilgiler, web sitemizi ziyaret ettiğinizde, randevu aldığınızda veya hizmetlerimizi kullandığınızda kişisel verilerinize ne olduğuna dair basit bir genel bakış sunmaktadır.
-            </p>
+                    <h2 id="d1">1. Bir Bakışta Veri Koruma</h2>
+                    <p>Aşağıdaki bilgiler, web sitemizi ziyaret ettiğinizde, randevu aldığınızda veya hizmetlerimizi kullandığınızda kişisel verilerinize ne olduğuna dair basit bir genel bakış sunmaktadır.</p>
 
-            <h2>2. Sorumlu Kişi ve Kurum</h2>
-            <p>
-                Bu web sitesindeki veri işlemeden sorumlu kişi:
-            </p>
-            <p>
-                <strong>Derya Kılıç</strong><br>
-                Hipnoterapi & Deep EFT / Yaşam Koçluğu<br>
-                Biberweg 53<br>
-                70806 Kornwestheim<br>
-                Almanya<br><br>
-                E-Posta: <a href="mailto:goldensunderya@hotmail.com">goldensunderya@hotmail.com</a>
-            </p>
+                    <h2 id="d2">2. Sorumlu Kişi</h2>
+                    <p><strong>Derya Kılıç</strong><br>Hipnoterapi &amp; Deep EFT<br>Biberweg 53<br>70806 Kornwestheim<br>Almanya<br>E-Posta: <a href="mailto:goldensunderya@hotmail.com">goldensunderya@hotmail.com</a></p>
 
-            <h2>3. Web Sitemizde Veri Toplama</h2>
-            <p><strong>Veri toplama işleminden kim sorumludur?</strong></p>
-            <p>Bu web sitesindeki veri işleme, web sitesi operatörü tarafından yürütülmektedir.</p>
+                    <h2 id="d3">3. Web Sitemizde Veri Toplama</h2>
+                    <p>Verileriniz bir yandan bize bildirmenizle toplanır (örneğin yorum yazarken, randevu formunu doldururken veya WhatsApp/E-posta yoluyla iletişim kurarken). Diğer veriler ise web sitesini ziyaret ettiğinizde teknik olarak otomatik toplanır (örneğin tarayıcı, işletim sistemi, IP adresi, erişim zamanı). Web sitesi GitHub Pages (GitHub Inc., ABD) üzerinde barındırılmaktadır.</p>
 
-            <p><strong>Verilerinizi nasıl topluyoruz?</strong></p>
-            <p>
-                Verileriniz bir yandan bize bildirmeyle toplanır (örneğin yorum yapma, randevu formu doldurma veya WhatsApp/E-posta yoluyla iletişim kurma sırasında).<br>
-                Diğer veriler ise web sitesini ziyaret ettiğinizde IT sistemlerimiz tarafından otomatik olarak toplanır. Bunlar esas olarak teknik verilerdir (örneğin internet tarayıcısı, işletim sistemi veya sayfa görüntüleme süresi).
-            </p>
+                    <h2 id="d4">4. Randevu ve Ön Görüşme Formu</h2>
+                    <p>Seansların (online veya yüz yüze) planlanması için aşağıdaki verileri işliyoruz:</p>
+                    <ul>
+                        <li>Ad ve soyad, e-posta adresi, telefon numarası (WhatsApp iletişimi için)</li>
+                        <li>İstenen tarih, saat, hizmet ve seans şekli</li>
+                        <li>Ön görüşme bilgileri (şikayet/konu, tedavi geçmişi, beklenti) – bunlar <strong>sağlık verisi</strong> niteliğinde olabilir ve yalnızca açık onayınızla (Madde 9 Par. 2 lit. a DSGVO) işlenir.</li>
+                    </ul>
+                    <p>Bu veriler randevu planlaması, seansların yürütülmesi, iletişim ve ödeme işlemleri için kullanılır. Onayınızı dilediğiniz zaman geleceğe yönelik olarak geri alabilirsiniz.</p>
 
-            <h2>4. Hizmetler ve Randevularda Toplanan Veriler</h2>
-            <p>Danışmanlık, Hipnoterapi ve Deep EFT seanslarının (Online veya yüz yüze) yürütülmesi için aşağıdaki verileri işliyoruz:</p>
-            <ul>
-                <li>Ad ve Soyad</li>
-                <li>E-Posta Adresi</li>
-                <li>Telefon Numarası (ör. WhatsApp iletişimi için)</li>
-                <li>Talep edilen hizmet ve seans içeriğine dair bilgiler</li>
-            </ul>
-            <p><strong>Bu verileri ne için kullanıyoruz?</strong></p>
-            <ul>
-                <li>Randevu planlaması ve seansların gerçekleştirilmesi</li>
-                <li>Seanslarla ilgili iletişim (Türkçe & Almanca)</li>
-                <li>Ödeme işlemlerinin tamamlanması</li>
-                <li>Yasal ve vergisel yükümlülüklerin yerine getirilmesi</li>
-            </ul>
+                    <h2 id="d5">5. Yasal Dayanak</h2>
+                    <ul>
+                        <li><strong>Madde 6 Par. 1 lit. b DSGVO:</strong> Sözleşmenin veya randevu talebinin yerine getirilmesi.</li>
+                        <li><strong>Madde 6 Par. 1 lit. a ve Madde 9 Par. 2 lit. a DSGVO:</strong> Açık onayınız (ör. ön görüşme formu, yorumlar, istatistik çerezleri).</li>
+                        <li><strong>Madde 6 Par. 1 lit. f DSGVO:</strong> Web sitesinin güvenli ve sorunsuz çalışmasına yönelik meşru menfaat.</li>
+                    </ul>
 
-            <h2>5. Veri İşlemenin Yasal Dayanağı</h2>
-            <p>Kişisel verilerinizin işlenmesi şu yasal esaslara dayanmaktadır (DSGVO / KVKK):</p>
-            <ul>
-                <li><strong>Madde 6 Par. 1 lit. b DSGVO:</strong> Bir sözleşmenin veya randevu talebinin yerine getirilmesi.</li>
-                <li><strong>Madde 6 Par. 1 lit. a DSGVO:</strong> Bize açıkça verdiğiniz onay (ör. iletişim formu veya yorum alanı).</li>
-                <li><strong>Madde 6 Par. 1 lit. f DSGVO:</strong> Web sitemizin güvenli ve sorunsuz çalışmasını sağlama amacımız.</li>
-            </ul>
+                    <h2 id="d6">6. Kullanılan Hizmetler</h2>
+                    <ul>
+                        <li><strong>Google Firebase / Cloud Firestore</strong> (Google Ireland Ltd.): Randevu talepleri, danışan portalı ve yorumlar bu veritabanında saklanır. Google LLC’ye (ABD) veri aktarımı mümkündür; Google, AB-ABD Veri Gizliliği Çerçevesi (Data Privacy Framework) kapsamında sertifikalıdır.</li>
+                        <li><strong>Google Analytics for Firebase</strong>: Yalnızca çerez bildiriminde “Tümünü kabul et” seçeneğini seçerseniz, ziyaret istatistikleri için yüklenir (Madde 6 Par. 1 lit. a DSGVO).</li>
+                        <li><strong>Google Çeviri</strong>: Yalnızca menüdeki çeviri butonuna tıkladığınızda yüklenir; bu sırada IP adresiniz Google’a iletilir.</li>
+                        <li><strong>Google Fonts, cdnjs (Cloudflare) ve jsDelivr</strong>: Yazı tipleri, ikonlar ve takvim bileşeni bu sunuculardan yüklenir; bu sırada IP adresiniz ilgili sağlayıcıya iletilir (Madde 6 Par. 1 lit. f DSGVO).</li>
+                        <li><strong>WhatsApp, Instagram, PayPal</strong>: Bu hizmetlere ait bağlantılara tıkladığınızda ilgili sağlayıcının sayfasına yönlendirilirsiniz; orada sağlayıcının gizlilik politikası geçerlidir.</li>
+                    </ul>
 
-            <h2>6. WhatsApp ve Instagram Üzerinden İletişim</h2>
-            <p>
-                Bize WhatsApp veya Instagram DM üzerinden ulaştığınızda, gönderdiğiniz veriler (ad, telefon numarası, mesaj içeriği) talebinizin işlenmesi amacıyla saklanır.
-            </p>
+                    <h2 id="d7">7. Çerezler ve Yerel Depolama</h2>
+                    <p>Web sitemiz, çerez tercihinizi ve (randevu talebi oluşturduğunuzda) talebinizi takvimde size gösterebilmek için tarayıcınızın yerel depolamasını (localStorage) kullanır. İstatistik çerezleri yalnızca onayınızla etkinleşir. Tercihinizi sayfanın altındaki “Çerez ayarları” bağlantısı üzerinden her zaman değiştirebilirsiniz.</p>
 
-            <h2>7. Verilerin Üçüncü Şahıslara Aktarılması</h2>
-            <p>
-                Kişisel verileriniz, aşağıdaki durumlar haricinde üçüncü şahıslara aktarılmaz:
-            </p>
-            <ul>
-                <li>Açıkça onay vermiş olmanız.</li>
-                <li>İşlemin tamamlanması için gerekli olması (örneğin PayPal ödeme sağlayıcıları).</li>
-                <li>Yasal bir zorunluluğun bulunması.</li>
-            </ul>
+                    <h2 id="d8">8. WhatsApp ve Instagram Üzerinden İletişim</h2>
+                    <p>Bize WhatsApp veya Instagram DM üzerinden ulaştığınızda, gönderdiğiniz veriler (ad, telefon numarası, mesaj içeriği) talebinizin işlenmesi amacıyla saklanır.</p>
 
-            <h2>8. Haklarınız</h2>
-            <p>Aşağıdaki haklara her zaman sahipsiniz:</p>
-            <ul>
-                <li>Saklanan kişisel verileriniz hakkında bilgi talep etme hakkı.</li>
-                <li>Yanlış verilerin düzeltilmesini talep etme hakkı.</li>
-                <li>Verilerinizin silinmesini talep etme hakkı.</li>
-                <li>Veri işlemenin kısıtlanmasını talep etme hakkı.</li>
-                <li>Onaylarınızı dilediğiniz zaman geleceğe yönelik olarak iptal etme hakkı.</li>
-            </ul>
+                    <h2 id="d9">9. Haklarınız</h2>
+                    <ul>
+                        <li>Saklanan kişisel verileriniz hakkında bilgi talep etme hakkı</li>
+                        <li>Yanlış verilerin düzeltilmesini talep etme hakkı</li>
+                        <li>Verilerinizin silinmesini talep etme hakkı</li>
+                        <li>Veri işlemenin kısıtlanmasını talep etme hakkı</li>
+                        <li>Veri taşınabilirliği hakkı</li>
+                        <li>Onaylarınızı dilediğiniz zaman geleceğe yönelik olarak geri alma hakkı</li>
+                        <li>Yetkili veri koruma denetim makamına şikayette bulunma hakkı (Baden-Württemberg: Landesbeauftragte für den Datenschutz und die Informationsfreiheit)</li>
+                    </ul>
 
-            <h2>9. Saklama Süresi</h2>
-            <p>
-                Kişisel verilerinizi yalnızca ilgili amaçların gerçekleştirilmesi için gerekli olduğu sürece veya yasal saklama süreleri (örneğin vergi mevzuatı) boyunca saklıyoruz.
-            </p>
+                    <h2 id="d10">10. Saklama Süresi</h2>
+                    <p>Kişisel verilerinizi yalnızca ilgili amaçların gerçekleştirilmesi için gerekli olduğu sürece veya yasal saklama süreleri (örneğin vergi mevzuatı) boyunca saklıyoruz.</p>
 
-            <h2>10. SSL / TLS Şifreleme</h2>
-            <p>
-                Bu site, güvenlik nedeniyle ve gizli içeriklerin aktarımını korumak için SSL/TLS şifrelemesi kullanmaktadır. Şifreli bir bağlantıyı tarayıcınızın adres çubuğundaki "http://" ifadesinin "https://" olarak değişmesinden anlayabilirsiniz.
-            </p>
+                    <h2 id="d11">11. SSL / TLS Şifreleme</h2>
+                    <p>Bu site, güvenlik nedeniyle SSL/TLS şifrelemesi kullanmaktadır. Şifreli bağlantıyı tarayıcınızın adres çubuğundaki “https://” ifadesinden anlayabilirsiniz.</p>
 
-            <h2>11. İletişim</h2>
-            <p>
-                Veri koruma ile ilgili sorularınız için lütfen aşağıdaki adresle iletişime geçin:
-            </p>
-            <p>
-                <strong>Derya Kılıç</strong><br>
-                Biberweg 53, 70806 Kornwestheim<br>
-                E-Posta: <a href="mailto:goldensunderya@hotmail.com">goldensunderya@hotmail.com</a>
-            </p>
+                    <h2 id="d12">12. İletişim</h2>
+                    <p>Veri koruma ile ilgili sorularınız için: <strong>Derya Kılıç</strong>, Biberweg 53, 70806 Kornwestheim · <a href="mailto:goldensunderya@hotmail.com">goldensunderya@hotmail.com</a></p>
 
-            <p style="margin-top: 30px; font-size: 0.85rem; color: #777;">Son Güncelleme: Eylül 2026</p>
-        </div>
+                    <p class="updated">Son güncelleme: Ekim 2026</p>
+                </article>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="dark-footer">
-        <div class="footer-bottom">
-            <p>&copy; 2026 Derya Kılıç. Tüm hakları saklıdır.</p>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></div>
+                    <p>Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</p>
+                    <p><i class="fas fa-globe"></i>&nbsp; Seans dilleri: Türkçe &amp; Deutsch</p>
+                    <div class="footer-social">
+                        <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/491708296913" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Posta"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Sayfalar</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#about">Hakkımda</a></li>
+                        <li><a href="index.html#services">Hizmetler</a></li>
+                        <li><a href="index.html#pricing">Fiyatlar &amp; Şartlar</a></li>
+                        <li><a href="basari.html">Başarı Hikayeleri</a></li>
+                        <li><a href="asistent.html">Sanal Asistan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Hızlı Erişim</h4>
+                    <ul class="footer-links">
+                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> Randevu Al</a></li>
+                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> Danışan Portalı</a></li>
+                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> Ödeme</a></li>
+                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Geri Bildirim</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>İletişim</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://maps.app.goo.gl/nWcyLKd1SWAQBh1Y6" target="_blank" rel="noopener noreferrer"><i class="fas fa-location-dot"></i> Biberweg 53, 70806 Kornwestheim</a></li>
+                        <li><a href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i> goldensunderya@hotmail.com</a></li>
+                        <li><a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> @deryakilic2829</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-disclaimer">
+                Sunulan çalışmalar tıbbi veya psikiyatrik tanı ve tedavinin yerine geçmez. Devam eden bir tedaviniz varsa lütfen doktorunuzla görüşün.<br>
+                <span lang="de">Die angebotenen Sitzungen ersetzen keine ärztliche oder psychotherapeutische Diagnose und Behandlung.</span>
+            </p>
+            <div class="footer-bottom">
+                <span>&copy; <span data-year>2026</span> Derya Kılıç. Tüm hakları saklıdır.</span>
+                <span>
+                    <a href="impressum.html">Künye / Impressum</a> ·
+                    <a href="datenschutz.html">Gizlilik / Datenschutz</a> ·
+                    <a href="#" data-cookie-settings>Çerez ayarları</a> ·
+                    Tasarlayan: <a href="https://github.com/Beki-Byte" target="_blank" rel="noopener noreferrer">Betül Kılıç</a>
+                </span>
+            </div>
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'tr',
-                includedLanguages: 'de,tr,fr,en,nl,ar,ru',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
-        <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBYSifQ5m7G_sdyN0JAkkC8SV6x9gY0-Oo",
-    authDomain: "derya-kilic-website.firebaseapp.com",
-    projectId: "derya-kilic-website",
-    storageBucket: "derya-kilic-website.firebasestorage.app",
-    messagingSenderId: "493728541181",
-    appId: "1:493728541181:web:d361a4ca1c8dff5ed65194",
-    measurementId: "G-DE18012D63"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
+    <button class="to-top" id="toTop" aria-label="Yukarı çık"><i class="fas fa-arrow-up"></i></button>
+    <div id="chatMount" data-chat-widget></div>
+    
+    <script type="module" src="script.js"></script>
 </body>
 </html>
