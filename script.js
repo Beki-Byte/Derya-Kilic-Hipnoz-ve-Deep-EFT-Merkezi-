@@ -1528,6 +1528,7 @@ async function loadMasterDashboard() {
         $("#pendingPayments")?.addEventListener("click", onPendingPaymentClick);
         $("#debtsList")?.addEventListener("click", onDebtClick);
         $("#remindersList")?.addEventListener("click", onReminderClick);
+        $("#cancelledList")?.addEventListener("click", onRestoreClick);
         setInterval(() => { if (!$("#masterDashboard").hidden) renderReminders(); }, 10 * 60 * 1000);
         $("#deadlineSaveBtn").addEventListener("click", adminSetDeadline);
         $("#deadlineClearBtn").addEventListener("click", adminClearDeadline);
@@ -1611,6 +1612,50 @@ async function onReminderClick(e) {
     } catch (er) { console.error(er); toast("Kaydedilemedi.", "error"); }
 }
 
+/* ---------- Son iptal edilenler: versehentlich abgesagte Termine zurückholen ---------- */
+async function renderCancelled() {
+    const box = $("#cancelledList");
+    if (!box) return;
+    const since = Date.now() - 30 * 86400000;
+    const items = (await getAllAppointmentsAdmin())
+        .filter((a) => a.status === "cancelled" && a.cancelledBy === "admin" && a.cancelledAt && new Date(a.cancelledAt).getTime() > since)
+        .sort((x, y) => (y.cancelledAt || "").localeCompare(x.cancelledAt || ""));
+    if (!items.length) { box.innerHTML = `<p class="empty-note">Son 30 günde iptal edilen randevu yok.</p>`; return; }
+    box.innerHTML = items.map((a) => {
+        const past = appInstant(a).getTime() < Date.now();
+        const code = a._path.startsWith("clients/") ? a._path.split("/")[1] : "";
+        return `
+        <div class="list-item">
+            <div><strong>${escapeHTML(a.name || "?")}</strong>${code ? ` <small>(${escapeHTML(code)})</small>` : ""} · ${escapeHTML(formatDateForUser(a.date))} ${escapeHTML(a.time)} · ${escapeHTML(a.service || "")}
+                <div class="meta"><span><i class="fas fa-ban"></i>İptal: ${escapeHTML(fmtBerlinShort(new Date(a.cancelledAt)))}</span>${a.phone ? `<span><i class="fas fa-phone"></i>${escapeHTML(a.phone)}</span>` : ""}${past ? `<span>Randevu tarihi geçti</span>` : ""}</div></div>
+            <div class="list-actions">
+                ${past ? "" : `<button type="button" class="btn btn--success btn--sm" data-restore="${escapeHTML(a._path)}"><i class="fas fa-rotate-left"></i> Geri al</button>`}
+            </div>
+        </div>`;
+    }).join("");
+}
+async function onRestoreClick(e) {
+    const btn = e.target.closest("[data-restore]");
+    if (!btn) return;
+    const path = btn.dataset.restore;
+    const all = await getAllAppointmentsAdmin();
+    const app = all.find((a) => a._path === path);
+    if (!app || app.status !== "cancelled") return;
+    // Wurde die Zeit inzwischen anders vergeben? Dann nicht einfach zurückholen
+    const conflict = checkSlot(await getAdminBusy(all), appInstant(app), app.id);
+    if (conflict) {
+        await dialog({ title: "Geri alınamıyor", text: `${app.name} · ${formatDateForUser(app.date)} ${app.time}\n\n${conflictText(conflict)}`, okText: "Tamam", showCancel: false });
+        return;
+    }
+    if (!(await dialog({ title: "Randevuyu geri al", text: `${app.name} · ${formatDateForUser(app.date)} ${app.time}\n${app.service || ""}\n\nRandevu tekrar onaylı olarak takvime eklenecek.`, okText: "Geri al", cancelText: "Vazgeç" }))) return;
+    try {
+        const slot = await fs.addDoc(fs.collection(db, "slots"), { date: app.date, time: app.time, personal: false, status: "approved", createdAt: new Date().toISOString() });
+        await fs.updateDoc(fs.doc(db, path), { status: "approved", slotId: slot.id, cancelledAt: fs.deleteField(), cancelledBy: fs.deleteField(), slotReleased: fs.deleteField(), restoredAt: new Date().toISOString() });
+        toast("Randevu geri alındı ve takvimde.", "success");
+        await refreshMaster();
+    } catch (er) { console.error(er); toast("Geri alınamadı.", "error"); }
+}
+
 async function cleanExpiredHomework() {
     try {
         const [clients, all] = await Promise.all([fs.getDocs(fs.collection(db, "clients")).then(snapList), getAllAppointmentsAdmin()]);
@@ -1640,6 +1685,7 @@ function initTabs() {
 async function refreshMaster() {
     await renderPendingAppointments();
     renderReminders();
+    renderCancelled();
     await initCalendar("masterCalendar", {
         mode: "master",
         onDateClick: (d, tm) => { $("#appDate").value = d; if (tm) $("#appTime").value = tm; scrollToCard($("#adminAddCard"), $("#appClientSelect")); }
@@ -1736,7 +1782,7 @@ async function approveAppointment(path) {
         if (app.phone) {
             await dialog({
                 title: "Danışanı bilgilendir",
-                text: `${app.name} kişisine onay mesajı göndermek ister misiniz?${app.lang && app.lang !== "tr" ? `\n(Mesaj danışanın dilinde: ${app.lang.toUpperCase()})` : ""}`,
+                text: `${app.name} kişisine onay mesajı göndermek ister misiniz?`,
                 okText: "", cancelText: "Daha sonra",
                 link: { href: waLink(formatWhatsAppNumber(app.phone), clientMessage("approved", app)), text: "WhatsApp ile bildir" }
             });
