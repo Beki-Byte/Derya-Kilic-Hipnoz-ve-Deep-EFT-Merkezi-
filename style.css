@@ -1180,15 +1180,6 @@ body { transition: opacity .2s; }
 .known-client.is-locked strong { color: #5c2a22; }
 
 
-/* Startseite: Hinweis auf Google-Bewertungen */
-.google-cta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin: 28px auto 34px; max-width: 860px; background: var(--white); border: 1px solid var(--line); border-radius: 20px; padding: 20px 24px; box-shadow: var(--shadow-sm); }
-.google-cta__icon { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 1.5rem; color: #fff; background: conic-gradient(from -45deg, #ea4335 0 25%, #fbbc05 0 50%, #34a853 0 75%, #4285f4 0); flex-shrink: 0; }
-.google-cta__text { flex: 1 1 260px; }
-.google-cta__text strong { display: block; font-size: 1.08rem; color: var(--espresso); margin-bottom: 2px; }
-.google-cta__text p { margin: 0; color: var(--muted); font-size: .93rem; }
-@media (max-width: 560px) { .google-cta { padding: 18px; } .google-cta .btn { width: 100%; justify-content: center; } }
-
-.lang-switch a { display: inline-grid; place-items: center; text-decoration: none; }
 
 /* Footer: unten Platz lassen, damit die Chat-Blase nichts verdeckt */
 .site-footer .footer-bottom { padding-bottom: 92px; }
