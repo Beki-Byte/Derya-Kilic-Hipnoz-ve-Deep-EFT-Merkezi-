@@ -29,6 +29,7 @@ Danışanlarımıza güven bağı içinde zihinsel hafiflik, içsel huzur ve ya�
 * **Kalender-Regeln:** 2 Std. Abstand zwischen bestätigten Terminen · fremde Termine nur als „Dolu/Belegt/Booked“ ohne Daten · eigener Termin zeigt alle Daten und kann abgesagt werden · unter 24 Std. Hinweis auf Ausfallgebühr (Portal-Klienten: wird automatisch auf den offenen Betrag gebucht).
 * **Sprachen:** Texte stehen in `i18n.js` (TR/DE/EN). Der Admin-Bereich bleibt Türkisch.
 * Analytics lädt nur nach „Tümünü kabul et“ im Cookie-Hinweis.
+* **Schriften & Bibliotheken lokal:** Schriften (Cormorant Garamond, Nunito Sans), Icons (Font Awesome 6.5.2: `fontawesome.min.css` + `fa-*.woff2`) und Kalender (FullCalendar 5.11.3: `fullcalendar*.js/.css`) liegen direkt im Projekt – es wird nichts von Google Fonts, cdnjs oder jsDelivr geladen. Nur Firebase (Datenbank) kommt weiterhin von Google.
 * **Gelmedi (nicht erschienen):** Im Admin-Kalender bei einem begonnenen Termin → immer 65 € auf den offenen Betrag (egal welche Therapie).
 
 *Geliştiren: Betül Erva Kılıç*

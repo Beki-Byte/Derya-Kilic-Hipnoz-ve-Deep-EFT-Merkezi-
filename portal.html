@@ -12,16 +12,14 @@
     <meta property="og:type" content="website">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito+Sans:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preload" href="nunito-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="cormorant-garamond-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="fontawesome.min.css">
     <link rel="stylesheet" href="style.css">
     <meta name="robots" content="noindex">
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+    <link rel="stylesheet" href="fullcalendar.min.css">
     <script>
         /* Sprache früh setzen, damit kein türkischer Text aufblitzt */
         (function () {
@@ -411,9 +409,9 @@
 
     <button class="to-top" id="toTop" aria-label="Yukarı çık" data-i18n-al="t8e145f18"><i class="fas fa-arrow-up"></i></button>
     <div id="chatMount"></div>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/tr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/de.js"></script>
+    <script src="fullcalendar.min.js"></script>
+    <script src="fullcalendar-tr.js"></script>
+    <script src="fullcalendar-de.js"></script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
