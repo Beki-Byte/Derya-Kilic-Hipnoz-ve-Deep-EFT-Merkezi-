@@ -161,6 +161,11 @@
                                 <select id="clientSelect"></select>
                             </div>
 
+                            <div class="form-grid">
+                                <div class="field"><label for="clientPhoneEdit">Telefon</label><input type="tel" id="clientPhoneEdit" class="input" placeholder="+49 170 1234567"></div>
+                                <div class="field"><label for="clientEmailEdit">E-posta</label><input type="email" id="clientEmailEdit" class="input" placeholder="ornek@email.com"></div>
+                            </div>
+
                             <div class="balance-box">
                                 <div>
                                     <small>Kalan ödeme (bakiye)</small>
@@ -214,7 +219,7 @@
                                 <textarea id="clientPrivateNotes" rows="3" placeholder="Danışan hakkında özel notlar…"></textarea>
                             </div>
                             <div class="list-actions">
-                                <button type="button" class="btn btn--primary btn--sm" id="saveClientBtn"><i class="fas fa-floppy-disk"></i> Ödev &amp; Notları Kaydet</button>
+                                <button type="button" class="btn btn--primary btn--sm" id="saveClientBtn"><i class="fas fa-floppy-disk"></i> Kaydet</button>
                                 <button type="button" class="btn btn--danger btn--sm" id="deleteClientBtn"><i class="fas fa-trash-can"></i> Hesabı Sil</button>
                             </div>
                         </div>
@@ -229,6 +234,11 @@
                                 <p class="card-sub">Danışan bu kod ile portala giriş yapar.</p>
                                 <form id="addClientForm">
                                     <div class="field">
+                                        <label for="newClientFromReq">Talepten doldur (isteğe bağlı)</label>
+                                        <select id="newClientFromReq" class="input"><option value="">– Son taleplerden seçin –</option></select>
+                                        <span class="hint">Seçince ad, telefon ve e-posta otomatik doldurulur.</span>
+                                    </div>
+                                    <div class="field">
                                         <label for="newClientName">Ad Soyad</label>
                                         <input type="text" id="newClientName" class="input" placeholder="Danışan adı soyadı" required>
                                     </div>
@@ -239,6 +249,11 @@
                                             <button type="button" class="btn btn--ghost btn--sm" id="genCode"><i class="fas fa-wand-magic-sparkles"></i> Öner</button>
                                         </div>
                                     </div>
+                                    <div class="form-grid">
+                                        <div class="field"><label for="newClientPhone">Telefon</label><input type="tel" id="newClientPhone" class="input" placeholder="+49 170 1234567"></div>
+                                        <div class="field"><label for="newClientEmail">E-posta</label><input type="email" id="newClientEmail" class="input" placeholder="ornek@email.com"></div>
+                                    </div>
+                                    <span class="hint" style="display:block;margin:-6px 0 14px">Telefon/e-posta sayesinde danışan yanlışlıkla „Randevu Al“ sayfasından randevu almaya çalışırsa portala yönlendirilir.</span>
                                     <button type="submit" class="btn btn--primary btn--block"><i class="fas fa-plus"></i> Danışan Ekle</button>
                                 </form>
                             </div>

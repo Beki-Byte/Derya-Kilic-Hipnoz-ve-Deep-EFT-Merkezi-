@@ -76,6 +76,14 @@
         </section>
         <section class="section section--tight">
             <div class="container container--wide booking-stack">
+                <div class="first-visit-note" role="note">
+                    <i class="fas fa-circle-exclamation" aria-hidden="true"></i>
+                    <div>
+                        <strong><span data-i18n="tb3abf3f6">Bu sayfa YALNIZCA ilk kez randevu alacak yeni danışanlar içindir.</span></strong>
+                        <p><span data-i18n="t6adc4867">Size bir danışan kodu verildiyse lütfen burada randevu ALMAYIN. Randevularınızı danışan portalı üzerinden kodunuzla alın.</span></p>
+                        <a href="portal.html" class="btn btn--primary btn--sm"><i class="fas fa-key"></i> <span data-i18n="t245d2902">Kodum var – Portala git</span></a>
+                    </div>
+                </div>
                 <div class="card calendar-card calendar-card--big">
                     <p class="calendar-hint"><i class="fas fa-hand-pointer"></i> <span data-i18n="t7556be23">Bir güne tıklayın – tarih aşağıdaki forma otomatik aktarılır.</span></p>
                     <div id="publicCalendar"><div class="calendar-fallback"><i class="fas fa-spinner fa-spin"></i> <span data-i18n="t57016b0d">Takvim yükleniyor…</span></div></div>
@@ -180,6 +188,7 @@
                                     <span data-i18n="t64dd2ffb">Bilgilerimin (sağlık bilgileri dahil) randevu planlaması amacıyla işlenmesine onay veriyorum. <a href="datenschutz.html" target="_blank">Gizlilik politikası</a> *</span>
                                 </label>
 
+                                <div class="known-client" id="knownClientBox" role="alert" hidden></div>
                                 <button type="submit" class="btn btn--primary btn--block" id="pubSubmit"><i class="fas fa-paper-plane"></i> <span data-i18n="t618cdb10">Randevu Talebi Gönder</span></button>
                             </div>
                           </div>

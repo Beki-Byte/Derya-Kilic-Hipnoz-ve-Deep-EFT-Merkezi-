@@ -270,6 +270,24 @@ const getBalance = (c) => round2(typeof c?.balance === "number" ? c.balance : pa
 /* Zahlungsfrist: nach Ablauf (und offenem Betrag) ist das Klienten-Portal gesperrt */
 const isPortalLocked = (c) => !!c && Number(c.payDeadlineMs) > 0 && Date.now() > Number(c.payDeadlineMs) && getBalance(c) > 0;
 const deadlineLocal = (c) => { const l = toLocal(new Date(Number(c.payDeadlineMs))); return `${formatDateLong(l.date)} · ${l.time}`; };
+/* Bestehende Klienten auf der Buchungsseite erkennen: Telefon/E-Mail nur als Hash (contactIndex) */
+const CONTACT_SALT = "dk-praxis-2026|";
+const phoneKey = (v) => { const d = String(v || "").replace(/\D/g, ""); return d.length >= 9 ? "p:" + d.slice(-9) : null; };
+const emailKey = (v) => { const e = String(v || "").trim().toLowerCase(); return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) ? "e:" + e : null; };
+async function contactHash(key) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(CONTACT_SALT + key));
+    return [...new Uint8Array(buf)].map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+async function lookupKnownClient(phone, email) {
+    if (!(await dbReady)) return null;
+    for (const k of [phoneKey(phone), emailKey(email)].filter(Boolean)) {
+        try {
+            const snap = await fs.getDoc(fs.doc(db, "contactIndex", await contactHash(k)));
+            if (snap.exists()) { const l = Number(snap.data().lockAt) || 0; return { locked: l > 0 && Date.now() > l }; }
+        } catch { /* Prüfung nicht möglich -> nicht blockieren */ }
+    }
+    return null;
+}
 const deadlineTR = (c) => { const [d, tm] = String(c.payDeadline || "").split("T"); return d ? `${formatDateForUser(d)} ${tm || ""}`.trim() : ""; };
 function money(n, lang = LANG) {
     n = round2(n);
@@ -1111,9 +1129,27 @@ async function initPublicBooking() {
     refreshStatus?.();
 
     const submitBtn = $("#pubSubmit");
+    // Sicherung: Wer schon einen Klienten-Code hat, bucht im Portal (gesperrtes Portal -> keine Buchung)
+    const knownBox = $("#knownClientBox");
+    let known = null;
+    const renderKnown = () => {
+        if (!knownBox) return;
+        knownBox.hidden = !known;
+        submitBtn.disabled = !!known;
+        if (!known) return;
+        knownBox.classList.toggle("is-locked", known.locked);
+        knownBox.innerHTML = `<i class="fas ${known.locked ? "fa-lock" : "fa-id-card"}"></i><div><strong>${escapeHTML(t(known.locked ? "known_locked_title" : "known_title"))}</strong><p>${escapeHTML(t(known.locked ? "known_locked_text" : "known_text"))}</p><a href="portal.html" class="btn btn--primary btn--sm"><i class="fas fa-key"></i> ${escapeHTML(t("known_btn"))}</a></div>`;
+    };
+    const checkKnown = async () => { known = await lookupKnownClient($("#pubPhone").value, $("#pubEmail").value); renderKnown(); };
+    $("#pubPhone").addEventListener("change", checkKnown);
+    $("#pubEmail").addEventListener("change", checkKnown);
+    langHooks.push(renderKnown);
+
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!form.checkValidity()) { form.reportValidity(); return; }
+        await checkKnown();
+        if (known) { knownBox.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
         const inst = localInstant(dateInput.value, timeInput.value);
         const de = toBerlin(inst);
         const data = {
@@ -1529,6 +1565,14 @@ async function loadMasterDashboard() {
         $("#debtsList")?.addEventListener("click", onDebtClick);
         $("#remindersList")?.addEventListener("click", onReminderClick);
         $("#cancelledList")?.addEventListener("click", onRestoreClick);
+        $("#newClientFromReq")?.addEventListener("change", (e) => {
+            const a = reqFillCache[Number(e.target.value)];
+            if (!a) return;
+            $("#newClientName").value = a.name || "";
+            $("#newClientPhone").value = a.phone || "";
+            $("#newClientEmail").value = a.email || "";
+            $("#genCode").click();
+        });
         setInterval(() => { if (!$("#masterDashboard").hidden) renderReminders(); }, 10 * 60 * 1000);
         $("#deadlineSaveBtn").addEventListener("click", adminSetDeadline);
         $("#deadlineClearBtn").addEventListener("click", adminClearDeadline);
@@ -1612,6 +1656,47 @@ async function onReminderClick(e) {
     } catch (er) { console.error(er); toast("Kaydedilemedi.", "error"); }
 }
 
+/* contactIndex aktuell halten (Hash von Telefon/E-Mail jedes Klienten + Sperrzeitpunkt) */
+let contactIndexTimer = null;
+function scheduleContactIndex() { clearTimeout(contactIndexTimer); contactIndexTimer = setTimeout(syncContactIndex, 800); }
+async function syncContactIndex() {
+    try {
+        const [clients, all, existing] = await Promise.all([
+            fs.getDocs(fs.collection(db, "clients")).then(snapList),
+            getAllAppointmentsAdmin(),
+            fs.getDocs(fs.collection(db, "contactIndex")).then(snapList)
+        ]);
+        const want = new Map();
+        for (const c of clients) {
+            const lockAt = getBalance(c) > 0 && Number(c.payDeadlineMs) > 0 ? Number(c.payDeadlineMs) : 0;
+            const own = all.filter((a) => a._path.startsWith(`clients/${c.id}/`));
+            const keys = new Set([phoneKey(c.phone), emailKey(c.email), ...own.map((a) => phoneKey(a.phone)), ...own.map((a) => emailKey(a.email))].filter(Boolean));
+            for (const k of keys) {
+                const h = await contactHash(k);
+                want.set(h, Math.max(want.get(h) || 0, lockAt));
+            }
+        }
+        const have = new Map(existing.map((d) => [d.id, Number(d.lockAt) || 0]));
+        for (const [h, lockAt] of want) if (have.get(h) !== lockAt) await fs.setDoc(fs.doc(db, "contactIndex", h), { lockAt });
+        for (const h of have.keys()) if (!want.has(h)) await fs.deleteDoc(fs.doc(db, "contactIndex", h));
+    } catch (e) { console.warn("contactIndex:", e); }
+}
+
+/* „Talepten doldur“: Name/Telefon/E-Mail aus einer Gast-Anfrage übernehmen */
+let reqFillCache = [];
+async function fillReqSelect() {
+    const sel = $("#newClientFromReq");
+    if (!sel) return;
+    const since = Date.now() - 180 * 86400000;
+    const seen = new Set();
+    reqFillCache = (await getAllAppointmentsAdmin())
+        .filter((a) => a._path.startsWith("appointments/") && a.clientCode === "GUEST" && a.name && (!a.createdAt || new Date(a.createdAt).getTime() > since))
+        .sort((x, y) => (y.createdAt || "").localeCompare(x.createdAt || ""))
+        .filter((a) => { const k = phoneKey(a.phone) || emailKey(a.email) || a.name; if (seen.has(k)) return false; seen.add(k); return true; })
+        .slice(0, 40);
+    sel.innerHTML = `<option value="">– Son taleplerden seçin –</option>` + reqFillCache.map((a, i) => `<option value="${i}">${escapeHTML(a.name)} · ${escapeHTML(formatDateForUser(a.date))} ${escapeHTML(a.time || "")}${a.phone ? " · " + escapeHTML(a.phone) : ""}</option>`).join("");
+}
+
 /* ---------- Son iptal edilenler: versehentlich abgesagte Termine zurückholen ---------- */
 async function renderCancelled() {
     const box = $("#cancelledList");
@@ -1641,8 +1726,9 @@ async function onRestoreClick(e) {
     const all = await getAllAppointmentsAdmin();
     const app = all.find((a) => a._path === path);
     if (!app || app.status !== "cancelled") return;
-    // Wurde die Zeit inzwischen anders vergeben? Dann nicht einfach zurückholen
-    const conflict = checkSlot(await getAdminBusy(all), appInstant(app), app.id);
+    // Wurde die Zeit inzwischen an einen anderen Klienten vergeben? Dann nicht einfach zurückholen.
+    // Şahsi-Einträge zählen hier NICHT (die 2-Stunden-Regel gilt nicht für Şahsi).
+    const conflict = checkSlot((await getAdminBusy(all)).filter((b) => !b.personal), appInstant(app), app.id);
     if (conflict) {
         await dialog({ title: "Geri alınamıyor", text: `${app.name} · ${formatDateForUser(app.date)} ${app.time}\n\n${conflictText(conflict)}`, okText: "Tamam", showCancel: false });
         return;
@@ -1686,6 +1772,7 @@ async function refreshMaster() {
     await renderPendingAppointments();
     renderReminders();
     renderCancelled();
+    fillReqSelect();
     await initCalendar("masterCalendar", {
         mode: "master",
         onDateClick: (d, tm) => { $("#appDate").value = d; if (tm) $("#appTime").value = tm; scrollToCard($("#adminAddCard"), $("#appClientSelect")); }
@@ -1891,7 +1978,7 @@ async function addNewClient(e) {
         const ref = fs.doc(db, "clients", code);
         const snap = await fs.getDoc(ref);
         if (snap.exists()) { toast(`Bu kod zaten kullanılıyor (${snap.data().name}). Lütfen farklı bir kod seçin.`, "warn", 6000); return; }
-        await fs.setDoc(ref, { code, name, homework: HW_DEFAULT, homeworkDate: null, balance: 0, payment: "0 €" });
+        await fs.setDoc(ref, { code, name, phone: $("#newClientPhone").value.trim().slice(0, 40), email: $("#newClientEmail").value.trim().slice(0, 120), homework: HW_DEFAULT, homeworkDate: null, balance: 0, payment: "0 €" });
         e.target.reset();
         await populateClientSelect(code);
         await dialog({ title: "Danışan eklendi ✓", text: `İsim: ${name}\nGiriş kodu: ${code}\n\nKodu danışanla paylaşmayı unutmayın.`, okText: "Tamam", showCancel: false });
@@ -1914,6 +2001,7 @@ async function populateClientSelect(selectCode = null) {
             return;
         }
         renderDebts(clients);
+        scheduleContactIndex();
         const opts = clients.map((c) => `<option value="${escapeHTML(c.id)}" data-name="${escapeHTML(c.name)}">${escapeHTML(c.name)} (${escapeHTML(c.id)}) · ${escapeHTML(money(getBalance(c), "tr"))}</option>`).join("");
         const prev = selectCode || sel.value;
         const prevApp = appSel.value;
@@ -1943,6 +2031,8 @@ async function loadClientData() {
         st.textContent = adminBalance > 0 ? "Açık" : "Ödendi ✓";
         st.className = "balance-state " + (adminBalance > 0 ? "open" : "paid");
         adminClient = c;
+        $("#clientPhoneEdit").value = c.phone || "";
+        $("#clientEmailEdit").value = c.email || "";
         $("#payDeadline").value = c.payDeadline && Number(c.payDeadlineMs) > 0 ? c.payDeadline : "";
         renderDeadlineState(c);
         renderPayHistory($("#adminPayHistory"), await getPayments(code), "tr");
@@ -2102,14 +2192,15 @@ async function saveClientData() {
     const code = $("#clientSelect").value;
     if (!code || !(await dbReady)) return;
     const hw = $("#clientHomework").value.trim();
-    const update = { homework: hw || HW_DEFAULT };
+    const update = { homework: hw || HW_DEFAULT, phone: $("#clientPhoneEdit").value.trim().slice(0, 40), email: $("#clientEmailEdit").value.trim().slice(0, 120) };
     if (hw && hw !== loadedHomework) update.homeworkDate = new Date().toISOString();
     if (!hw) update.homeworkDate = null;
     try {
         await fs.updateDoc(fs.doc(db, "clients", code), update);
         await fs.setDoc(fs.doc(db, "adminNotes", code), { notes: $("#clientPrivateNotes").value }, { merge: true });
         loadedHomework = update.homework;
-        toast("Ödev ve notlar kaydedildi.", "success");
+        toast("Kaydedildi.", "success");
+        scheduleContactIndex();
     } catch (e) {
         console.error("saveClientData:", e);
         toast("Kaydedilemedi.", "error");
@@ -2175,6 +2266,8 @@ async function loadClientDashboard(code) {
     const payments = await getPayments(code);
     clientState = { code, client: client || {}, payments, own: [], busy: [] };
     if (client && !$("#clientName").value) $("#clientName").value = client.name || "";
+    if (client?.phone && !$("#clientPhone").value) $("#clientPhone").value = client.phone;
+    if (client?.email && !$("#clientEmail").value) $("#clientEmail").value = client.email;
 
     const result = await initCalendar("clientCalendar", {
         mode: "client", clientCode: code,

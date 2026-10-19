@@ -1150,3 +1150,19 @@ body { transition: opacity .2s; }
 .reminder-state { font-weight: 700; color: var(--ink); }
 .empty-note { color: var(--muted); font-size: .92rem; margin: 0; }
 .tab .count--bell:not(:empty) { background: #d9a441; color: #fff; margin-left: 4px; }
+
+/* Kalender-Seite: Hinweis „nur für Erstbesucher“ */
+.first-visit-note { display: flex; gap: 16px; align-items: flex-start; background: #fdf1e3; border: 2px solid #e0a458; border-left-width: 6px; border-radius: 18px; padding: 20px 22px; color: #5a3a14; }
+.first-visit-note > i { font-size: 1.7rem; color: #c27a1f; margin-top: 2px; flex-shrink: 0; }
+.first-visit-note strong { display: block; font-size: 1.12rem; line-height: 1.4; margin-bottom: 6px; color: #4a2e0e; }
+.first-visit-note p { margin: 0 0 12px; }
+@media (max-width: 560px) { .first-visit-note { flex-direction: column; gap: 8px; padding: 16px 18px; } }
+
+/* Buchungsseite: bestehender Klient erkannt */
+.known-client { display: flex; gap: 14px; align-items: flex-start; background: #fdf1e3; border: 2px solid #e0a458; border-radius: 16px; padding: 16px 18px; margin: 4px 0 14px; color: #5a3a14; }
+.known-client > i { font-size: 1.5rem; color: #c27a1f; margin-top: 2px; flex-shrink: 0; }
+.known-client strong { display: block; margin-bottom: 4px; color: #4a2e0e; }
+.known-client p { margin: 0 0 10px; font-size: .93rem; }
+.known-client.is-locked { background: #fbecea; border-color: #d88f84; color: #5c2a22; }
+.known-client.is-locked > i { color: #b04a3c; }
+.known-client.is-locked strong { color: #5c2a22; }

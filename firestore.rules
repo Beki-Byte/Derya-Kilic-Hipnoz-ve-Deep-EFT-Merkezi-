@@ -108,6 +108,12 @@ service cloud.firestore {
       allow read: if isAdmin();
     }
 
+    // ---------- Klienten-Erkennung auf der Buchungsseite: nur Hashwerte, einzeln abrufbar, keine Liste ----------
+    match /contactIndex/{h} {
+      allow get: if true;
+      allow list, write: if isAdmin();
+    }
+
     // ---------- Private Notizen ----------
     match /adminNotes/{code} {
       allow read, write: if isAdmin();

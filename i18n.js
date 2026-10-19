@@ -851,6 +851,21 @@ export const PAGE = {
 "de": "Wählen Sie im Kalender einen Tag, legen Sie die Uhrzeit fest und füllen Sie das kurze Formular aus. Sobald Derya Kılıç Ihre Anfrage bestätigt, ist Ihr Termin fest.",
 "en": "Pick a day in the calendar, choose your time and fill in the short form. Once Derya Kılıç confirms your request, your appointment is set."
 },
+"tb3abf3f6": {
+"tr": "Bu sayfa YALNIZCA ilk kez randevu alacak yeni danışanlar içindir.",
+"de": "Diese Seite ist AUSSCHLIESSLICH für neue Besucher, die zum ersten Mal einen Termin buchen.",
+"en": "This page is ONLY for new visitors booking their very first appointment."
+},
+"t6adc4867": {
+"tr": "Size bir danışan kodu verildiyse lütfen burada randevu ALMAYIN. Randevularınızı danışan portalı üzerinden kodunuzla alın.",
+"de": "Wenn Sie bereits einen Klienten-Code haben, buchen Sie hier bitte KEINEN Termin. Buchen Sie Ihre Termine im Klienten-Portal mit Ihrem Code.",
+"en": "If you already have a client code, please do NOT book here. Book your appointments in the client portal using your code."
+},
+"t245d2902": {
+"tr": "Kodum var – Portala git",
+"de": "Ich habe einen Code – zum Portal",
+"en": "I have a code – go to the portal"
+},
 "t0c632712": {
 "tr": "Randevu Talebi",
 "de": "Terminanfrage",
@@ -1346,10 +1361,10 @@ export const PAGE = {
 "de": "6. Eingesetzte Dienste",
 "en": "6. Services Used"
 },
-"t490a4b1c": {
-"tr": "<ul><li><strong>Google Firebase / Cloud Firestore</strong> (Google Ireland Ltd.): Randevu talepleri, danışan portalı, ödemeler ve yorumlar bu veritabanında saklanır. Google LLC’ye (ABD) veri aktarımı mümkündür; Google, AB-ABD Veri Gizliliği Çerçevesi kapsamında sertifikalıdır.</li><li><strong>Google Analytics for Firebase</strong>: Yalnızca çerez bildiriminde “Tümünü kabul et” seçeneğini seçerseniz yüklenir (Madde 6 Par. 1 lit. a DSGVO).</li><li><strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A.): Portal üzerinden veya PayPal bağlantısıyla ödeme yaptığınızda ödeme verileriniz PayPal tarafından işlenir.</li><li><strong>FormSubmit</strong> (formsubmit.co) ve isteğe bağlı <strong>ntfy</strong> (ntfy.sh): Yeni randevu talepleri ve iptaller Derya Hanım’a e-posta veya anlık bildirim ile iletilir (ad, telefon, e-posta, tarih, saat, hizmet – ön görüşme bilgileri hariç).</li><li><strong>Google Fonts, cdnjs (Cloudflare) ve jsDelivr</strong>: Yazı tipleri, ikonlar ve takvim bileşeni bu sunuculardan yüklenir; bu sırada IP adresiniz ilgili sağlayıcıya iletilir (Madde 6 Par. 1 lit. f DSGVO).</li><li><strong>WhatsApp, Instagram</strong>: Bu hizmetlere ait bağlantılara tıkladığınızda ilgili sağlayıcının sayfasına yönlendirilirsiniz; orada sağlayıcının gizlilik politikası geçerlidir.</li></ul>",
-"de": "<ul><li><strong>Google Firebase / Cloud Firestore</strong> (Google Ireland Ltd.): Terminanfragen, Klienten-Portal, Zahlungen und Bewertungen werden in dieser Datenbank gespeichert. Eine Übermittlung an Google LLC (USA) ist möglich; Google ist unter dem EU-US Data Privacy Framework zertifiziert.</li><li><strong>Google Analytics for Firebase</strong>: wird nur geladen, wenn Sie im Cookie-Hinweis „Alle akzeptieren“ wählen (Art. 6 Abs. 1 lit. a DSGVO).</li><li><strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A.): Wenn Sie über das Portal oder den PayPal-Link bezahlen, werden Ihre Zahlungsdaten von PayPal verarbeitet.</li><li><strong>FormSubmit</strong> (formsubmit.co) und optional <strong>ntfy</strong> (ntfy.sh): Neue Terminanfragen und Absagen werden Derya Kılıç per E-Mail bzw. Push-Nachricht mitgeteilt (Name, Telefon, E-Mail, Datum, Uhrzeit, Leistung – ohne Angaben aus dem Vorgespräch).</li><li><strong>Google Fonts, cdnjs (Cloudflare) und jsDelivr</strong>: Schriften, Icons und der Kalender werden von diesen Servern geladen; dabei wird Ihre IP-Adresse an den jeweiligen Anbieter übermittelt (Art. 6 Abs. 1 lit. f DSGVO).</li><li><strong>WhatsApp, Instagram</strong>: Wenn Sie auf Links zu diesen Diensten klicken, werden Sie zur Seite des jeweiligen Anbieters weitergeleitet; dort gilt dessen Datenschutzerklärung.</li></ul>",
-"en": "<ul><li><strong>Google Firebase / Cloud Firestore</strong> (Google Ireland Ltd.): Booking requests, the client portal, payments and reviews are stored in this database. Transfer to Google LLC (USA) is possible; Google is certified under the EU-US Data Privacy Framework.</li><li><strong>Google Analytics for Firebase</strong>: only loaded if you select “Accept all” in the cookie notice (Art. 6(1)(a) GDPR).</li><li><strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A.): If you pay via the portal or the PayPal link, your payment data is processed by PayPal.</li><li><strong>FormSubmit</strong> (formsubmit.co) and optionally <strong>ntfy</strong> (ntfy.sh): New booking requests and cancellations are sent to Derya Kılıç by email or push notification (name, phone, email, date, time, service – without pre-session details).</li><li><strong>Google Fonts, cdnjs (Cloudflare) and jsDelivr</strong>: Fonts, icons and the calendar are loaded from these servers; your IP address is transmitted to the respective provider (Art. 6(1)(f) GDPR).</li><li><strong>WhatsApp, Instagram</strong>: When you click links to these services you are redirected to the provider’s website, where their privacy policy applies.</li></ul>"
+"t28fd7fce": {
+"tr": "<ul><li><strong>Google Firebase / Cloud Firestore</strong> (Google Ireland Ltd.): Randevu talepleri, danışan portalı, ödemeler ve yorumlar bu veritabanında saklanır. Kayıtlı danışanları randevu sayfasında tanıyıp portala yönlendirmek için telefon numarası ve e-posta adresi yalnızca geri döndürülemez şekilde şifrelenmiş (hash) olarak saklanır. Google LLC’ye (ABD) veri aktarımı mümkündür; Google, AB-ABD Veri Gizliliği Çerçevesi kapsamında sertifikalıdır.</li><li><strong>Google Analytics for Firebase</strong>: Yalnızca çerez bildiriminde “Tümünü kabul et” seçeneğini seçerseniz yüklenir (Madde 6 Par. 1 lit. a DSGVO).</li><li><strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A.): Portal üzerinden veya PayPal bağlantısıyla ödeme yaptığınızda ödeme verileriniz PayPal tarafından işlenir.</li><li><strong>FormSubmit</strong> (formsubmit.co) ve isteğe bağlı <strong>ntfy</strong> (ntfy.sh): Yeni randevu talepleri ve iptaller Derya Hanım’a e-posta veya anlık bildirim ile iletilir (ad, telefon, e-posta, tarih, saat, hizmet – ön görüşme bilgileri hariç).</li><li><strong>Google Fonts, cdnjs (Cloudflare) ve jsDelivr</strong>: Yazı tipleri, ikonlar ve takvim bileşeni bu sunuculardan yüklenir; bu sırada IP adresiniz ilgili sağlayıcıya iletilir (Madde 6 Par. 1 lit. f DSGVO).</li><li><strong>WhatsApp, Instagram</strong>: Bu hizmetlere ait bağlantılara tıkladığınızda ilgili sağlayıcının sayfasına yönlendirilirsiniz; orada sağlayıcının gizlilik politikası geçerlidir.</li></ul>",
+"de": "<ul><li><strong>Google Firebase / Cloud Firestore</strong> (Google Ireland Ltd.): Terminanfragen, Klienten-Portal, Zahlungen und Bewertungen werden in dieser Datenbank gespeichert. Um bestehende Klienten auf der Buchungsseite zu erkennen und ins Portal weiterzuleiten, werden Telefonnummer und E-Mail-Adresse dort nur als nicht umkehrbarer Hashwert gespeichert. Eine Übermittlung an Google LLC (USA) ist möglich; Google ist unter dem EU-US Data Privacy Framework zertifiziert.</li><li><strong>Google Analytics for Firebase</strong>: wird nur geladen, wenn Sie im Cookie-Hinweis „Alle akzeptieren“ wählen (Art. 6 Abs. 1 lit. a DSGVO).</li><li><strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A.): Wenn Sie über das Portal oder den PayPal-Link bezahlen, werden Ihre Zahlungsdaten von PayPal verarbeitet.</li><li><strong>FormSubmit</strong> (formsubmit.co) und optional <strong>ntfy</strong> (ntfy.sh): Neue Terminanfragen und Absagen werden Derya Kılıç per E-Mail bzw. Push-Nachricht mitgeteilt (Name, Telefon, E-Mail, Datum, Uhrzeit, Leistung – ohne Angaben aus dem Vorgespräch).</li><li><strong>Google Fonts, cdnjs (Cloudflare) und jsDelivr</strong>: Schriften, Icons und der Kalender werden von diesen Servern geladen; dabei wird Ihre IP-Adresse an den jeweiligen Anbieter übermittelt (Art. 6 Abs. 1 lit. f DSGVO).</li><li><strong>WhatsApp, Instagram</strong>: Wenn Sie auf Links zu diesen Diensten klicken, werden Sie zur Seite des jeweiligen Anbieters weitergeleitet; dort gilt dessen Datenschutzerklärung.</li></ul>",
+"en": "<ul><li><strong>Google Firebase / Cloud Firestore</strong> (Google Ireland Ltd.): Booking requests, the client portal, payments and reviews are stored in this database. To recognise existing clients on the booking page and redirect them to the portal, phone numbers and email addresses are stored there only as irreversible hash values. Transfer to Google LLC (USA) is possible; Google is certified under the EU-US Data Privacy Framework.</li><li><strong>Google Analytics for Firebase</strong>: only loaded if you select “Accept all” in the cookie notice (Art. 6(1)(a) GDPR).</li><li><strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A.): If you pay via the portal or the PayPal link, your payment data is processed by PayPal.</li><li><strong>FormSubmit</strong> (formsubmit.co) and optionally <strong>ntfy</strong> (ntfy.sh): New booking requests and cancellations are sent to Derya Kılıç by email or push notification (name, phone, email, date, time, service – without pre-session details).</li><li><strong>Google Fonts, cdnjs (Cloudflare) and jsDelivr</strong>: Fonts, icons and the calendar are loaded from these servers; your IP address is transmitted to the respective provider (Art. 6(1)(f) GDPR).</li><li><strong>WhatsApp, Instagram</strong>: When you click links to these services you are redirected to the provider’s website, where their privacy policy applies.</li></ul>"
 },
 "t028a578d": {
 "tr": "7. Çerezler ve Yerel Depolama",
@@ -1632,6 +1647,31 @@ export const UI = {
   "tr": "Ücretsiz iptal süresi doldu (randevuya 24 saatten az kaldı).",
   "de": "Die kostenlose Absagefrist ist abgelaufen (weniger als 24 Stunden bis zum Termin).",
   "en": "The free cancellation period has ended (less than 24 hours to go)."
+ },
+ "known_title": {
+  "tr": "Siz zaten kayıtlı danışanımızsınız 💛",
+  "de": "Sie sind bereits Klient(in) bei uns 💛",
+  "en": "You are already one of our clients 💛"
+ },
+ "known_text": {
+  "tr": "Bu sayfa yalnızca ilk kez randevu alanlar içindir. Lütfen randevunuzu danışan portalından kodunuzla alın – böylece randevunuz kendi takviminizde görünür.",
+  "de": "Diese Seite ist nur für die erste Buchung. Bitte buchen Sie Ihren Termin im Klienten-Portal mit Ihrem Code – dann erscheint er auch in Ihrem eigenen Kalender.",
+  "en": "This page is only for first bookings. Please book in the client portal with your code – then the appointment also appears in your own calendar."
+ },
+ "known_locked_title": {
+  "tr": "Portalınız kilitli",
+  "de": "Ihr Portal ist gesperrt",
+  "en": "Your portal is locked"
+ },
+ "known_locked_text": {
+  "tr": "Portalınız kilitli olduğu için şu anda randevu almanız mümkün değil. Lütfen önce açık ödemenizi tamamlayın. Ödemenizi portal üzerinden yapabilirsiniz.",
+  "de": "Da Ihr Portal gesperrt ist, können Sie derzeit keinen Termin buchen. Bitte begleichen Sie zuerst den offenen Betrag. Die Zahlung ist im Portal möglich.",
+  "en": "Your portal is locked, so you cannot book an appointment right now. Please settle the outstanding amount first. You can pay in the portal."
+ },
+ "known_btn": {
+  "tr": "Portala git",
+  "de": "Zum Portal",
+  "en": "Go to the portal"
  },
  "cal_loading": {
   "tr": "Randevular yükleniyor…",
