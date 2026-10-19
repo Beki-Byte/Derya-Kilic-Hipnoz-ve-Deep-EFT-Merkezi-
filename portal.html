@@ -1,417 +1,393 @@
 <!DOCTYPE html>
-<html lang="tr" class="no-js">
+<html class="no-js" data-page-lang="tr" lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="t09538b70">Danışan Portalı | Derya Kılıç</title>
-    <meta name="description" content="Derya Kılıç danışan portalı – randevular, ödevler ve ödeme durumu." data-i18n-content="t2dcc12c1">
-    <meta name="theme-color" content="#faf6f0">
-    <meta property="og:title" content="Danışan Portalı | Derya Kılıç">
-    <meta property="og:description" content="Derya Kılıç danışan portalı – randevular, ödevler ve ödeme durumu.">
-    <meta property="og:image" content="profil.jpg">
-    <meta property="og:type" content="website">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="preload" href="nunito-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="cormorant-garamond-600.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="fontawesome.min.css">
-    <link rel="stylesheet" href="style.css">
-    <meta name="robots" content="noindex">
-    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
-    <link rel="stylesheet" href="fullcalendar.min.css">
-    <script>
-        /* Sprache früh setzen, damit kein türkischer Text aufblitzt */
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="t09538b70">Danışan Portalı | Derya Kılıç</title>
+<meta content="Derya Kılıç danışan portalı – randevular, ödevler ve ödeme durumu." data-i18n-content="t2dcc12c1" name="description"/>
+<meta content="#faf6f0" name="theme-color"/>
+<meta content="Danışan Portalı | Derya Kılıç" property="og:title"/>
+<meta content="Derya Kılıç danışan portalı – randevular, ödevler ve ödeme durumu." property="og:description"/>
+<meta content="https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/profil.jpg" property="og:image"/>
+<meta content="website" property="og:type"/>
+<link href="favicon.png" rel="icon" type="image/png"/>
+<link href="apple-touch-icon.png" rel="apple-touch-icon"/>
+<link as="font" crossorigin="" href="nunito-sans-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="cormorant-garamond-600.woff2" rel="preload" type="font/woff2"/>
+<link href="fontawesome.min.css" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<meta content="noindex" name="robots"/>
+<link crossorigin="" href="https://www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="https://firestore.googleapis.com" rel="preconnect"/>
+<link href="fullcalendar.min.css" rel="stylesheet"/>
+<script>
+        /* Seite ist in ihrer Sprache fertig – nur ?lang=… (aus Nachrichten-Links) tauscht per JS */
         (function () {
             var d = document.documentElement, l = null;
             d.classList.remove('no-js');
-            try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('lang'); } catch (e) {}
-            if (!l) { var n = (navigator.languages && navigator.languages[0]) || navigator.language || 'tr'; n = n.slice(0, 2).toLowerCase(); l = (n === 'tr' || n === 'de') ? n : 'en'; }
-            if (l !== 'tr') d.classList.add('i18n-wait');
+            try { l = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+            if (l && l !== d.lang) d.classList.add('i18n-wait');
             setTimeout(function () { d.classList.remove('i18n-wait'); if (!window.__siteReady) d.classList.add('no-js'); }, 2500);
         })();
     </script>
 </head>
 <body class="portal-page">
-    <a class="skip-link" href="#main" data-i18n="t0cff8040">İçeriğe geç</a>
-
-    <header class="site-header site-header--portal" id="siteHeader">
-        <div class="header-inner">
-            <a href="index.html" class="brand">
-                <img src="logobaum.png" alt="" width="44" height="46">
-                <span class="brand-text">
-                    <span class="brand-name">DERYA KILIÇ</span>
-                    <span class="brand-sub" data-i18n="tb8006d62">Danışan Portalı</span>
-                </span>
-            </a>
-            <div class="portal-header-actions">
-                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> <span data-i18n="t7fdd01f0">Web sitesine dön</span></a>
-                <div class="lang-switch" role="group" aria-label="Dil / Sprache / Language">
-                <button type="button" data-lang="tr" aria-pressed="true" title="Türkçe">TR</button>
-                <button type="button" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
-                <button type="button" data-lang="en" aria-pressed="false" title="English">EN</button>
-            </div>
-            </div>
-        </div>
-    </header>
-
-    <main id="main" class="portal-main">
-        <div class="container container--wide">
-
-            <!-- LOGIN -->
-            <section id="loginSection" class="card login-card">
-                <div class="login-icon"><i class="fas fa-user-shield"></i></div>
-                <h1 data-i18n="tb8006d62">Danışan Portalı</h1>
-                <p class="card-sub" data-i18n="t7d27293a">Size özel giriş kodunuzu girerek ödevlerinizi, ödeme durumunuzu ve randevu takviminizi görüntüleyebilirsiniz.</p>
-                <form id="loginForm" novalidate>
-                    <label for="accessCode" class="sr-only">Code</label>
-                    <div class="code-input-wrap field">
-                        <input type="password" id="accessCode" placeholder="GİRİŞ KODU" data-i18n-ph="t41ece5d5" required autocomplete="off" autocapitalize="characters" spellcheck="false">
-                        <button type="button" id="toggleCode" aria-label="👁"><i class="fas fa-eye"></i></button>
-                    </div>
-                    <button type="submit" class="btn btn--primary btn--block" id="loginBtn"><i class="fas fa-right-to-bracket"></i> <span data-i18n="t3dd7e685">Giriş Yap</span></button>
-                </form>
-                <p id="loginError" class="login-error" role="alert"></p>
-                <details class="admin-login" id="adminLogin" lang="tr">
-                    <summary><i class="fas fa-user-gear"></i> Yönetici girişi</summary>
-                    <form id="adminLoginForm" novalidate>
-                        <div class="field"><label for="adminEmail">E-posta</label><input type="email" id="adminEmail" autocomplete="username" required></div>
-                        <div class="field"><label for="adminPassword">Şifre</label><input type="password" id="adminPassword" autocomplete="current-password" required></div>
-                        <button type="submit" class="btn btn--ghost btn--block" id="adminLoginBtn"><i class="fas fa-lock"></i> Giriş</button>
-                        <p id="adminLoginError" class="login-error" role="alert"></p>
-                    </form>
-                </details>
-                <p class="login-help" data-i18n="tbaba6fdd">Kodunuz yok mu? İlk randevunuz için <a href="kalender.html">takvimden talep oluşturun</a>.<br>Kodunuzu mu unuttunuz? <a href="https://wa.me/491708296913" target="_blank" rel="noopener noreferrer">WhatsApp’tan yazın</a>.</p>
-            </section>
-
-            <!-- MASTER (nur Türkisch) -->
-            <section id="masterDashboard" hidden lang="tr">
-                <div class="dash-head">
-                    <div>
-                        <span class="eyebrow">Yönetim Paneli</span>
-                        <h1>Hoş geldiniz, Derya Hanım</h1>
-                    </div>
-                    <button type="button" class="btn btn--ghost btn--sm" data-logout><i class="fas fa-right-from-bracket"></i> Çıkış Yap</button>
-                </div>
-
-                <div class="tabs" role="tablist">
-                    <button class="tab" role="tab" aria-selected="true" aria-controls="tabRequests" id="t-req"><i class="fas fa-inbox"></i> Talepler <span class="count" id="pendingCount"></span><span class="count count--bell" id="reminderCount" title="Hatırlatılacak randevular"></span></button>
-                    <button class="tab" role="tab" aria-selected="false" aria-controls="tabCalendar" id="t-cal"><i class="fas fa-calendar-days"></i> Takvim</button>
-                    <button class="tab" role="tab" aria-selected="false" aria-controls="tabClients" id="t-cli"><i class="fas fa-users"></i> Danışanlar &amp; Ödemeler <span class="count" id="payPendingCount"></span></button>
-                    <button class="tab" role="tab" aria-selected="false" aria-controls="tabComments" id="t-com"><i class="fas fa-comments"></i> Yorumlar</button>
-                </div>
-
-                <div class="tab-panel" role="tabpanel" id="tabRequests" aria-labelledby="t-req">
-                    <div class="card reminders-card" id="remindersCard" style="margin-bottom:24px">
-                        <h3><i class="fas fa-bell"></i> Hatırlatmalar <small>(randevudan 26–30 saat önce)</small></h3>
-                        <p class="card-sub">Danışana hatırlatma gönderin – WhatsApp veya e-postaya tıkladığınızda gönderim zamanı kanıt olarak kaydedilir. Böylece danışan 24 saat sınırından önce bilgilendirilmiş olur.</p>
-                        <div class="list" id="remindersList"></div>
-                    </div>
-                    <div id="pendingAppointmentsList" class="list"></div>
-                </div>
-
-                <div class="tab-panel" role="tabpanel" id="tabCalendar" aria-labelledby="t-cal" hidden>
-                    <div class="booking-stack">
-                        <div class="card calendar-card calendar-card--big">
-                            <p class="calendar-hint"><i class="fas fa-hand-pointer"></i> Detaylar veya iptal için randevuya tıklayın. Bir güne tıklamak tarihi aşağıdaki forma aktarır.</p>
-                            <div id="masterCalendar"></div>
-                        </div>
-                        <div class="card" id="adminAddCard">
-                            <h3><i class="fas fa-calendar-plus"></i> Randevu Ekle</h3>
-                            <p class="card-sub">Doğrudan onaylı olarak eklenir. Tüm saatler Almanya saatidir. “🔒 Şahsi” seçilirse 2 saat kuralı uygulanmaz; danışan randevularında kural ihlali olursa uyarı gösterilir.</p>
-                            <form id="adminAddAppointmentForm" class="form-row">
-                                <div class="field"><label for="appClientSelect">Danışan</label><select id="appClientSelect" required><option value="">Lütfen danışan seçin</option></select></div>
-                                <div class="field"><label for="appDate">Tarih</label><input type="date" id="appDate" required></div>
-                                <div class="field"><label for="appTime">Saat (Almanya)</label><input type="time" id="appTime" step="900" required></div>
-                                <div class="field" id="appEndWrap" hidden><label for="appEndTime">Bitiş saati (isteğe bağlı)</label><input type="time" id="appEndTime" step="900"></div>
-                                <div class="field">
-                                    <label for="appServiceType">Terapi türü / not</label>
-                                    <input type="text" id="appServiceType" placeholder="Örn: Hipnoterapi" required list="serviceList">
-                                    <datalist id="serviceList">
-                                        <option value="Hipnoterapi"><option value="Deep EFT"><option value="Bilişsel Davranışçı Terapi (BDT)"><option value="Şema Terapisi"><option value="Travma ve Yas Terapisi"><option value="Pozitif Psikoloji"><option value="Mesnevi Terapisi"><option value="Manevi Danışmanlık"><option value="Regresyon">
-                                    </datalist>
-                                </div>
-                                <button type="submit" class="btn btn--primary"><i class="fas fa-plus"></i> Oluştur</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="card" id="cancelledCard" style="margin-top:24px">
-                        <h3><i class="fas fa-rotate-left"></i> Son iptal edilenler</h3>
-                        <p class="card-sub">Son 30 günde sizin iptal ettiğiniz randevular. Yanlışlıkla iptal ettiyseniz „Geri al“ ile randevuyu geri getirebilirsiniz.</p>
-                        <div class="list" id="cancelledList"></div>
-                    </div>
-                </div>
-
-                <div class="tab-panel" role="tabpanel" id="tabClients" aria-labelledby="t-cli" hidden>
-                    <div class="card debts-card" id="debtsCard" style="margin-bottom:24px">
-                        <div class="debts-head">
-                            <h3><i class="fas fa-file-invoice-dollar"></i> Borçlar</h3>
-                            <div class="debts-total"><small>Toplam alacak</small><strong id="debtsTotal">0 €</strong><span id="debtsCount"></span></div>
-                        </div>
-                        <div class="list" id="debtsList"></div>
-                    </div>
-                    <div class="card" id="pendingPayments" hidden style="margin-bottom:24px"></div>
-                    <div class="two-col">
-                        <div class="card" id="clientEditCard">
-                            <h3><i class="fas fa-user-pen"></i> Danışan Düzenle</h3>
-                            <div class="field">
-                                <label for="clientSelect">Danışan</label>
-                                <select id="clientSelect"></select>
-                            </div>
-
-                            <div class="form-grid">
-                                <div class="field"><label for="clientPhoneEdit">Telefon</label><input type="tel" id="clientPhoneEdit" class="input" placeholder="+49 170 1234567"></div>
-                                <div class="field"><label for="clientEmailEdit">E-posta</label><input type="email" id="clientEmailEdit" class="input" placeholder="ornek@email.com"></div>
-                            </div>
-
-                            <div class="balance-box">
-                                <div>
-                                    <small>Kalan ödeme (bakiye)</small>
-                                    <strong id="adminBalance">0 €</strong>
-                                </div>
-                                <span class="balance-state" id="adminBalanceState"></span>
-                            </div>
-
-                            <div class="field">
-                                <label for="payAmount">Ödeme alındı → bakiyeden düş</label>
-                                <div class="inline-form">
-                                    <input type="number" id="payAmount" class="input" min="0" step="0.01" placeholder="Örn: 70">
-                                    <select id="payMethod" class="input" style="flex:0 1 150px">
-                                        <option value="Havale">Havale / Banka</option>
-                                        <option value="PayPal">PayPal</option>
-                                        <option value="Nakit">Nakit</option>
-                                    </select>
-                                    <button type="button" class="btn btn--success btn--sm" id="payAddBtn"><i class="fas fa-minus"></i> Düş</button>
-                                </div>
-                                <span class="hint">Örnek: Bakiye 100 €, 70 € alındı → kalan otomatik 30 € olur.</span>
-                            </div>
-
-                            <div class="field">
-                                <label for="chargeAmount">Ücret ekle → bakiyeye ekle</label>
-                                <div class="inline-form">
-                                    <button type="button" class="btn btn--ghost btn--sm" data-charge="65">+65 €</button>
-                                    <button type="button" class="btn btn--ghost btn--sm" data-charge="170">+170 €</button>
-                                    <input type="number" id="chargeAmount" class="input" min="0" step="0.01" placeholder="Başka tutar">
-                                    <button type="button" class="btn btn--ghost btn--sm" id="chargeBtn"><i class="fas fa-plus"></i> Ekle</button>
-                                </div>
-                            </div>
-
-                            <div class="field deadline-field">
-                                <label for="payDeadline"><i class="fas fa-lock"></i> Ödeme son tarihi → süre dolunca portal kilitlenir</label>
-                                <div class="inline-form">
-                                    <input type="datetime-local" id="payDeadline" class="input">
-                                    <button type="button" class="btn btn--primary btn--sm" id="deadlineSaveBtn"><i class="fas fa-hourglass-half"></i> Süreyi kaydet</button>
-                                    <button type="button" class="btn btn--ghost btn--sm" id="deadlineClearBtn"><i class="fas fa-lock-open"></i> Kilidi aç / süreyi kaldır</button>
-                                </div>
-                                <span class="deadline-state" id="deadlineState"></span>
-                                <span class="hint">Süre dolduğunda ve borç varsa danışan yalnızca ödeme yapabilir, randevu alamaz. Borç tamamen ödenince kilit otomatik açılır.</span>
-                            </div>
-
-                            <div class="field">
-                                <label for="clientHomework">Haftalık ödev</label>
-                                <textarea id="clientHomework" rows="3"></textarea>
-                                <span class="hint">Ödev 7 gün sonra veya bir sonraki seanstan sonra otomatik silinir.</span>
-                            </div>
-                            <div class="field">
-                                <label for="clientPrivateNotes">Özel notlar (sadece yönetici)</label>
-                                <textarea id="clientPrivateNotes" rows="3" placeholder="Danışan hakkında özel notlar…"></textarea>
-                            </div>
-                            <div class="list-actions">
-                                <button type="button" class="btn btn--primary btn--sm" id="saveClientBtn"><i class="fas fa-floppy-disk"></i> Kaydet</button>
-                                <button type="button" class="btn btn--danger btn--sm" id="deleteClientBtn"><i class="fas fa-trash-can"></i> Hesabı Sil</button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="card" style="margin-bottom:24px">
-                                <h3><i class="fas fa-receipt"></i> Ödeme Geçmişi</h3>
-                                <div id="adminPayHistory" class="pay-history"></div>
-                            </div>
-                            <div class="card">
-                                <h3><i class="fas fa-user-plus"></i> Yeni Danışan Kodu</h3>
-                                <p class="card-sub">Danışan bu kod ile portala giriş yapar.</p>
-                                <form id="addClientForm">
-                                    <div class="field">
-                                        <label for="newClientFromReq">Talepten doldur (isteğe bağlı)</label>
-                                        <select id="newClientFromReq" class="input"><option value="">– Son taleplerden seçin –</option></select>
-                                        <span class="hint">Seçince ad, telefon ve e-posta otomatik doldurulur.</span>
-                                    </div>
-                                    <div class="field">
-                                        <label for="newClientName">Ad Soyad</label>
-                                        <input type="text" id="newClientName" class="input" placeholder="Danışan adı soyadı" required>
-                                    </div>
-                                    <div class="field">
-                                        <label for="newClientCode">Giriş kodu</label>
-                                        <div class="inline-form">
-                                            <input type="text" id="newClientCode" class="input" placeholder="Örn: AHMET-K7Q2M" required style="text-transform:uppercase">
-                                            <button type="button" class="btn btn--ghost btn--sm" id="genCode"><i class="fas fa-wand-magic-sparkles"></i> Öner</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-grid">
-                                        <div class="field"><label for="newClientPhone">Telefon</label><input type="tel" id="newClientPhone" class="input" placeholder="+49 170 1234567"></div>
-                                        <div class="field"><label for="newClientEmail">E-posta</label><input type="email" id="newClientEmail" class="input" placeholder="ornek@email.com"></div>
-                                    </div>
-                                    <span class="hint" style="display:block;margin:-6px 0 14px">Telefon/e-posta sayesinde danışan yanlışlıkla „Randevu Al“ sayfasından randevu almaya çalışırsa portala yönlendirilir.</span>
-                                    <button type="submit" class="btn btn--primary btn--block"><i class="fas fa-plus"></i> Danışan Ekle</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-panel" role="tabpanel" id="tabComments" aria-labelledby="t-com" hidden>
-                    <div id="masterCommentsList" class="list"></div>
-                </div>
-            </section>
-
-            <!-- KLIENT -->
-            <section id="clientDashboard" hidden>
-                <div class="dash-head">
-                    <div>
-                        <span class="eyebrow" data-i18n="tb8006d62">Danışan Portalı</span>
-                        <h1 id="clientWelcomeTitle"></h1>
-                    </div>
-                    <button type="button" class="btn btn--ghost btn--sm" data-logout><i class="fas fa-right-from-bracket"></i> <span data-i18n="t0a7c4bb9">Çıkış Yap</span></button>
-                </div>
-
-                <div class="lock-banner" id="clientLockBanner" role="alert" hidden></div>
-
-                <div class="info-tiles">
-                    <div class="tile" id="tileHomework">
-                        <h4><i class="fas fa-list-check"></i> <span data-i18n="t42add8bf">Haftalık Ödeviniz</span></h4>
-                        <p id="displayHomework"></p>
-                    </div>
-                    <div class="tile" id="tileNext">
-                        <h4><i class="fas fa-calendar-day"></i> <span data-i18n="t47b167a7">Sıradaki Randevunuz</span></h4>
-                        <p id="displayNext"></p>
-                        <p class="deadline-note" id="nextCancelNote" hidden></p>
-                    </div>
-                    <div class="tile tile--pay">
-                        <h4><i class="fas fa-receipt"></i> <span data-i18n="t1b100a95">Kalan Ödeme</span></h4>
-                        <p id="displayPayment" class="big">0 €</p>
-                        <p class="deadline-note" id="clientDeadlineNote" hidden></p>
-                        <div id="payArea"></div>
-                    </div>
-                </div>
-
-                <details class="card pay-history-card" id="clientHistoryCard" hidden>
-                    <summary><i class="fas fa-clock-rotate-left"></i> <span data-i18n="t5da8688c">Ödeme geçmişi</span></summary>
-                    <div id="clientPayHistory" class="pay-history"></div>
-                </details>
-
-                <div class="booking-stack" id="clientBookingStack">
-                    <div class="card calendar-card calendar-card--big">
-                        <p class="calendar-hint"><i class="fas fa-hand-pointer"></i> <span data-i18n="t7556be23">Bir güne tıklayın – tarih aşağıdaki forma otomatik aktarılır.</span></p>
-                        <div id="clientCalendar"></div>
-                        <div class="calendar-legend">
-                        <span><i style="background:#c46b5d"></i> <span data-i18n="tcbc59e9f">Dolu</span></span>
-                        <span><i style="background:#4f8a5b"></i> <span data-i18n="tbb1f0ab3">Sizin talebiniz / randevunuz</span></span>
-                        <span><i style="background:rgba(140,106,86,.25);box-shadow:inset 0 0 0 2px #8c6a56"></i> <span data-i18n="t3a902646">Seçili gün</span></span>
-                        <span><i style="background:repeating-linear-gradient(45deg,#ece4d8 0 3px,#f7f2ea 3px 6px);box-shadow:inset 0 0 0 1px #d8cbb8"></i> <span data-i18n="t796b14b8">Hafta sonu kapalı</span></span>
-                    </div>
-                    </div>
-                    <div class="card booking-card" id="clientBookingCard">
-                        <h3><i class="fas fa-calendar-plus"></i> <span data-i18n="tdf675e19">Yeni Randevu Talebi</span></h3>
-                        <p class="card-sub" data-i18n="t5df0a29d">Bir güne tıklayarak tarihi seçebilirsiniz.</p>
-                        <form id="appointmentForm" novalidate>
-                          <div class="form-cols">
-                            <div>
-                                <div class="field"><label for="clientName" data-i18n="tf72ed1ce">Adınız Soyadınız *</label><input type="text" id="clientName" required autocomplete="name"></div>
-                                <div class="field"><label for="clientPhone" data-i18n="td1ad4e8c">Telefon (WhatsApp) *</label><input type="tel" id="clientPhone" placeholder="+49 170 1234567" required autocomplete="tel"></div>
-                                <div class="field"><label for="clientEmail" data-i18n="t0da18fa2">E-Posta *</label><input type="email" id="clientEmail" placeholder="ornek@email.com" data-i18n-ph="tbdeb1e61" required autocomplete="email"></div>
-                            </div>
-                            <div>
-                                <div class="form-grid">
-                                    <div class="field"><label for="selectedDate" data-i18n="t44aff018">Tarih *</label><input type="date" id="selectedDate" required></div>
-                                    <div class="field"><label for="selectedTime" data-i18n="t9fb2e6a6">Saat *</label><input type="time" id="selectedTime" step="900" required></div>
-                                </div>
-                                <span class="field-status" id="clientSlotStatus" aria-live="polite" style="margin:6px 0 4px"></span>
-                                <p class="tz-note" data-tz-note hidden></p>
-                                <div class="field">
-                                    <label for="serviceType" data-i18n="t2851b55f">Terapi Türü *</label>
-                                    <select id="serviceType" required>
-                                    <option value="Hipnoterapi" data-i18n="t98a07b37">Hipnoterapi (170 € / seans)</option>
-                                    <optgroup label="65 € / saat" data-i18n-label="t6bc2734e">
-                                        <option value="Deep EFT" data-i18n="ta45b434e">Deep EFT</option>
-                                        <option value="Bilişsel Davranışçı Terapi (BDT)" data-i18n="t224aae54">Bilişsel Davranışçı Terapi (BDT)</option>
-                                        <option value="Şema Terapisi" data-i18n="t8825e21c">Şema Terapisi</option>
-                                        <option value="Travma ve Yas Terapisi" data-i18n="te62fc1cf">Travma ve Yas Terapisi</option>
-                                        <option value="Pozitif Psikoloji" data-i18n="tbc79bea5">Pozitif Psikoloji</option>
-                                        <option value="Mesnevi Terapisi" data-i18n="t57c77bee">Mesnevi Terapisi</option>
-                                        <option value="Manevi Danışmanlık" data-i18n="tca6c5797">Manevi Danışmanlık</option>
-                                        <option value="Regresyon" data-i18n="tfba8ebf3">Regresyon</option>
-                                        <option value="Henüz emin değilim" data-i18n="ta5c897b9">Henüz emin değilim / Ön görüşme</option>
-                                    </optgroup>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn--primary btn--block"><i class="fas fa-paper-plane"></i> <span data-i18n="t3a8438aa">Talep Gönder</span></button>
-                            </div>
-                          </div>
-                        </form>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <a href="index.html" class="footer-brand"><img src="logobaum.png" alt=""><span>Derya Kılıç</span></a>
-                    <p><span data-i18n="t2107cdf8">Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online</span></p>
-                    <p><i class="fas fa-globe"></i>&nbsp; <span data-i18n="t029755c0">Seans dilleri: Türkçe &amp; Deutsch</span></p>
-                    <div class="footer-social">
-                        <a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/491708296913" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="mailto:goldensunderya@hotmail.com" aria-label="E-Mail"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 data-i18n="t1c212cfd">Sayfalar</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html#about" data-i18n="t16f921da">Hakkımda</a></li>
-                        <li><a href="index.html#services" data-i18n="t55aeb9f9">Hizmetler</a></li>
-                        <li><a href="index.html#pricing" data-i18n="ta0c24363">Fiyatlar &amp; Şartlar</a></li>
-                        <li><a href="basari.html" data-i18n="tba6a0fe3">Başarı Hikayeleri</a></li>
-                        <li><a href="asistent.html" data-i18n="t209fd293">Sanal Asistan</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 data-i18n="t2adc4478">Hızlı Erişim</h4>
-                    <ul class="footer-links">
-                        <li><a href="kalender.html"><i class="fas fa-calendar-check"></i> <span data-i18n="t44609ba4">Randevu Al</span></a></li>
-                        <li><a href="portal.html"><i class="fas fa-user-lock"></i> <span data-i18n="tb8006d62">Danışan Portalı</span></a></li>
-                        <li><a href="odeme.html"><i class="fab fa-paypal"></i> <span data-i18n="tc70540a3">Ödeme</span></a></li>
-                        <li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> <span data-i18n="t58c72a3a">Geri Bildirim</span></a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 data-i18n="t3bb70b44">İletişim</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://maps.app.goo.gl/nWcyLKd1SWAQBh1Y6" target="_blank" rel="noopener noreferrer"><i class="fas fa-location-dot"></i> Biberweg 53, 70806 Kornwestheim</a></li>
-                        <li><a href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i> goldensunderya@hotmail.com</a></li>
-                        <li><a href="https://instagram.com/deryakilic2829" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> @deryakilic2829</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>&copy; <span data-year>2026</span> Derya Kılıç. <span data-i18n="t74046796">Tüm hakları saklıdır.</span></span>
-                <span>
-                    <a href="impressum.html" data-i18n="td5bd360c">Künye / Impressum</a> ·
-                    <a href="datenschutz.html" data-i18n="teb685db1">Gizlilik / Datenschutz</a> ·
-                    <a href="#" data-cookie-settings data-i18n="t1f3a1e58">Çerez ayarları</a> ·
+<a class="skip-link" data-i18n="t0cff8040" href="#main">İçeriğe geç</a>
+<header class="site-header site-header--portal" id="siteHeader">
+<div class="header-inner">
+<a class="brand" href="index.html">
+<img alt="" height="46" src="logobaum.png" width="44"/>
+<span class="brand-text">
+<span class="brand-name">DERYA KILIÇ</span>
+<span class="brand-sub" data-i18n="tb8006d62">Danışan Portalı</span>
+</span>
+</a>
+<div class="portal-header-actions">
+<a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> <span data-i18n="t7fdd01f0">Web sitesine dön</span></a>
+<div aria-label="Dil / Sprache / Language" class="lang-switch" role="group">
+<a aria-pressed="true" data-lang="tr" href="portal.html" hreflang="tr" lang="tr" title="Türkçe">TR</a>
+<a aria-pressed="false" data-lang="de" href="de/portal.html" hreflang="de" lang="de" title="Deutsch">DE</a>
+<a aria-pressed="false" data-lang="en" href="en/portal.html" hreflang="en" lang="en" title="English">EN</a>
+</div>
+</div>
+</div>
+</header>
+<main class="portal-main" id="main">
+<div class="container container--wide">
+<!-- LOGIN -->
+<section class="card login-card" id="loginSection">
+<div class="login-icon"><i class="fas fa-user-shield"></i></div>
+<h1 data-i18n="tb8006d62">Danışan Portalı</h1>
+<p class="card-sub" data-i18n="t7d27293a">Size özel giriş kodunuzu girerek ödevlerinizi, ödeme durumunuzu ve randevu takviminizi görüntüleyebilirsiniz.</p>
+<form id="loginForm" novalidate="">
+<label class="sr-only" for="accessCode">Code</label>
+<div class="code-input-wrap field">
+<input autocapitalize="characters" autocomplete="off" data-i18n-ph="t41ece5d5" id="accessCode" placeholder="GİRİŞ KODU" required="" spellcheck="false" type="password"/>
+<button aria-label="👁" id="toggleCode" type="button"><i class="fas fa-eye"></i></button>
+</div>
+<button class="btn btn--primary btn--block" id="loginBtn" type="submit"><i class="fas fa-right-to-bracket"></i> <span data-i18n="t3dd7e685">Giriş Yap</span></button>
+</form>
+<p class="login-error" id="loginError" role="alert"></p>
+<details class="admin-login" id="adminLogin" lang="tr">
+<summary><i class="fas fa-user-gear"></i> Yönetici girişi</summary>
+<form id="adminLoginForm" novalidate="">
+<div class="field"><label for="adminEmail">E-posta</label><input autocomplete="username" id="adminEmail" required="" type="email"/></div>
+<div class="field"><label for="adminPassword">Şifre</label><input autocomplete="current-password" id="adminPassword" required="" type="password"/></div>
+<button class="btn btn--ghost btn--block" id="adminLoginBtn" type="submit"><i class="fas fa-lock"></i> Giriş</button>
+<p class="login-error" id="adminLoginError" role="alert"></p>
+</form>
+</details>
+<p class="login-help" data-i18n="tbaba6fdd">Kodunuz yok mu? İlk randevunuz için <a href="kalender.html">takvimden talep oluşturun</a>.<br/>Kodunuzu mu unuttunuz? <a href="https://wa.me/491708296913" rel="noopener noreferrer" target="_blank">WhatsApp’tan yazın</a>.</p>
+</section>
+<!-- MASTER (nur Türkisch) -->
+<section hidden="" id="masterDashboard" lang="tr">
+<div class="dash-head">
+<div>
+<span class="eyebrow">Yönetim Paneli</span>
+<h1>Hoş geldiniz, Derya Hanım</h1>
+</div>
+<button class="btn btn--ghost btn--sm" data-logout="" type="button"><i class="fas fa-right-from-bracket"></i> Çıkış Yap</button>
+</div>
+<div class="tabs" role="tablist">
+<button aria-controls="tabRequests" aria-selected="true" class="tab" id="t-req" role="tab"><i class="fas fa-inbox"></i> Talepler <span class="count" id="pendingCount"></span><span class="count count--bell" id="reminderCount" title="Hatırlatılacak randevular"></span></button>
+<button aria-controls="tabCalendar" aria-selected="false" class="tab" id="t-cal" role="tab"><i class="fas fa-calendar-days"></i> Takvim</button>
+<button aria-controls="tabClients" aria-selected="false" class="tab" id="t-cli" role="tab"><i class="fas fa-users"></i> Danışanlar &amp; Ödemeler <span class="count" id="payPendingCount"></span></button>
+<button aria-controls="tabComments" aria-selected="false" class="tab" id="t-com" role="tab"><i class="fas fa-comments"></i> Yorumlar</button>
+</div>
+<div aria-labelledby="t-req" class="tab-panel" id="tabRequests" role="tabpanel">
+<div class="card reminders-card" id="remindersCard" style="margin-bottom:24px">
+<h3><i class="fas fa-bell"></i> Hatırlatmalar <small>(randevudan 26–30 saat önce)</small></h3>
+<p class="card-sub">Danışana hatırlatma gönderin – WhatsApp veya e-postaya tıkladığınızda gönderim zamanı kanıt olarak kaydedilir. Böylece danışan 24 saat sınırından önce bilgilendirilmiş olur.</p>
+<div class="list" id="remindersList"></div>
+</div>
+<div class="list" id="pendingAppointmentsList"></div>
+</div>
+<div aria-labelledby="t-cal" class="tab-panel" hidden="" id="tabCalendar" role="tabpanel">
+<div class="booking-stack">
+<div class="card calendar-card calendar-card--big">
+<p class="calendar-hint"><i class="fas fa-hand-pointer"></i> Detaylar veya iptal için randevuya tıklayın. Bir güne tıklamak tarihi aşağıdaki forma aktarır.</p>
+<div id="masterCalendar"></div>
+</div>
+<div class="card" id="adminAddCard">
+<h3><i class="fas fa-calendar-plus"></i> Randevu Ekle</h3>
+<p class="card-sub">Doğrudan onaylı olarak eklenir. Tüm saatler Almanya saatidir. “🔒 Şahsi” seçilirse 2 saat kuralı uygulanmaz; danışan randevularında kural ihlali olursa uyarı gösterilir.</p>
+<form class="form-row" id="adminAddAppointmentForm">
+<div class="field"><label for="appClientSelect">Danışan</label><select id="appClientSelect" required=""><option value="">Lütfen danışan seçin</option></select></div>
+<div class="field"><label for="appDate">Tarih</label><input id="appDate" required="" type="date"/></div>
+<div class="field"><label for="appTime">Saat (Almanya)</label><input id="appTime" required="" step="900" type="time"/></div>
+<div class="field" hidden="" id="appEndWrap"><label for="appEndTime">Bitiş saati (isteğe bağlı)</label><input id="appEndTime" step="900" type="time"/></div>
+<div class="field">
+<label for="appServiceType">Terapi türü / not</label>
+<input id="appServiceType" list="serviceList" placeholder="Örn: Hipnoterapi" required="" type="text"/>
+<datalist id="serviceList">
+<option value="Hipnoterapi"><option value="Deep EFT"><option value="Bilişsel Davranışçı Terapi (BDT)"><option value="Şema Terapisi"><option value="Travma ve Yas Terapisi"><option value="Pozitif Psikoloji"><option value="Mesnevi Terapisi"><option value="Manevi Danışmanlık"><option value="Regresyon">
+</option></option></option></option></option></option></option></option></option></datalist>
+</div>
+<button class="btn btn--primary" type="submit"><i class="fas fa-plus"></i> Oluştur</button>
+</form>
+</div>
+</div>
+<div class="card" id="cancelledCard" style="margin-top:24px">
+<h3><i class="fas fa-rotate-left"></i> Son iptal edilenler</h3>
+<p class="card-sub">Son 30 günde sizin iptal ettiğiniz randevular. Yanlışlıkla iptal ettiyseniz „Geri al“ ile randevuyu geri getirebilirsiniz.</p>
+<div class="list" id="cancelledList"></div>
+</div>
+</div>
+<div aria-labelledby="t-cli" class="tab-panel" hidden="" id="tabClients" role="tabpanel">
+<div class="card debts-card" id="debtsCard" style="margin-bottom:24px">
+<div class="debts-head">
+<h3><i class="fas fa-file-invoice-dollar"></i> Borçlar</h3>
+<div class="debts-total"><small>Toplam alacak</small><strong id="debtsTotal">0 €</strong><span id="debtsCount"></span></div>
+</div>
+<div class="list" id="debtsList"></div>
+</div>
+<div class="card" hidden="" id="pendingPayments" style="margin-bottom:24px"></div>
+<div class="two-col">
+<div class="card" id="clientEditCard">
+<h3><i class="fas fa-user-pen"></i> Danışan Düzenle</h3>
+<div class="field">
+<label for="clientSelect">Danışan</label>
+<select id="clientSelect"></select>
+</div>
+<div class="form-grid">
+<div class="field"><label for="clientPhoneEdit">Telefon</label><input class="input" id="clientPhoneEdit" placeholder="+49 170 1234567" type="tel"/></div>
+<div class="field"><label for="clientEmailEdit">E-posta</label><input class="input" id="clientEmailEdit" placeholder="ornek@email.com" type="email"/></div>
+</div>
+<div class="balance-box">
+<div>
+<small>Kalan ödeme (bakiye)</small>
+<strong id="adminBalance">0 €</strong>
+</div>
+<span class="balance-state" id="adminBalanceState"></span>
+</div>
+<div class="field">
+<label for="payAmount">Ödeme alındı → bakiyeden düş</label>
+<div class="inline-form">
+<input class="input" id="payAmount" min="0" placeholder="Örn: 70" step="0.01" type="number"/>
+<select class="input" id="payMethod" style="flex:0 1 150px">
+<option value="Havale">Havale / Banka</option>
+<option value="PayPal">PayPal</option>
+<option value="Nakit">Nakit</option>
+</select>
+<button class="btn btn--success btn--sm" id="payAddBtn" type="button"><i class="fas fa-minus"></i> Düş</button>
+</div>
+<span class="hint">Örnek: Bakiye 100 €, 70 € alındı → kalan otomatik 30 € olur.</span>
+</div>
+<div class="field">
+<label for="chargeAmount">Ücret ekle → bakiyeye ekle</label>
+<div class="inline-form">
+<button class="btn btn--ghost btn--sm" data-charge="65" type="button">+65 €</button>
+<button class="btn btn--ghost btn--sm" data-charge="170" type="button">+170 €</button>
+<input class="input" id="chargeAmount" min="0" placeholder="Başka tutar" step="0.01" type="number"/>
+<button class="btn btn--ghost btn--sm" id="chargeBtn" type="button"><i class="fas fa-plus"></i> Ekle</button>
+</div>
+</div>
+<div class="field deadline-field">
+<label for="payDeadline"><i class="fas fa-lock"></i> Ödeme son tarihi → süre dolunca portal kilitlenir</label>
+<div class="inline-form">
+<input class="input" id="payDeadline" type="datetime-local"/>
+<button class="btn btn--primary btn--sm" id="deadlineSaveBtn" type="button"><i class="fas fa-hourglass-half"></i> Süreyi kaydet</button>
+<button class="btn btn--ghost btn--sm" id="deadlineClearBtn" type="button"><i class="fas fa-lock-open"></i> Kilidi aç / süreyi kaldır</button>
+</div>
+<span class="deadline-state" id="deadlineState"></span>
+<span class="hint">Süre dolduğunda ve borç varsa danışan yalnızca ödeme yapabilir, randevu alamaz. Borç tamamen ödenince kilit otomatik açılır.</span>
+</div>
+<div class="field">
+<label for="clientHomework">Haftalık ödev</label>
+<textarea id="clientHomework" rows="3"></textarea>
+<span class="hint">Ödev 7 gün sonra veya bir sonraki seanstan sonra otomatik silinir.</span>
+</div>
+<div class="field">
+<label for="clientPrivateNotes">Özel notlar (sadece yönetici)</label>
+<textarea id="clientPrivateNotes" placeholder="Danışan hakkında özel notlar…" rows="3"></textarea>
+</div>
+<div class="list-actions">
+<button class="btn btn--primary btn--sm" id="saveClientBtn" type="button"><i class="fas fa-floppy-disk"></i> Kaydet</button>
+<button class="btn btn--danger btn--sm" id="deleteClientBtn" type="button"><i class="fas fa-trash-can"></i> Hesabı Sil</button>
+</div>
+</div>
+<div>
+<div class="card" style="margin-bottom:24px">
+<h3><i class="fas fa-receipt"></i> Ödeme Geçmişi</h3>
+<div class="pay-history" id="adminPayHistory"></div>
+</div>
+<div class="card">
+<h3><i class="fas fa-user-plus"></i> Yeni Danışan Kodu</h3>
+<p class="card-sub">Danışan bu kod ile portala giriş yapar.</p>
+<form id="addClientForm">
+<div class="field">
+<label for="newClientFromReq">Talepten doldur (isteğe bağlı)</label>
+<select class="input" id="newClientFromReq"><option value="">– Son taleplerden seçin –</option></select>
+<span class="hint">Seçince ad, telefon ve e-posta otomatik doldurulur.</span>
+</div>
+<div class="field">
+<label for="newClientName">Ad Soyad</label>
+<input class="input" id="newClientName" placeholder="Danışan adı soyadı" required="" type="text"/>
+</div>
+<div class="field">
+<label for="newClientCode">Giriş kodu</label>
+<div class="inline-form">
+<input class="input" id="newClientCode" placeholder="Örn: AHMET-K7Q2M" required="" style="text-transform:uppercase" type="text"/>
+<button class="btn btn--ghost btn--sm" id="genCode" type="button"><i class="fas fa-wand-magic-sparkles"></i> Öner</button>
+</div>
+</div>
+<div class="form-grid">
+<div class="field"><label for="newClientPhone">Telefon</label><input class="input" id="newClientPhone" placeholder="+49 170 1234567" type="tel"/></div>
+<div class="field"><label for="newClientEmail">E-posta</label><input class="input" id="newClientEmail" placeholder="ornek@email.com" type="email"/></div>
+</div>
+<span class="hint" style="display:block;margin:-6px 0 14px">Telefon/e-posta sayesinde danışan yanlışlıkla „Randevu Al“ sayfasından randevu almaya çalışırsa portala yönlendirilir.</span>
+<button class="btn btn--primary btn--block" type="submit"><i class="fas fa-plus"></i> Danışan Ekle</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div aria-labelledby="t-com" class="tab-panel" hidden="" id="tabComments" role="tabpanel">
+<div class="list" id="masterCommentsList"></div>
+</div>
+</section>
+<!-- KLIENT -->
+<section hidden="" id="clientDashboard">
+<div class="dash-head">
+<div>
+<span class="eyebrow" data-i18n="tb8006d62">Danışan Portalı</span>
+<h1 id="clientWelcomeTitle"></h1>
+</div>
+<button class="btn btn--ghost btn--sm" data-logout="" type="button"><i class="fas fa-right-from-bracket"></i> <span data-i18n="t0a7c4bb9">Çıkış Yap</span></button>
+</div>
+<div class="lock-banner" hidden="" id="clientLockBanner" role="alert"></div>
+<div class="info-tiles">
+<div class="tile" id="tileHomework">
+<h4><i class="fas fa-list-check"></i> <span data-i18n="t42add8bf">Haftalık Ödeviniz</span></h4>
+<p id="displayHomework"></p>
+</div>
+<div class="tile" id="tileNext">
+<h4><i class="fas fa-calendar-day"></i> <span data-i18n="t47b167a7">Sıradaki Randevunuz</span></h4>
+<p id="displayNext"></p>
+<p class="deadline-note" hidden="" id="nextCancelNote"></p>
+</div>
+<div class="tile tile--pay">
+<h4><i class="fas fa-receipt"></i> <span data-i18n="t1b100a95">Kalan Ödeme</span></h4>
+<p class="big" id="displayPayment">0 €</p>
+<p class="deadline-note" hidden="" id="clientDeadlineNote"></p>
+<div id="payArea"></div>
+</div>
+</div>
+<details class="card pay-history-card" hidden="" id="clientHistoryCard">
+<summary><i class="fas fa-clock-rotate-left"></i> <span data-i18n="t5da8688c">Ödeme geçmişi</span></summary>
+<div class="pay-history" id="clientPayHistory"></div>
+</details>
+<div class="booking-stack" id="clientBookingStack">
+<div class="card calendar-card calendar-card--big">
+<p class="calendar-hint"><i class="fas fa-hand-pointer"></i> <span data-i18n="t7556be23">Bir güne tıklayın – tarih aşağıdaki forma otomatik aktarılır.</span></p>
+<div id="clientCalendar"></div>
+<div class="calendar-legend">
+<span><i style="background:#c46b5d"></i> <span data-i18n="tcbc59e9f">Dolu</span></span>
+<span><i style="background:#4f8a5b"></i> <span data-i18n="tbb1f0ab3">Sizin talebiniz / randevunuz</span></span>
+<span><i style="background:rgba(140,106,86,.25);box-shadow:inset 0 0 0 2px #8c6a56"></i> <span data-i18n="t3a902646">Seçili gün</span></span>
+<span><i style="background:repeating-linear-gradient(45deg,#ece4d8 0 3px,#f7f2ea 3px 6px);box-shadow:inset 0 0 0 1px #d8cbb8"></i> <span data-i18n="t796b14b8">Hafta sonu kapalı</span></span>
+</div>
+</div>
+<div class="card booking-card" id="clientBookingCard">
+<h3><i class="fas fa-calendar-plus"></i> <span data-i18n="tdf675e19">Yeni Randevu Talebi</span></h3>
+<p class="card-sub" data-i18n="t5df0a29d">Bir güne tıklayarak tarihi seçebilirsiniz.</p>
+<form id="appointmentForm" novalidate="">
+<div class="form-cols">
+<div>
+<div class="field"><label data-i18n="tf72ed1ce" for="clientName">Adınız Soyadınız *</label><input autocomplete="name" id="clientName" required="" type="text"/></div>
+<div class="field"><label data-i18n="td1ad4e8c" for="clientPhone">Telefon (WhatsApp) *</label><input autocomplete="tel" id="clientPhone" placeholder="+49 170 1234567" required="" type="tel"/></div>
+<div class="field"><label data-i18n="t0da18fa2" for="clientEmail">E-Posta *</label><input autocomplete="email" data-i18n-ph="tbdeb1e61" id="clientEmail" placeholder="ornek@email.com" required="" type="email"/></div>
+</div>
+<div>
+<div class="form-grid">
+<div class="field"><label data-i18n="t44aff018" for="selectedDate">Tarih *</label><input id="selectedDate" required="" type="date"/></div>
+<div class="field"><label data-i18n="t9fb2e6a6" for="selectedTime">Saat *</label><input id="selectedTime" required="" step="900" type="time"/></div>
+</div>
+<span aria-live="polite" class="field-status" id="clientSlotStatus" style="margin:6px 0 4px"></span>
+<p class="tz-note" data-tz-note="" hidden=""></p>
+<div class="field">
+<label data-i18n="t2851b55f" for="serviceType">Terapi Türü *</label>
+<select id="serviceType" required="">
+<option data-i18n="t98a07b37" value="Hipnoterapi">Hipnoterapi (170 € / seans)</option>
+<optgroup data-i18n-label="t6bc2734e" label="65 € / saat">
+<option data-i18n="ta45b434e" value="Deep EFT">Deep EFT</option>
+<option data-i18n="t224aae54" value="Bilişsel Davranışçı Terapi (BDT)">Bilişsel Davranışçı Terapi (BDT)</option>
+<option data-i18n="t8825e21c" value="Şema Terapisi">Şema Terapisi</option>
+<option data-i18n="te62fc1cf" value="Travma ve Yas Terapisi">Travma ve Yas Terapisi</option>
+<option data-i18n="tbc79bea5" value="Pozitif Psikoloji">Pozitif Psikoloji</option>
+<option data-i18n="t57c77bee" value="Mesnevi Terapisi">Mesnevi Terapisi</option>
+<option data-i18n="tca6c5797" value="Manevi Danışmanlık">Manevi Danışmanlık</option>
+<option data-i18n="tfba8ebf3" value="Regresyon">Regresyon</option>
+<option data-i18n="ta5c897b9" value="Henüz emin değilim">Henüz emin değilim / Ön görüşme</option>
+</optgroup>
+</select>
+</div>
+<button class="btn btn--primary btn--block" type="submit"><i class="fas fa-paper-plane"></i> <span data-i18n="t3a8438aa">Talep Gönder</span></button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="container">
+<div class="footer-grid">
+<div>
+<a class="footer-brand" href="index.html"><img alt="" src="logobaum.png"/><span>Derya Kılıç</span></a>
+<p><span data-i18n="t2107cdf8">Hipnoterapi, Deep EFT &amp; danışmanlık<br/>Kornwestheim &amp; Online</span></p>
+<p><i class="fas fa-globe"></i>  <span data-i18n="t029755c0">Seans dilleri: Türkçe &amp; Deutsch</span></p>
+<div class="footer-social">
+<a aria-label="Instagram" href="https://instagram.com/deryakilic2829" rel="noopener noreferrer" target="_blank"><i class="fab fa-instagram"></i></a>
+<a aria-label="WhatsApp" href="https://wa.me/491708296913" rel="noopener noreferrer" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<a aria-label="E-Mail" href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i></a>
+</div>
+</div>
+<div>
+<h4 data-i18n="t1c212cfd">Sayfalar</h4>
+<ul class="footer-links">
+<li><a data-i18n="t16f921da" href="index.html#about">Hakkımda</a></li>
+<li><a data-i18n="t55aeb9f9" href="index.html#services">Hizmetler</a></li>
+<li><a data-i18n="ta0c24363" href="index.html#pricing">Fiyatlar &amp; Şartlar</a></li>
+<li><a data-i18n="tba6a0fe3" href="basari.html">Başarı Hikayeleri</a></li>
+<li><a data-i18n="t209fd293" href="asistent.html">Sanal Asistan</a></li>
+</ul>
+</div>
+<div>
+<h4 data-i18n="t2adc4478">Hızlı Erişim</h4>
+<ul class="footer-links">
+<li><a href="kalender.html"><i class="fas fa-calendar-check"></i> <span data-i18n="t44609ba4">Randevu Al</span></a></li>
+<li><a href="portal.html"><i class="fas fa-user-lock"></i> <span data-i18n="tb8006d62">Danışan Portalı</span></a></li>
+<li><a href="odeme.html"><i class="fab fa-paypal"></i> <span data-i18n="tc70540a3">Ödeme</span></a></li>
+<li><a href="https://wa.me/491708296913?text=Merhaba,%20web%20siteniz%20hakk%C4%B1nda%20geri%20bildirimde%20bulunmak%20istiyorum:" rel="noopener noreferrer" target="_blank"><i class="fab fa-whatsapp"></i> <span data-i18n="t58c72a3a">Geri Bildirim</span></a></li>
+</ul>
+</div>
+<div>
+<h4 data-i18n="t3bb70b44">İletişim</h4>
+<ul class="footer-links">
+<li><a href="https://maps.app.goo.gl/nWcyLKd1SWAQBh1Y6" rel="noopener noreferrer" target="_blank"><i class="fas fa-location-dot"></i> Biberweg 53, 70806 Kornwestheim</a></li>
+<li><a href="mailto:goldensunderya@hotmail.com"><i class="fas fa-envelope"></i> goldensunderya@hotmail.com</a></li>
+<li><a href="https://instagram.com/deryakilic2829" rel="noopener noreferrer" target="_blank"><i class="fab fa-instagram"></i> @deryakilic2829</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© <span data-year="">2026</span> Derya Kılıç. <span data-i18n="t74046796">Tüm hakları saklıdır.</span></span>
+<span>
+<a data-i18n="td5bd360c" href="impressum.html">Künye / Impressum</a> ·
+                    <a data-i18n="teb685db1" href="datenschutz.html">Gizlilik / Datenschutz</a> ·
+                    <a data-cookie-settings="" data-i18n="t1f3a1e58" href="#">Çerez ayarları</a> ·
                     <span data-i18n="t36701d56">Tasarlayan:</span> <a href="https://beki-byte.github.io/Betul-kilic/?from=praxis" style="color: inherit; text-decoration: underline;">Betül Kılıç</a>
-                </span>
-            </div>
-        </div>
-    </footer>
-
-    <button class="to-top" id="toTop" aria-label="Yukarı çık" data-i18n-al="t8e145f18"><i class="fas fa-arrow-up"></i></button>
-    <div id="chatMount"></div>
-    <script src="fullcalendar.min.js"></script>
-    <script src="fullcalendar-tr.js"></script>
-    <script src="fullcalendar-de.js"></script>
-    <script type="module" src="script.js"></script>
+</span>
+</div>
+</div>
+</footer>
+<button aria-label="Yukarı çık" class="to-top" data-i18n-al="t8e145f18" id="toTop"><i class="fas fa-arrow-up"></i></button>
+<div id="chatMount"></div>
+<script src="fullcalendar.min.js"></script>
+<script src="fullcalendar-tr.js"></script>
+<script src="fullcalendar-de.js"></script>
+<script src="script.js" type="module"></script>
 </body>
 </html>

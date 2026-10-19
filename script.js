@@ -90,13 +90,16 @@ async function loadAnalytics() {
 const LANGS = ["tr", "de", "en"];
 const LOCALES = { tr: "tr-TR", de: "de-DE", en: "en-GB" };
 const langHooks = [];
+const PAGE_LANG = LANGS.includes(document.documentElement.dataset.pageLang) ? document.documentElement.dataset.pageLang : "tr";
+const ASSET_BASE = new URL("./", import.meta.url).href; // Ordner von script.js = Hauptordner
 let LANG = detectLang();
 
+/* Jede Seite gibt es fertig in TR (Hauptordner), DE (/de/) und EN (/en/).
+   Die Sprache der Seite steht im <html>-Tag; ?lang=… (aus Nachrichten-Links) tauscht zusätzlich per JS. */
 function detectLang() {
     let l = null;
-    try { l = new URLSearchParams(location.search).get("lang") || localStorage.getItem("lang"); } catch { /* ignore */ }
-    if (LANGS.includes(l)) return l;
-    return "tr"; // Hauptsprache Türkisch – DE/EN über den Sprachumschalter
+    try { l = new URLSearchParams(location.search).get("lang"); } catch { /* ignore */ }
+    return LANGS.includes(l) ? l : PAGE_LANG;
 }
 
 function t(key, vars = {}, lang = LANG) {
@@ -129,8 +132,18 @@ function applyLang(lang, { save = true } = {}) {
 }
 
 function initLangSwitch() {
-    $$(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => {
-        if (b.dataset.lang !== LANG) applyLang(b.dataset.lang);
+    $$(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", (e) => {
+        const target = b.dataset.lang;
+        if (b.tagName === "A" && b.getAttribute("href") && b.getAttribute("href") !== "#") {
+            // Zur Seite in der anderen Sprache wechseln (Abschnitt #… bleibt erhalten)
+            e.preventDefault();
+            if (target === PAGE_LANG && LANG === PAGE_LANG) return;
+            storage.set("lang", target);
+            location.href = b.href.split("#")[0] + location.hash;
+            return;
+        }
+        e.preventDefault();
+        if (target !== LANG) applyLang(target);
     }));
 }
 
@@ -484,7 +497,7 @@ function buildChat(mount, { floating }) {
         ${floating ? `<button type="button" class="chat-fab" id="chatFab" aria-controls="chatPanel" aria-expanded="false"><span class="pulse"></span><i class="fas fa-comment-dots"></i><span class="label" data-ui="chat_fab"></span></button>` : ""}
         <section class="chat-panel" id="chatPanel" aria-label="Chat">
             <header class="chat-head">
-                <span class="chat-avatar"><img src="logobaum.png" alt=""></span>
+                <span class="chat-avatar"><img src="${ASSET_BASE}logobaum.png" alt=""></span>
                 <div><strong data-ui="chat_title"></strong><small data-ui="chat_status"></small></div>
                 ${floating ? `<button type="button" class="chat-close" data-ui-al="close"><i class="fas fa-xmark"></i></button>` : ""}
             </header>

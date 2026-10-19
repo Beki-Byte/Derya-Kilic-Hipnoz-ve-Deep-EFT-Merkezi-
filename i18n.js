@@ -191,15 +191,15 @@ export const PAGE = {
 "de": "Ihren persönlichen Code erhalten Sie nach Ihrer ersten Sitzung. Falls Sie ihn vergessen haben, schreiben Sie uns einfach per WhatsApp oder Instagram mit Ihrem Vor- und Nachnamen – wir senden ihn Ihnen erneut.",
 "en": "You receive your personal code after your first session. If you have forgotten it, simply message us on WhatsApp or Instagram with your full name and we will send it to you again."
 },
-"t30fbb7f5": {
+"t39602fff": {
 "tr": "Derya Kılıç | Hipnoz & Deep EFT · Kornwestheim & Online",
-"de": "Derya Kılıç | Hypnose & Deep EFT · Kornwestheim & Online",
-"en": "Derya Kılıç | Hypnosis & Deep EFT · Kornwestheim & Online"
+"de": "Hypnose & Deep EFT in Kornwestheim – Derya Kılıç",
+"en": "Hypnosis & Deep EFT in Kornwestheim – Derya Kılıç"
 },
-"t16152118": {
+"t9d980d7f": {
 "tr": "Derya Kılıç – Hipnoz & Deep EFT Merkezi Kornwestheim. Türkçe ve Almanca seanslar, yüz yüze veya online. Online randevu, WhatsApp veya Instagram DM ile iletişim.",
-"de": "Derya Kılıç – Hypnose & Deep EFT in Kornwestheim. Sitzungen auf Türkisch und Deutsch, vor Ort oder online. Online-Termin, WhatsApp oder Instagram.",
-"en": "Derya Kılıç – Hypnosis & Deep EFT in Kornwestheim, Germany. Sessions in Turkish and German, in person or online. Book online or contact via WhatsApp or Instagram."
+"de": "Hypnose & Deep EFT in Kornwestheim bei Stuttgart – Derya Kılıç. Hypnotherapie und Deep EFT auf Deutsch und Türkisch, vor Ort oder online. Jetzt online einen Termin anfragen.",
+"en": "Hypnosis & Deep EFT in Kornwestheim near Stuttgart, Germany – Derya Kılıç. Hypnotherapy and Deep EFT in German and Turkish, in person or online. Book your appointment online."
 },
 "t3d9a9ea7": {
 "tr": "Ana Sayfa",
@@ -761,10 +761,10 @@ export const PAGE = {
 "de": "Lösung von Tics und Reflexen über das Unterbewusstsein",
 "en": "Subconscious relief of tics and reflexes"
 },
-"t1e4daf23": {
+"t2831c970": {
 "tr": "Başarı Hikayeleri | Derya Kılıç",
-"de": "Erfolgsgeschichten | Derya Kılıç",
-"en": "Success Stories | Derya Kılıç"
+"de": "Erfolgsgeschichten – Hypnose & Deep EFT | Derya Kılıç",
+"en": "Success Stories – Hypnosis & Deep EFT | Derya Kılıç"
 },
 "tfcae1101": {
 "tr": "Danışanlarımızın gerçek değişim süreçleri – Derya Kılıç Hipnoz & Deep EFT Instagram öne çıkanları.",
@@ -836,10 +836,10 @@ export const PAGE = {
 "de": "Kalender wird geladen…",
 "en": "Loading calendar…"
 },
-"t88fb384d": {
+"t9e2e1cc8": {
 "tr": "Online Randevu | Derya Kılıç",
-"de": "Online-Termin | Derya Kılıç",
-"en": "Book Online | Derya Kılıç"
+"de": "Termin buchen – Hypnose & Deep EFT Kornwestheim | Derya Kılıç",
+"en": "Book an Appointment – Hypnosis & Deep EFT Kornwestheim | Derya Kılıç"
 },
 "t345f8368": {
 "tr": "Derya Kılıç ile online randevu talebi oluşturun: takvimden gün ve saat seçin, kısa ön görüşme formunu doldurun.",
