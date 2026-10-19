@@ -651,6 +651,11 @@ export const PAGE = {
 "de": "Feedback",
 "en": "Feedback"
 },
+"t8718c5c1": {
+"tr": "Web tasarım: Betül Kılıç",
+"de": "Webdesign: Betül Kılıç",
+"en": "Web design: Betül Kılıç"
+},
 "t3bb70b44": {
 "tr": "İletişim",
 "de": "Kontakt",

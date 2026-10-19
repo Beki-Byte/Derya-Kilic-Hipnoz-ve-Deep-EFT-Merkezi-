@@ -1189,3 +1189,7 @@ body { transition: opacity .2s; }
 @media (max-width: 560px) { .google-cta { padding: 18px; } .google-cta .btn { width: 100%; justify-content: center; } }
 
 .lang-switch a { display: inline-grid; place-items: center; text-decoration: none; }
+
+/* Footer: unten Platz lassen, damit die Chat-Blase nichts verdeckt */
+.site-footer .footer-bottom { padding-bottom: 92px; }
+@media (min-width: 900px) { .site-footer .footer-bottom { padding-right: 90px; padding-bottom: 28px; } }
