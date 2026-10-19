@@ -527,6 +527,9 @@ function buildChat(mount, { floating }) {
 
     if (floating) {
         const fab = $("#chatFab", wrap);
+        const setFabTitle = () => { fab.title = t("chat_fab"); fab.setAttribute("aria-label", t("chat_fab")); };
+        setFabTitle();
+        langHooks.push(setFabTitle);
         const setOpen = (open) => {
             document.body.classList.toggle("chat-open", open);
             fab.setAttribute("aria-expanded", String(open));
