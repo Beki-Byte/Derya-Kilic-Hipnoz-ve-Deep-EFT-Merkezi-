@@ -2028,6 +2028,11 @@ export const UI = {
   "de": "Ausfallgebühr (kurzfristige Absage)",
   "en": "Late cancellation fee"
  },
+ "hist_noshow": {
+  "tr": "Gelinmeyen seans ücreti",
+  "de": "Nichterscheinen (Sitzungshonorar)",
+  "en": "No-show (session fee)"
+ },
  "hist_pending": {
   "tr": "kontrol ediliyor",
   "de": "wird geprüft",

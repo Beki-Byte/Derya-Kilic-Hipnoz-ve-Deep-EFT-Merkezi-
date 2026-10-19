@@ -1166,3 +1166,4 @@ body { transition: opacity .2s; }
 .known-client.is-locked { background: #fbecea; border-color: #d88f84; color: #5c2a22; }
 .known-client.is-locked > i { color: #b04a3c; }
 .known-client.is-locked strong { color: #5c2a22; }
+

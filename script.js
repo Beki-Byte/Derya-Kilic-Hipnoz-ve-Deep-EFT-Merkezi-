@@ -846,7 +846,7 @@ async function initCalendar(elementId, opts = {}) {
         const mine = !!app._mine;
         let title = t("cal_busy", {}, calLang), color = "#c46b5d";
         if (mode === "master" && app.personal) { title = `🔒 Şahsi${app.note ? " · " + app.note : ""}`; color = "#9a8f86"; }
-        else if (mode === "master") { title = `${app.name || "?"} · ${app.service || ""}`; color = "#8c6a56"; }
+        else if (mode === "master") { title = `${app.noShow ? "❌ Gelmedi · " : ""}${app.name || "?"} · ${app.service || ""}`; color = app.noShow ? "#b04a3c" : "#8c6a56"; }
         else if (mine) { title = t("cal_yours") + (app.status === "approved" ? "" : t("cal_pending_suffix")); color = app.status === "approved" ? "#4f8a5b" : "#8fb497"; }
         // Fremde Termine: KEINE Daten an den Kalender
         const props = mode === "master" || mine ? { ...app, mine } : { mine: false };
@@ -907,14 +907,17 @@ async function initCalendar(elementId, opts = {}) {
                     refreshMaster();
                 }
             } else if (mode === "master") {
+                const started = appInstant(app).getTime() <= Date.now();
                 const anam = app.anamnese ? `\n\nKonu: ${app.anamnese.reason || "-"}\nTedavi geçmişi: ${app.anamnese.medicalHistory || "-"}\nBeklenti: ${app.anamnese.expectation || "-"}` : "";
                 const ok = await dialog({
                     title: "Randevu Detayları",
                     text: `Danışan: ${app.name}\nTelefon: ${app.phone || "-"}\nE-Posta: ${app.email || "-"}\nTarih: ${formatDateForUser(app.date)} · ${app.time}\nHizmet: ${app.service}${app.format ? " · " + app.format : ""}${app.lang ? "\nDil: " + app.lang.toUpperCase() : ""}${app.tz && differsFromBerlin(appInstant(app), app.tz) ? `\nDanışanın saati: ${toLocal(appInstant(app), app.tz).time} (${tzCity(app.tz)})` : ""}${anam}`,
-                    okText: "Randevuyu iptal et", cancelText: "Kapat", danger: true,
+                    okText: started ? "" : "Randevuyu iptal et", cancelText: "Kapat", danger: true,
+                    altText: started && !app.noShow ? "❌ Gelmedi" : "",
                     link: app.phone ? { href: waLink(formatWhatsAppNumber(app.phone), ""), text: "WhatsApp" } : null
                 });
-                if (ok && (await dialog({ title: "Emin misiniz?", text: "Bu randevu iptal edilecek.", okText: "Evet, iptal et", cancelText: "Vazgeç", danger: true }))) {
+                if (ok === "alt") { await markNoShow(app); refreshMaster(); return; }
+                if (ok === true && (await dialog({ title: "Emin misiniz?", text: "Bu randevu iptal edilecek.", okText: "Evet, iptal et", cancelText: "Vazgeç", danger: true }))) {
                     await adminCancelAppointment(app);
                     refreshMaster();
                 }
@@ -934,6 +937,27 @@ langHooks.push(() => {
 });
 
 /* Eigener Termin: Daten anzeigen, absagen (24-Stunden-Regel), Kalender-Datei */
+/* Nicht erschienen: immer 65 € (egal welche Therapie) */
+const NO_SHOW_FEE = 65;
+async function markNoShow(app) {
+    const code = app._path.startsWith("clients/") ? app._path.split("/")[1] : null;
+    const fee = NO_SHOW_FEE;
+    const ok = await dialog({
+        title: "Danışan gelmedi",
+        text: `${app.name} · ${formatDateForUser(app.date)} ${app.time}\n${app.service || ""}\n\n` + (code
+            ? `${money(fee, "tr")} danışanın bakiyesine eklenecek.`
+            : `Bu kişinin danışan kodu yok (misafir). Ücret bakiyeye eklenemez – lütfen ücreti ayrıca talep edin.`),
+        okText: code ? `Evet, ${money(fee, "tr")} ekle` : "Gelmedi olarak işaretle", cancelText: "Vazgeç", danger: true
+    });
+    if (!ok) return;
+    try {
+        if (code) await recordTransaction(code, { type: "charge", amount: fee, source: "no-show", note: "noshow" });
+        await fs.updateDoc(fs.doc(db, app._path), { noShow: true, noShowAt: new Date().toISOString() });
+        toast(code ? `Gelmedi olarak işaretlendi – ${money(fee, "tr")} bakiyeye eklendi.` : "Gelmedi olarak işaretlendi.", "success", 5000);
+        populateClientSelect();
+    } catch (e) { console.error("noShow:", e); toast("Kaydedilemedi.", "error"); }
+}
+
 /* Ausfallgebühr bei Absage < 24 h: Hipnoterapi 50 €, alle anderen 30 € */
 const lateFee = (service) => (service === "Hipnoterapi" ? 50 : 30);
 const hoursUntil = (app) => (appInstant(app).getTime() - Date.now()) / 3600000;
@@ -1314,7 +1338,7 @@ function renderPayHistory(el, payments, lang) {
         const pending = p.status === "pending";
         return `<div class="pay-row ${isPay ? "is-pay" : "is-charge"}${pending ? " is-pending" : ""}">
             <span class="pay-ico"><i class="fas ${pending ? "fa-hourglass-half" : isPay ? "fa-arrow-down" : "fa-plus"}"></i></span>
-            <span class="pay-what">${escapeHTML(t(isPay ? "hist_payment" : (p.note === "late" || p.source === "late-cancel" ? "hist_late" : "hist_charge"), {}, lang))}${p.method ? ` · ${escapeHTML(UI["m_" + p.method] ? t("m_" + p.method, {}, lang) : p.method)}` : ""}${pending ? ` · ${escapeHTML(t("hist_pending", {}, lang))}` : ""}<small>${escapeHTML(date)}</small></span>
+            <span class="pay-what">${escapeHTML(t(isPay ? "hist_payment" : (p.note === "late" || p.source === "late-cancel" ? "hist_late" : p.source === "no-show" ? "hist_noshow" : "hist_charge"), {}, lang))}${p.method ? ` · ${escapeHTML(UI["m_" + p.method] ? t("m_" + p.method, {}, lang) : p.method)}` : ""}${pending ? ` · ${escapeHTML(t("hist_pending", {}, lang))}` : ""}<small>${escapeHTML(date)}</small></span>
             <strong>${isPay ? "−" : "+"}${escapeHTML(money(p.amount, lang))}</strong>
         </div>`;
     }).join("");

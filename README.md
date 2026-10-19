@@ -29,5 +29,6 @@ Danışanlarımıza güven bağı içinde zihinsel hafiflik, içsel huzur ve ya�
 * **Kalender-Regeln:** 2 Std. Abstand zwischen bestätigten Terminen · fremde Termine nur als „Dolu/Belegt/Booked“ ohne Daten · eigener Termin zeigt alle Daten und kann abgesagt werden · unter 24 Std. Hinweis auf Ausfallgebühr (Portal-Klienten: wird automatisch auf den offenen Betrag gebucht).
 * **Sprachen:** Texte stehen in `i18n.js` (TR/DE/EN). Der Admin-Bereich bleibt Türkisch.
 * Analytics lädt nur nach „Tümünü kabul et“ im Cookie-Hinweis.
+* **Gelmedi (nicht erschienen):** Im Admin-Kalender bei einem begonnenen Termin → immer 65 € auf den offenen Betrag (egal welche Therapie).
 
 *Geliştiren: Betül Erva Kılıç*
