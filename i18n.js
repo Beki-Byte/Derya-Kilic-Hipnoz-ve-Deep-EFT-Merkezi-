@@ -551,6 +551,21 @@ export const PAGE = {
 "de": "Weitere Bewertungen anzeigen",
 "en": "Show more reviews"
 },
+"t56c06c9c": {
+"tr": "Bizi Google'da da değerlendirin",
+"de": "Bewerten Sie uns auch auf Google",
+"en": "Review us on Google too"
+},
+"ta77d0349": {
+"tr": "Google Haritalar'daki yorumunuz, yardım arayan başka insanların bizi bulmasına yardımcı olur. Sadece bir dakikanızı alır.",
+"de": "Ihre Bewertung auf Google Maps hilft anderen Menschen, die Unterstützung suchen, uns zu finden. Es dauert nur eine Minute.",
+"en": "Your review on Google Maps helps other people looking for support to find us. It only takes a minute."
+},
+"t4df707d4": {
+"tr": "Google'da yorum yaz",
+"de": "Auf Google bewerten",
+"en": "Write a Google review"
+},
 "t8b67071a": {
 "tr": "Deneyiminizi Paylaşın",
 "de": "Teilen Sie Ihre Erfahrung",
@@ -1672,6 +1687,26 @@ export const UI = {
   "tr": "Portala git",
   "de": "Zum Portal",
   "en": "Go to the portal"
+ },
+ "rev_google_title": {
+  "tr": "Teşekkürler! 💛",
+  "de": "Vielen Dank! 💛",
+  "en": "Thank you! 💛"
+ },
+ "rev_google_text": {
+  "tr": "Yorumunuz yayınlandı. Deneyiminizi Google'da da paylaşır mısınız? Böylece yardım arayan başka insanlar da bizi daha kolay bulur.",
+  "de": "Ihre Bewertung wurde veröffentlicht. Möchten Sie Ihre Erfahrung auch auf Google teilen? So finden uns auch andere Menschen, die Unterstützung suchen, leichter.",
+  "en": "Your review has been published. Would you also share your experience on Google? That way, other people looking for support can find us more easily."
+ },
+ "rev_google_btn": {
+  "tr": "Google'da paylaş",
+  "de": "Auf Google teilen",
+  "en": "Share on Google"
+ },
+ "rev_google_later": {
+  "tr": "Belki sonra",
+  "de": "Vielleicht später",
+  "en": "Maybe later"
  },
  "cal_loading": {
   "tr": "Randevular yükleniyor…",

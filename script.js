@@ -33,6 +33,7 @@ const MOTHER_WHATSAPP_NUMBER = "491708296913";
 const SITE_URL = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/";
 const PORTAL_LINK = SITE_URL + "portal.html";
 const PAYPAL_ME = "https://paypal.me/DeryaKilic2829";
+const GOOGLE_REVIEW_URL = "https://g.page/r/CQ42GwLjVBphEBE/review"; // Google-Maps-Bewertungslink
 const MIN_GAP_MINUTES = 120;
 const CANCEL_FREE_HOURS = 24;
 
@@ -690,7 +691,12 @@ function initReviews() {
             $("#charCount").textContent = "0";
             caption();
             await renderComments();
-            toast(t("rev_thanks"), "success");
+            // Direkt danach freundlich um eine Google-Bewertung bitten (alle gleich, keine Gegenleistung)
+            await dialog({
+                title: t("rev_google_title"), text: t("rev_google_text"),
+                okText: "", cancelText: t("rev_google_later"),
+                link: { href: GOOGLE_REVIEW_URL, text: t("rev_google_btn"), icon: "fab fa-google", cls: "btn--primary" }
+            });
         } catch (err) {
             console.error("addComment:", err);
             toast(t("rev_error"), "error");
