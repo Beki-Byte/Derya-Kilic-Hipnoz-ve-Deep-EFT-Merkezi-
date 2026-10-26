@@ -192,6 +192,8 @@ body { transition: opacity .2s; }
     background: var(--white); border: 1px solid var(--line); border-radius: 999px;
 }
 .lang-switch :is(button, a) {
+    display: inline-flex; align-items: center; justify-content: center; line-height: 1; text-decoration: none;
+    text-indent: .06em; /* gleicht den Buchstabenabstand aus -> Text genau mittig */
     border: 0; background: transparent; color: var(--muted);
     min-width: 38px; height: 32px; padding: 0 8px; border-radius: 999px;
     font-size: .78rem; font-weight: 700; letter-spacing: .06em;
@@ -1184,3 +1186,7 @@ body { transition: opacity .2s; }
 /* Footer: unten Platz lassen, damit die Chat-Blase nichts verdeckt */
 .site-footer .footer-bottom { padding-bottom: 92px; }
 @media (min-width: 900px) { .site-footer .footer-bottom { padding-right: 90px; padding-bottom: 28px; } }
+
+/* Admin: Abstand zwischen Telefon/E-Mail und dem Kasten „Kalan ödeme“ */
+.client-contact-grid { margin-bottom: 18px; }
+.client-contact-grid .field { margin-bottom: 0; }
