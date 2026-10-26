@@ -161,6 +161,16 @@ export const PAGE = {
 "de": "Alle Sitzungen werden ausschließlich auf <strong>Deutsch</strong> und <strong>Türkisch</strong> angeboten.",
 "en": "All sessions are held exclusively in <strong>Turkish</strong> and <strong>German</strong>. The website is available in English for your convenience, but sessions are not offered in English."
 },
+"t642054de": {
+"tr": "Türkçe konuşan bir psikoterapist arıyorum – burada doğru yerde miyim?",
+"de": "Ich suche eine türkischsprachige Psychotherapie – bin ich hier richtig?",
+"en": "I am looking for Turkish-speaking psychotherapy – am I in the right place?"
+},
+"t013e7ab5": {
+"tr": "Derya Kılıç, <strong>psikolojik danışman</strong> olarak Türkçe ve Almanca danışmanlık, hipnoz ve Deep EFT sunar – Kornwestheim’da yüz yüze veya online. Bu hizmetler tıbbi anlamda bir psikoterapi değildir ve doktor ya da psikoterapist tedavisinin yerini tutmaz. Ana dilinizde anlaşılmak ve destek almak istiyorsanız, burada doğru yerdesiniz. Ağır psikolojik rahatsızlıklarda lütfen bir doktora veya psikoterapiste başvurun; acil durumlarda 112’yi arayın.",
+"de": "Derya Kılıç bietet als <strong>Psychologische Beraterin</strong> Beratung, Hypnose und Deep EFT auf Türkisch und Deutsch an – vor Ort in Kornwestheim (bei Stuttgart und Ludwigsburg) oder online. Das ist keine Psychotherapie im medizinischen Sinne und ersetzt keine ärztliche oder psychotherapeutische Behandlung. Wenn Sie Unterstützung in Ihrer Muttersprache suchen, sind Sie hier richtig. Bei schweren psychischen Erkrankungen wenden Sie sich bitte an eine Ärztin, einen Arzt oder eine Psychotherapeutin bzw. einen Psychotherapeuten; im Notfall wählen Sie 112.",
+"en": "Derya Kılıç offers counselling, hypnosis and Deep EFT in Turkish and German as a <strong>psychological counsellor</strong> – in person in Kornwestheim (near Stuttgart and Ludwigsburg) or online. This is not psychotherapy in the medical sense and does not replace treatment by a doctor or psychotherapist. If you are looking for support in your native language, you are in the right place. For serious mental illness, please contact a doctor or psychotherapist; in an emergency, call 112."
+},
 "te8e8d4d3": {
 "tr": "Online seans mümkün mü?",
 "de": "Sind Online-Sitzungen möglich?",
@@ -191,15 +201,15 @@ export const PAGE = {
 "de": "Ihren persönlichen Code erhalten Sie nach Ihrer ersten Sitzung. Falls Sie ihn vergessen haben, schreiben Sie uns einfach per WhatsApp oder Instagram mit Ihrem Vor- und Nachnamen – wir senden ihn Ihnen erneut.",
 "en": "You receive your personal code after your first session. If you have forgotten it, simply message us on WhatsApp or Instagram with your full name and we will send it to you again."
 },
-"t39602fff": {
-"tr": "Derya Kılıç | Hipnoz & Deep EFT · Kornwestheim & Online",
-"de": "Hypnose & Deep EFT in Kornwestheim – Derya Kılıç",
-"en": "Hypnosis & Deep EFT in Kornwestheim – Derya Kılıç"
+"tbc1e8d55": {
+"tr": "Derya Kılıç | Psikolojik Danışmanlık, Hipnoz & Deep EFT · Kornwestheim & Online",
+"de": "Psychologische Beratung auf Türkisch, Hypnose & Deep EFT – Kornwestheim & Stuttgart | Derya Kılıç",
+"en": "Counselling in Turkish, Hypnosis & Deep EFT – Kornwestheim & Stuttgart | Derya Kılıç"
 },
-"t9d980d7f": {
-"tr": "Derya Kılıç – Hipnoz & Deep EFT Merkezi Kornwestheim. Türkçe ve Almanca seanslar, yüz yüze veya online. Online randevu, WhatsApp veya Instagram DM ile iletişim.",
-"de": "Hypnose & Deep EFT in Kornwestheim bei Stuttgart – Derya Kılıç. Hypnotherapie und Deep EFT auf Deutsch und Türkisch, vor Ort oder online. Jetzt online einen Termin anfragen.",
-"en": "Hypnosis & Deep EFT in Kornwestheim near Stuttgart, Germany – Derya Kılıç. Hypnotherapy and Deep EFT in German and Turkish, in person or online. Book your appointment online."
+"ta3e9b271": {
+"tr": "Derya Kılıç – Türkçe psikolojik danışmanlık, hipnoz ve Deep EFT. Kornwestheim'da (Stuttgart ve Ludwigsburg yakını) yüz yüze veya online seanslar. Online randevu, WhatsApp veya Instagram DM ile iletişim.",
+"de": "Psychologische Beratung, Hypnose & Deep EFT auf Türkisch und Deutsch – Derya Kılıç, Psychologische Beraterin in Kornwestheim bei Stuttgart und Ludwigsburg, vor Ort oder online. Jetzt online einen Termin anfragen.",
+"en": "Counselling, hypnosis & Deep EFT in Turkish and German – Derya Kılıç, psychological counsellor in Kornwestheim near Stuttgart and Ludwigsburg, in person or online. Book your appointment online."
 },
 "t3d9a9ea7": {
 "tr": "Ana Sayfa",
@@ -270,6 +280,11 @@ export const PAGE = {
 "tr": "Türkçe · Deutsch",
 "de": "Türkisch · Deutsch",
 "en": "Turkish · German"
+},
+"te6d0851a": {
+"tr": "Psikolojik Danışman · Hipnoz &amp; Deep EFT",
+"de": "Psychologische Beraterin · Hypnose &amp; Deep EFT",
+"en": "Psychological Counsellor · Hypnosis &amp; Deep EFT"
 },
 "t157b4b1e": {
 "tr": "Bilinç bir sokak görürken, bilinçaltı bütün bir şehri görür.",
@@ -345,6 +360,26 @@ export const PAGE = {
 "tr": "Güven · Denge · Dönüşüm",
 "de": "Vertrauen · Balance · Wandel",
 "en": "Trust · Balance · Transformation"
+},
+"t224c89ac": {
+"tr": "Ana Dilinizde",
+"de": "In Ihrer Muttersprache",
+"en": "In your native language"
+},
+"t41ed2529": {
+"tr": "Türkçe Psikolojik Danışmanlık",
+"de": "Psychologische Beratung auf Türkisch",
+"en": "Counselling in Turkish"
+},
+"t085ff41a": {
+"tr": "Duygularımızı en iyi kendi dilimizde anlatırız. Derya Kılıç, psikolojik danışman olarak seanslarını <strong>Türkçe</strong> ve <strong>Almanca</strong> yürütür – Kornwestheim’da (Stuttgart ve Ludwigsburg yakınında) yüz yüze veya online. Danışmanlık, hipnoz ve Deep EFT ile iç dengenizi yeniden bulmanıza eşlik eder.",
+"de": "Gefühle lassen sich am besten in der eigenen Sprache ausdrücken. Derya Kılıç begleitet Sie als Psychologische Beraterin auf <strong>Türkisch</strong> und <strong>Deutsch</strong> – vor Ort in Kornwestheim (bei Stuttgart und Ludwigsburg) oder online. Mit Beratung, Hypnose und Deep EFT unterstützt sie Sie dabei, Ihr inneres Gleichgewicht wiederzufinden.",
+"en": "We express our feelings best in our own language. As a psychological counsellor, Derya Kılıç works in <strong>Turkish</strong> and <strong>German</strong> – in person in Kornwestheim (near Stuttgart and Ludwigsburg) or online. With counselling, hypnosis and Deep EFT she helps you find your inner balance again."
+},
+"t0ad9a4eb": {
+"tr": "Sık sorulan sorular",
+"de": "Häufige Fragen",
+"en": "Frequently asked questions"
 },
 "ta6e9cb98": {
 "tr": "Hizmetlerim &amp; Uzmanlık Alanları",
@@ -551,21 +586,6 @@ export const PAGE = {
 "de": "Weitere Bewertungen anzeigen",
 "en": "Show more reviews"
 },
-"t56c06c9c": {
-"tr": "Bizi Google'da da değerlendirin",
-"de": "Bewerten Sie uns auch auf Google",
-"en": "Review us on Google too"
-},
-"ta77d0349": {
-"tr": "Google Haritalar'daki yorumunuz, yardım arayan başka insanların bizi bulmasına yardımcı olur. Sadece bir dakikanızı alır.",
-"de": "Ihre Bewertung auf Google Maps hilft anderen Menschen, die Unterstützung suchen, uns zu finden. Es dauert nur eine Minute.",
-"en": "Your review on Google Maps helps other people looking for support to find us. It only takes a minute."
-},
-"t4df707d4": {
-"tr": "Google'da yorum yaz",
-"de": "Auf Google bewerten",
-"en": "Write a Google review"
-},
 "t8b67071a": {
 "tr": "Deneyiminizi Paylaşın",
 "de": "Teilen Sie Ihre Erfahrung",
@@ -621,10 +641,10 @@ export const PAGE = {
 "de": "Auf Google bewerten",
 "en": "Rate on Google"
 },
-"t2107cdf8": {
-"tr": "Hipnoterapi, Deep EFT &amp; danışmanlık<br>Kornwestheim &amp; Online",
-"de": "Hypnotherapie, Deep EFT &amp; Beratung<br>Kornwestheim &amp; Online",
-"en": "Hypnotherapy, Deep EFT &amp; counselling<br>Kornwestheim &amp; Online"
+"t955277a2": {
+"tr": "Psikolojik danışmanlık, Hipnoterapi &amp; Deep EFT<br>Kornwestheim &amp; Online",
+"de": "Psychologische Beratung, Hypnotherapie &amp; Deep EFT<br>Kornwestheim &amp; Online",
+"en": "Psychological counselling, hypnotherapy &amp; Deep EFT<br>Kornwestheim &amp; Online"
 },
 "t029755c0": {
 "tr": "Seans dilleri: Türkçe &amp; Deutsch",
