@@ -1190,3 +1190,9 @@ body { transition: opacity .2s; }
 /* Admin: Abstand zwischen Telefon/E-Mail und dem Kasten „Kalan ödeme“ */
 .client-contact-grid { margin-bottom: 18px; }
 .client-contact-grid .field { margin-bottom: 0; }
+
+/* Ausbildung & Zertifikate */
+.cred-grid { grid-template-columns: repeat(2, 1fr); max-width: 920px; margin-inline: auto; }
+@media (max-width: 600px) { .cred-grid { grid-template-columns: 1fr; } }
+.cred-card { cursor: default; }
+.cred-meta { align-self: flex-start; font-size: .82rem; font-weight: 700; letter-spacing: .04em; color: var(--brown-dark); background: var(--sand); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }

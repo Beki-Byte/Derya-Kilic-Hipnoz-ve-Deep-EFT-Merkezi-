@@ -161,16 +161,6 @@ export const PAGE = {
 "de": "Alle Sitzungen werden ausschließlich auf <strong>Deutsch</strong> und <strong>Türkisch</strong> angeboten.",
 "en": "All sessions are held exclusively in <strong>Turkish</strong> and <strong>German</strong>. The website is available in English for your convenience, but sessions are not offered in English."
 },
-"t642054de": {
-"tr": "Türkçe konuşan bir psikoterapist arıyorum – burada doğru yerde miyim?",
-"de": "Ich suche eine türkischsprachige Psychotherapie – bin ich hier richtig?",
-"en": "I am looking for Turkish-speaking psychotherapy – am I in the right place?"
-},
-"t013e7ab5": {
-"tr": "Derya Kılıç, <strong>psikolojik danışman</strong> olarak Türkçe ve Almanca danışmanlık, hipnoz ve Deep EFT sunar – Kornwestheim’da yüz yüze veya online. Bu hizmetler tıbbi anlamda bir psikoterapi değildir ve doktor ya da psikoterapist tedavisinin yerini tutmaz. Ana dilinizde anlaşılmak ve destek almak istiyorsanız, burada doğru yerdesiniz. Ağır psikolojik rahatsızlıklarda lütfen bir doktora veya psikoterapiste başvurun; acil durumlarda 112’yi arayın.",
-"de": "Derya Kılıç bietet als <strong>Psychologische Beraterin</strong> Beratung, Hypnose und Deep EFT auf Türkisch und Deutsch an – vor Ort in Kornwestheim (bei Stuttgart und Ludwigsburg) oder online. Das ist keine Psychotherapie im medizinischen Sinne und ersetzt keine ärztliche oder psychotherapeutische Behandlung. Wenn Sie Unterstützung in Ihrer Muttersprache suchen, sind Sie hier richtig. Bei schweren psychischen Erkrankungen wenden Sie sich bitte an eine Ärztin, einen Arzt oder eine Psychotherapeutin bzw. einen Psychotherapeuten; im Notfall wählen Sie 112.",
-"en": "Derya Kılıç offers counselling, hypnosis and Deep EFT in Turkish and German as a <strong>psychological counsellor</strong> – in person in Kornwestheim (near Stuttgart and Ludwigsburg) or online. This is not psychotherapy in the medical sense and does not replace treatment by a doctor or psychotherapist. If you are looking for support in your native language, you are in the right place. For serious mental illness, please contact a doctor or psychotherapist; in an emergency, call 112."
-},
 "te8e8d4d3": {
 "tr": "Online seans mümkün mü?",
 "de": "Sind Online-Sitzungen möglich?",
@@ -200,6 +190,56 @@ export const PAGE = {
 "tr": "Giriş kodunuz ilk seansınızdan sonra size özel olarak iletilir. Kodunuzu unuttuysanız WhatsApp veya Instagram DM üzerinden adınız ve soyadınızla ulaşmanız yeterli; kodunuzu size tekrar iletiriz.",
 "de": "Ihren persönlichen Code erhalten Sie nach Ihrer ersten Sitzung. Falls Sie ihn vergessen haben, schreiben Sie uns einfach per WhatsApp oder Instagram mit Ihrem Vor- und Nachnamen – wir senden ihn Ihnen erneut.",
 "en": "You receive your personal code after your first session. If you have forgotten it, simply message us on WhatsApp or Instagram with your full name and we will send it to you again."
+},
+"te73347c8": {
+"tr": "360 saat · 2022",
+"de": "360 Std. · 2022",
+"en": "360 hours · 2022"
+},
+"t975de2f1": {
+"tr": "Uluslararası Yeni Pazar Üniversitesi &amp; Freud Universität – Sürekli Eğitim Merkezi",
+"de": "International Yeni Pazar University &amp; Freud Universität – Weiterbildungszentrum",
+"en": "International Yeni Pazar University &amp; Freud Universität – Continuing Education Center"
+},
+"t0a3d93f5": {
+"tr": "Yaşam Koçluğu (Life Coaching)",
+"de": "Life Coaching",
+"en": "Life Coaching"
+},
+"tbb25901a": {
+"tr": "360 saat · 2022 – 2023",
+"de": "360 Std. · 2022 – 2023",
+"en": "360 hours · 2022 – 2023"
+},
+"t8d4d72ff": {
+"tr": "Aile ve Sosyal Yaşam Danışmanlığı",
+"de": "Familien- und Lebensberatung",
+"en": "Family &amp; Social Life Counselling"
+},
+"t6747921f": {
+"tr": "464 saat · 2023",
+"de": "464 Std. · 2023",
+"en": "464 hours · 2023"
+},
+"ta99ba130": {
+"tr": "İstanbul Esenyurt Üniversitesi – Sürekli Eğitim Uygulama ve Araştırma Merkezi",
+"de": "Istanbul Esenyurt Universität – Zentrum für Weiterbildung",
+"en": "Istanbul Esenyurt University – Continuing Education Center"
+},
+"tf6426fd6": {
+"tr": "Sistemik Derin Duygu Yönetimi (SDEM)",
+"de": "Systemisches Tiefes Emotionsmanagement (SDEM)",
+"en": "Systemic Deep Emotion Management (SDEM)"
+},
+"ta7b7f66e": {
+"tr": "240 saat · 2025",
+"de": "240 Std. · 2025",
+"en": "240 hours · 2025"
+},
+"tbd8d90a0": {
+"tr": "Doç. Dr. Rukiye Ersözoğlu – sertifika: IATELS / Global Cert",
+"de": "Doç. Dr. Rukiye Ersözoğlu – zertifiziert durch IATELS / Global Cert",
+"en": "Assoc. Prof. Dr. Rukiye Ersözoğlu – certified by IATELS / Global Cert"
 },
 "tbc1e8d55": {
 "tr": "Derya Kılıç | Psikolojik Danışmanlık, Hipnoz & Deep EFT · Kornwestheim & Online",
@@ -240,6 +280,11 @@ export const PAGE = {
 "tr": "Başarı Hikayeleri",
 "de": "Erfolgsgeschichten",
 "en": "Success Stories"
+},
+"td8204f87": {
+"tr": "Eğitimlerim",
+"de": "Ausbildung",
+"en": "Training"
 },
 "tc70540a3": {
 "tr": "Ödeme",
@@ -350,6 +395,11 @@ export const PAGE = {
 "tr": "“Ben Derya Kılıç. 38 yaşındayım, evli ve iki çocuk annesiyim. Danışanlarıma sunduğum bu alanda; her şeyden önce insan insana kurulan güven bağına inanıyorum. Zihninizi yoran düşüncelerden sıyrılmak, kalbinizi daraltan yükleri hafifletmek ve kendi yaşam dengenizi yeniden kurmanız için buradayım. Kendinize doğru atacağınız bu kıymetli adımda ve dönüşüm sürecinizde size eşlik etmekten mutluluk duyarım.”",
 "de": "„Ich bin Derya Kılıç, 38 Jahre alt, verheiratet und Mutter von zwei Kindern. In dem Raum, den ich meinen Klientinnen und Klienten biete, glaube ich vor allem an das Vertrauen, das von Mensch zu Mensch entsteht. Ich bin da, damit Sie sich von belastenden Gedanken lösen, die Lasten auf Ihrem Herzen leichter werden lassen und Ihr eigenes Gleichgewicht wiederfinden. Es ist mir eine Freude, Sie bei diesem wertvollen Schritt zu sich selbst und auf Ihrem Weg der Veränderung zu begleiten.“",
 "en": "“I am Derya Kılıç, 38 years old, married and a mother of two. In the space I offer my clients, I believe above all in the bond of trust that grows from one person to another. I am here to help you free yourself from exhausting thoughts, lighten the burdens weighing on your heart and rebuild your own balance in life. It would be my pleasure to accompany you on this precious step towards yourself and through your journey of transformation.”"
+},
+"t34f3a571": {
+"tr": "Eğitim &amp; sertifikalarım",
+"de": "Meine Ausbildung &amp; Zertifikate",
+"en": "My training &amp; certificates"
 },
 "tc666ab3d": {
 "tr": "BDT",
@@ -656,6 +706,11 @@ export const PAGE = {
 "de": "Seiten",
 "en": "Pages"
 },
+"t6308f67a": {
+"tr": "Eğitim &amp; Sertifikalar",
+"de": "Ausbildung &amp; Zertifikate",
+"en": "Training &amp; Certificates"
+},
 "t209fd293": {
 "tr": "Sanal Asistan",
 "de": "Virtueller Assistent",
@@ -815,6 +870,36 @@ export const PAGE = {
 "tr": "Daha fazla başarı hikayesi ve günlük paylaşımlar için Instagram hesabımızı ziyaret edin.",
 "de": "Weitere Erfolgsgeschichten und tägliche Beiträge finden Sie auf unserem Instagram-Profil.",
 "en": "Find more success stories and daily posts on our Instagram profile."
+},
+"tfa9c34c7": {
+"tr": "Eğitim & Sertifikalar | Derya Kılıç",
+"de": "Ausbildung & Zertifikate – Hypnose, Life Coaching & Familienberatung | Derya Kılıç",
+"en": "Training & Certificates – Hypnosis, Life Coaching & Family Counselling | Derya Kılıç"
+},
+"t9b7e4470": {
+"tr": "Derya Kılıç'ın eğitimleri: Hipnoterapi, Yaşam Koçluğu, Aile ve Sosyal Yaşam Danışmanlığı ve Sistemik Derin Duygu Yönetimi – toplam 1.400 saati aşkın eğitim.",
+"de": "Die Ausbildungen von Derya Kılıç: Hypnotherapie, Life Coaching, Familien- und Lebensberatung sowie Systemisches Tiefes Emotionsmanagement – insgesamt über 1.400 Stunden.",
+"en": "Derya Kılıç’s training: hypnotherapy, life coaching, family & social life counselling and systemic deep emotion management – more than 1,400 hours in total."
+},
+"tac969e13": {
+"tr": "Toplam <strong>1.400 saati aşkın</strong> eğitimle, bilgimi ve deneyimimi sürekli geliştiriyorum.",
+"de": "Mit insgesamt <strong>über 1.400 Stunden</strong> Ausbildung bilde ich mich laufend weiter.",
+"en": "With <strong>more than 1,400 hours</strong> of training in total, I keep developing my knowledge and experience."
+},
+"t904e22c5": {
+"tr": "Randevu",
+"de": "Termin",
+"en": "Appointment"
+},
+"t03e29833": {
+"tr": "Birlikte Başlayalım",
+"de": "Lassen Sie uns gemeinsam beginnen",
+"en": "Let’s Begin Together"
+},
+"t8b29c6e8": {
+"tr": "Yüz yüze Kornwestheim’da veya online – Türkçe ve Almanca.",
+"de": "Vor Ort in Kornwestheim oder online – auf Türkisch und Deutsch.",
+"en": "In person in Kornwestheim or online – in Turkish and German."
 },
 "t98a07b37": {
 "tr": "Hipnoterapi (170 € / seans)",
