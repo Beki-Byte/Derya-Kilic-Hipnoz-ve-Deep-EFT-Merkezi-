@@ -30,7 +30,7 @@ const firebaseConfig = {
 };
 
 const MOTHER_WHATSAPP_NUMBER = "491708296913";
-const SITE_URL = "https://beki-byte.github.io/Derya-Kilic-Hipnoz-ve-Deep-EFT-Merkezi-/";
+const SITE_URL = "https://deryasenkilic.de/";
 const PORTAL_LINK = SITE_URL + "portal.html";
 const PAYPAL_ME = "https://paypal.me/DeryaKilic2829";
 const GOOGLE_REVIEW_URL = "https://g.page/r/CQ42GwLjVBphEBE/review"; // Google-Maps-Bewertungslink
