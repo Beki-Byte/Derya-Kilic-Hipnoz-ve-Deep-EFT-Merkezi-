@@ -1,0 +1,12 @@
+{
+  "name": "Derya Kılıç – Hipnoz & Deep EFT",
+  "short_name": "Derya Kılıç",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf6f0",
+  "theme_color": "#faf6f0",
+  "icons": [
+    { "src": "favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
