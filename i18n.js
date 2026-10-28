@@ -1733,6 +1733,11 @@ export const UI = {
   "de": " (unbestätigt)",
   "en": " (pending)"
  },
+ "slot_closed": {
+  "tr": "Bu saat çalışma saatlerimizin dışında. Randevular: Pazartesi–Perşembe 08:30–17:30, Cuma 08:30–15:00 arasında başlayabilir.",
+  "de": "Diese Uhrzeit liegt außerhalb unserer Praxiszeiten. Termine können Mo–Do zwischen 08:30 und 17:30 Uhr und freitags zwischen 08:30 und 15:00 Uhr beginnen.",
+  "en": "This time is outside our opening hours. Appointments can start Mon–Thu between 08:30 and 17:30 and on Fridays between 08:30 and 15:00 (German time)."
+ },
  "slot_weekend": {
   "tr": "Cumartesi ve pazar günleri randevu verilmemektedir. Lütfen hafta içi bir gün seçin.",
   "de": "Samstags und sonntags finden keine Termine statt. Bitte wählen Sie einen Wochentag.",

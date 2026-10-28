@@ -799,6 +799,19 @@ const isPastInstant = (d) => d instanceof Date && d.getTime() < Date.now();
 /* Sa/So keine Termine (maßgeblich ist der Tag in Deutschland) */
 const isWeekendISO = (iso) => { const d = new Date(iso + "T12:00:00Z").getUTCDay(); return d === 0 || d === 6; };
 const isWeekendInstant = (inst) => inst instanceof Date && !isNaN(inst) && isWeekendISO(toBerlin(inst).date);
+/* Praxiszeiten (Berlin) – gelten für Klienten. Letzter Terminbeginn = 1 Std. vor Schluss. */
+const OPEN_HOURS = { 1: ["08:30", "18:30"], 2: ["08:30", "18:30"], 3: ["08:30", "18:30"], 4: ["08:30", "18:30"], 5: ["08:30", "16:00"] };
+const LAST_START_BEFORE_CLOSE = 60; // Minuten
+const hm = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
+function isOutsideHours(inst) {
+    if (!(inst instanceof Date) || isNaN(inst)) return false;
+    const b = toBerlin(inst);
+    const day = new Date(b.date + "T12:00:00Z").getUTCDay();
+    const h = OPEN_HOURS[day];
+    if (!h) return false; // Wochenende wird separat gemeldet
+    const m = hm(b.time);
+    return m < hm(h[0]) || m > hm(h[1]) - LAST_START_BEFORE_CLOSE;
+}
 function isPast(date, time) {
     if (!date) return false;
     return isPastInstant(berlinToUTC(date, time || "23:59"));
@@ -1073,7 +1086,7 @@ function notifyMother(subject, fields) {
 function bindSlotChecker({ dateInput, timeInput, statusEl, chipsEl = null, getAppointments: getBusy }) {
     if (!dateInput || !timeInput) return null;
     dateInput.min = todayISO();
-    const BERLIN_HOURS = ["10:00", "12:00", "14:00", "16:00", "18:00"];
+    const BERLIN_HOURS = ["10:00", "12:00", "14:00", "16:00", "17:30"];
     const update = () => {
         const busy = getBusy();
         const date = dateInput.value, time = timeInput.value;
@@ -1081,7 +1094,7 @@ function bindSlotChecker({ dateInput, timeInput, statusEl, chipsEl = null, getAp
             const chips = !date ? BERLIN_HOURS.map((h) => ({ local: h, busy: false })) : BERLIN_HOURS.map((h) => {
                 const inst = berlinToUTC(date, h);
                 const loc = toLocal(inst);
-                return loc.date === date ? { local: loc.time, busy: !!(checkSlot(busy, inst) || isPastInstant(inst) || isWeekendInstant(inst)) } : null;
+                return loc.date === date ? { local: loc.time, busy: !!(checkSlot(busy, inst) || isPastInstant(inst) || isWeekendInstant(inst) || isOutsideHours(inst)) } : null;
             }).filter(Boolean);
             chipsEl.innerHTML = chips.map((c) => `<button type="button" data-t="${c.local}" aria-pressed="${c.local === time}" ${c.busy ? "disabled" : ""}>${c.local}</button>`).join("");
         }
@@ -1091,6 +1104,7 @@ function bindSlotChecker({ dateInput, timeInput, statusEl, chipsEl = null, getAp
         const inst = localInstant(date, time);
         if (isPastInstant(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_past"))}`; return; }
         if (isWeekendInstant(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_weekend"))}`; return; }
+        if (isOutsideHours(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_closed"))}`; return; }
         const err = checkSlot(busy, inst);
         if (err) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t(err.key))}`; return; }
         let msg = t("slot_free", { d: formatDateLong(date), t: time });
@@ -1142,7 +1156,7 @@ async function initPublicBooking() {
 
     const dateInput = $("#pubDate"), timeInput = $("#pubTime");
     let busy = [];
-    const refreshStatus = bindSlotChecker({ dateInput, timeInput, statusEl: $("#slotStatus"), chipsEl: $("#timeChips"), getAppointments: () => busy });
+    const refreshStatus = bindSlotChecker({ dateInput, timeInput, statusEl: $("#slotStatus"), getAppointments: () => busy });
 
     const params = new URLSearchParams(location.search);
     const hizmet = params.get("hizmet");
@@ -1213,6 +1227,7 @@ async function initPublicBooking() {
         };
         if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
         if (isWeekendInstant(inst)) { toast(t("slot_weekend"), "warn"); return; }
+        if (isOutsideHours(inst)) { toast(t("slot_closed"), "warn", 5000); return; }
         if (data.phone.replace(/\D/g, "").length < 6) { toast(t("book_phone"), "warn"); $("#pubPhone").focus(); return; }
 
         const oldHTML = submitBtn.innerHTML;
@@ -1980,6 +1995,14 @@ async function addNewAppointment(e) {
     // Regel 3: Şahsi -> keine 2-Stunden-Regel. Klienten-Termine -> Warnung mit Wahl.
     if (!personal) {
         const inst = berlinToUTC(date, time);
+        if (isWeekendInstant(inst) || isOutsideHours(inst)) {
+            const ok = await dialog({
+                title: "⏰ Çalışma saatleri dışında",
+                text: "Bu saat muayenehanenin çalışma saatleri dışında (Pzt–Prş 08:30–18:30, Cuma 08:30–16:00).\n\nYine de kaydetmek istiyor musunuz?",
+                okText: "Evet, kaydet", cancelText: "Hayır"
+            });
+            if (ok !== true) { toast("Randevu kaydedilmedi.", "info"); return; }
+        }
         const conflict = checkSlot(await getAdminBusy(), inst);
         if (conflict) {
             const save = await dialog({
@@ -2469,6 +2492,7 @@ async function handleClientBooking(e) {
     };
     if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
     if (isWeekendInstant(inst)) { toast(t("slot_weekend"), "warn"); return; }
+    if (isOutsideHours(inst)) { toast(t("slot_closed"), "warn", 5000); return; }
     if (isPortalLocked(clientState.client)) { toast(t("lock_book"), "error"); return; }
     clientState.busy = (await loadCalendarData("client", code)).busy;
     const conflict = checkSlot(clientState.busy, inst);

@@ -119,8 +119,8 @@
 <form class="form-row" id="adminAddAppointmentForm">
 <div class="field"><label for="appClientSelect">Danışan</label><select id="appClientSelect" required=""><option value="">Lütfen danışan seçin</option></select></div>
 <div class="field"><label for="appDate">Tarih</label><input id="appDate" required="" type="date"/></div>
-<div class="field"><label for="appTime">Saat (Almanya)</label><input id="appTime" required="" step="900" type="time"/></div>
-<div class="field" hidden="" id="appEndWrap"><label for="appEndTime">Bitiş saati (isteğe bağlı)</label><input id="appEndTime" step="900" type="time"/></div>
+<div class="field"><label for="appTime">Saat (Almanya)</label><input id="appTime" required="" type="time"/></div>
+<div class="field" hidden="" id="appEndWrap"><label for="appEndTime">Bitiş saati (isteğe bağlı)</label><input id="appEndTime" type="time"/></div>
 <div class="field">
 <label for="appServiceType">Terapi türü / not</label>
 <input id="appServiceType" list="serviceList" placeholder="Örn: Hipnoterapi" required="" type="text"/>
@@ -306,7 +306,7 @@
 <div>
 <div class="form-grid">
 <div class="field"><label data-i18n="t44aff018" for="selectedDate">Tarih *</label><input id="selectedDate" required="" type="date"/></div>
-<div class="field"><label data-i18n="t9fb2e6a6" for="selectedTime">Saat *</label><input id="selectedTime" required="" step="900" type="time"/></div>
+<div class="field"><label data-i18n="t9fb2e6a6" for="selectedTime">Saat *</label><input id="selectedTime" required="" type="time"/></div>
 </div>
 <span aria-live="polite" class="field-status" id="clientSlotStatus" style="margin:6px 0 4px"></span>
 <p class="tz-note" data-tz-note="" hidden=""></p>
