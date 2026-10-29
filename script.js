@@ -405,6 +405,31 @@ function initHeader() {
     }
 }
 
+/* Handy-Menü (Schublade) */
+function initNavDrawer() {
+    const header = $("#siteHeader"), nav = $("#mainNav"), btn = $("#navToggle");
+    if (!header || !nav || !btn) return;
+    const backdrop = document.createElement("div");
+    backdrop.className = "nav-backdrop";
+    header.appendChild(backdrop);
+    let closeTimer = null;
+    const labels = { open: btn.getAttribute("aria-label"), close: { tr: "Menüyü kapat", de: "Menü schließen", en: "Close menu" } };
+    const setOpen = (open) => {
+        clearTimeout(closeTimer);
+        btn.setAttribute("aria-expanded", String(open));
+        btn.setAttribute("aria-label", open ? (labels.close[LANG] || labels.close.tr) : labels.open);
+        backdrop.classList.toggle("show", open);
+        document.body.style.overflow = open ? "hidden" : "";
+        if (open) { header.classList.add("menu-open"); requestAnimationFrame(() => nav.classList.add("open")); }
+        else { nav.classList.remove("open"); closeTimer = setTimeout(() => header.classList.remove("menu-open"), 360); }
+    };
+    btn.addEventListener("click", () => setOpen(btn.getAttribute("aria-expanded") !== "true"));
+    backdrop.addEventListener("click", () => setOpen(false));
+    nav.addEventListener("click", (e) => { if (e.target.closest("a[href]") && !e.target.closest(".lang-switch")) setOpen(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.classList.contains("open")) { setOpen(false); btn.focus(); } });
+    window.matchMedia("(min-width: 1024px)").addEventListener?.("change", (m) => { if (m.matches) setOpen(false); });
+}
+
 function initReveal() {
     const els = $$(".reveal");
     if (!("IntersectionObserver" in window)) { els.forEach((e) => e.classList.add("in")); return; }
@@ -2534,6 +2559,7 @@ function start() {
     document.documentElement.classList.remove("no-js");
     initLangSwitch();
     initHeader();
+    initNavDrawer();
     initReveal();
     initChat();
     initPriceCalc();

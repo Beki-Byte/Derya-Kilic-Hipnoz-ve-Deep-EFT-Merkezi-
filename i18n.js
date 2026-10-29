@@ -276,10 +276,10 @@ export const PAGE = {
 "de": "FAQ",
 "en": "FAQ"
 },
-"tba6a0fe3": {
-"tr": "Başarı Hikayeleri",
-"de": "Erfolgsgeschichten",
-"en": "Success Stories"
+"ta6ba78dd": {
+"tr": "Tecrübeler",
+"de": "Erfahrungen",
+"en": "Experiences"
 },
 "td8204f87": {
 "tr": "Eğitimlerim",
@@ -290,16 +290,6 @@ export const PAGE = {
 "tr": "Ödeme",
 "de": "Zahlung",
 "en": "Payment"
-},
-"t842d15a4": {
-"tr": "Randevu Al",
-"de": "Termin buchen",
-"en": "Book"
-},
-"tf4cb8ca8": {
-"tr": "Portal",
-"de": "Portal",
-"en": "Portal"
 },
 "t0cff8040": {
 "tr": "İçeriğe geç",
@@ -320,6 +310,21 @@ export const PAGE = {
 "tr": "Ana menü",
 "de": "Hauptmenü",
 "en": "Main menu"
+},
+"t001c96a9": {
+"tr": "Randevu Al",
+"de": "Termin buchen",
+"en": "Book now"
+},
+"t609b5883": {
+"tr": "Randevu",
+"de": "Termin",
+"en": "Book"
+},
+"t8fc29ee2": {
+"tr": "Menüyü aç",
+"de": "Menü öffnen",
+"en": "Open menu"
 },
 "t270d28e6": {
 "tr": "Türkçe · Deutsch",
@@ -705,6 +710,11 @@ export const PAGE = {
 "tr": "Sayfalar",
 "de": "Seiten",
 "en": "Pages"
+},
+"tba6a0fe3": {
+"tr": "Başarı Hikayeleri",
+"de": "Erfolgsgeschichten",
+"en": "Success Stories"
 },
 "t6308f67a": {
 "tr": "Eğitim &amp; Sertifikalar",
