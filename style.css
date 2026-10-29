@@ -200,7 +200,7 @@ body { transition: opacity .2s; }
     transition: background-color .2s, color .2s, transform .2s;
 }
 .lang-switch :is(button, a):hover { color: var(--brown); background: var(--sand); }
-.lang-switch :is(button, a)[aria-pressed="true"] { background: var(--brown); color: #fff; }
+.lang-switch :is(button, a):is([aria-pressed="true"], [aria-current="true"]) { background: var(--brown); color: #fff; }
 
 /* Portal: schlanker eigener Header */
 .portal-header-actions { display: flex; align-items: center; gap: 12px; }

@@ -125,7 +125,11 @@ function applyLang(lang, { save = true } = {}) {
     $$("[data-i18n-al]").forEach((el) => { const v = pick(el.dataset.i18nAl); if (v != null) el.setAttribute("aria-label", v); });
     $$("[data-i18n-content]").forEach((el) => { const v = pick(el.dataset.i18nContent); if (v != null) el.setAttribute("content", v); });
     $$("[data-i18n-label]").forEach((el) => { const v = pick(el.dataset.i18nLabel); if (v != null) el.label = v; });
-    $$(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    $$(".lang-switch [data-lang]").forEach((b) => {
+        const on = b.dataset.lang === lang;
+        if (b.tagName === "A") { b.removeAttribute("aria-pressed"); on ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current"); }
+        else b.setAttribute("aria-pressed", String(on));
+    });
     applyUI();
     langHooks.forEach((fn) => { try { fn(); } catch (e) { console.error(e); } });
     document.documentElement.classList.remove("i18n-wait");
@@ -426,8 +430,9 @@ function showCookieCard() {
     card.className = "cookie-card";
     card.id = "cookieCard";
     card.setAttribute("role", "dialog");
+    card.setAttribute("aria-labelledby", "cookieTitle");
     card.innerHTML = `
-        <h3 data-ui="cookie_title"></h3>
+        <h3 id="cookieTitle" data-ui="cookie_title"></h3>
         <p data-ui="cookie_text"></p>
         <div class="cookie-actions">
             <button type="button" class="btn btn--ghost" data-c="necessary" data-ui="cookie_necessary"></button>
