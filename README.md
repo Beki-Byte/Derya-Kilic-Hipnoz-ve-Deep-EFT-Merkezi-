@@ -32,4 +32,4 @@ Danışanlarımıza güven bağı içinde zihinsel hafiflik, içsel huzur ve ya�
 * **Schriften & Bibliotheken lokal:** Schriften (Cormorant Garamond, Nunito Sans), Icons (Font Awesome 6.5.2: `fontawesome.min.css` + `fa-*.woff2`) und Kalender (FullCalendar 5.11.3: `fullcalendar*.js/.css`) liegen direkt im Projekt – es wird nichts von Google Fonts, cdnjs oder jsDelivr geladen. Nur Firebase (Datenbank) kommt weiterhin von Google.
 * **Gelmedi (nicht erschienen):** Im Admin-Kalender bei einem begonnenen Termin → immer 65 € auf den offenen Betrag (egal welche Therapie).
 
-*Geliştiren: Betül Erva Kılıç*
+*Geliştiren: Betül Erva Kılıç · kilic.betul.erva@gmail.com*
