@@ -1275,7 +1275,10 @@ body { transition: opacity .2s; }
 
 /* Telefon mit Ländervorwahl */
 .phone-field { display: flex; gap: 8px; align-items: stretch; }
-.phone-field .phone-cc { flex: 0 0 auto; width: auto; min-width: 104px; padding-right: 28px; }
+.phone-field .phone-cc { flex: 0 0 auto; width: 118px; min-width: 118px; padding-left: 12px; padding-right: 26px; text-overflow: clip; }
 .phone-field input { flex: 1 1 auto; min-width: 0; }
 /* Yönetim paneli nur Türkisch: Sprachumschalter ausblenden */
 body.is-admin .site-header .lang-switch { display: none; }
+/* Admin: Telefonfeld in schmalen Spalten über die ganze Breite */
+#addClientForm .field:has(.phone-field), #addClientForm .field:has(input[type="email"]),
+.client-contact-grid .field:has(.phone-field), .client-contact-grid .field:has(input[type="email"]) { grid-column: 1 / -1; }
