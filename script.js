@@ -258,10 +258,69 @@ function toMinutes(tm) {
 }
 function formatWhatsAppNumber(phone) {
     if (!phone) return "";
-    let n = String(phone).replace(/\D/g, "");
-    if (n.startsWith("00")) n = n.slice(2);
-    else if (n.startsWith("0")) n = "49" + n.slice(1);
+    const raw = String(phone).trim();
+    let n = raw.replace(/\D/g, "");
+    if (raw.startsWith("+")) return n;                         // +90 532 … -> 90532…
+    if (n.startsWith("00")) return n.slice(2);                 // 0090 532 … -> 90532…
+    if (/^05\d{9}$/.test(n)) return "90" + n.slice(1);         // türkische Handynummer 0532 123 45 67
+    if (/^905\d{9}$/.test(n)) return n;                        // 90532… ohne +
+    if (n.startsWith("0")) return "49" + n.slice(1);           // deutsche Nummer 0170 …
     return n;
+}
+
+/* ---------- Telefonfelder mit Ländervorwahl ---------- */
+const PHONE_CODES = [
+    ["49", "🇩🇪 +49"], ["90", "🇹🇷 +90"], ["43", "🇦🇹 +43"], ["41", "🇨🇭 +41"], ["31", "🇳🇱 +31"],
+    ["32", "🇧🇪 +32"], ["33", "🇫🇷 +33"], ["44", "🇬🇧 +44"], ["45", "🇩🇰 +45"], ["46", "🇸🇪 +46"],
+    ["47", "🇳🇴 +47"], ["39", "🇮🇹 +39"], ["34", "🇪🇸 +34"], ["1", "🇺🇸 +1"], ["994", "🇦🇿 +994"]
+];
+function splitPhone(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return { cc: null, nat: "" };
+    const wa = formatWhatsAppNumber(raw);
+    const digits = raw.replace(/\D/g, "");
+    const explicit = raw.startsWith("+") || raw.startsWith("00") || /^05\d{9}$/.test(digits) || /^905\d{9}$/.test(digits);
+    if (explicit) {
+        const hit = PHONE_CODES.map((c) => c[0]).sort((a, b) => b.length - a.length).find((c) => wa.startsWith(c));
+        if (hit) return { cc: hit, nat: wa.slice(hit.length) };
+        return { cc: null, nat: raw };
+    }
+    return { cc: null, nat: raw };
+}
+function enhancePhoneInputs(root = document) {
+    $$('input[type="tel"]', root).forEach((input) => {
+        if (input.dataset.phoneReady) return;
+        input.dataset.phoneReady = "1";
+        const wrap = document.createElement("div");
+        wrap.className = "phone-field";
+        const sel = document.createElement("select");
+        sel.className = "phone-cc";
+        sel.setAttribute("aria-label", "Ülke kodu / Ländervorwahl / Country code");
+        sel.innerHTML = PHONE_CODES.map(([c, l]) => `<option value="${c}">${l}</option>`).join("");
+        input.parentNode.insertBefore(wrap, input);
+        wrap.append(sel, input);
+        input.placeholder = "170 1234567";
+        input.addEventListener("change", () => {
+            const v = input.value.trim();
+            if (v.startsWith("+") || v.startsWith("00")) { const p = splitPhone(v); if (p.cc) { sel.value = p.cc; input.value = p.nat; } }
+        });
+    });
+}
+function getPhone(input) {
+    if (!input) return "";
+    const v = input.value.trim();
+    if (!v) return "";
+    if (v.startsWith("+") || v.startsWith("00")) return v;
+    const sel = input.parentElement?.classList.contains("phone-field") ? input.parentElement.querySelector(".phone-cc") : null;
+    if (!sel) return v;
+    return `+${sel.value} ${v.replace(/^0+/, "")}`;
+}
+function setPhone(input, value) {
+    if (!input) return;
+    const sel = input.parentElement?.classList.contains("phone-field") ? input.parentElement.querySelector(".phone-cc") : null;
+    const p = splitPhone(value);
+    if (sel) sel.value = p.cc || "49";
+    input.value = p.nat || "";
 }
 const waLink = (number, text) => `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 
@@ -1230,7 +1289,7 @@ async function initPublicBooking() {
         knownBox.classList.toggle("is-locked", known.locked);
         knownBox.innerHTML = `<i class="fas ${known.locked ? "fa-lock" : "fa-id-card"}"></i><div><strong>${escapeHTML(t(known.locked ? "known_locked_title" : "known_title"))}</strong><p>${escapeHTML(t(known.locked ? "known_locked_text" : "known_text"))}</p><a href="portal.html" class="btn btn--primary btn--sm"><i class="fas fa-key"></i> ${escapeHTML(t("known_btn"))}</a></div>`;
     };
-    const checkKnown = async () => { known = await lookupKnownClient($("#pubPhone").value, $("#pubEmail").value); renderKnown(); };
+    const checkKnown = async () => { known = await lookupKnownClient(getPhone($("#pubPhone")), $("#pubEmail").value); renderKnown(); };
     $("#pubPhone").addEventListener("change", checkKnown);
     $("#pubEmail").addEventListener("change", checkKnown);
     langHooks.push(renderKnown);
@@ -1245,7 +1304,7 @@ async function initPublicBooking() {
         const data = {
             name: $("#pubName").value.trim().slice(0, 100),
             email: $("#pubEmail").value.trim().slice(0, 120),
-            phone: $("#pubPhone").value.trim().slice(0, 40),
+            phone: getPhone($("#pubPhone")).slice(0, 40),
             date: de.date, time: de.time,
             localDate: dateInput.value, localTime: timeInput.value,
             otherTz: differsFromBerlin(inst),
@@ -1451,6 +1510,7 @@ async function getAuthApi() {
 const isAdminUser = (user) => !!user && !!ADMIN_UID && user.uid === ADMIN_UID;
 
 function showPortalView(view) {
+    document.body.classList.toggle("is-admin", view === "master");
     $("#loginSection").hidden = view !== "login";
     $("#masterDashboard").hidden = view !== "master";
     $("#clientDashboard").hidden = view !== "client";
@@ -1660,7 +1720,7 @@ async function loadMasterDashboard() {
             const a = reqFillCache[Number(e.target.value)];
             if (!a) return;
             $("#newClientName").value = a.name || "";
-            $("#newClientPhone").value = a.phone || "";
+            setPhone($("#newClientPhone"), a.phone || "");
             $("#newClientEmail").value = a.email || "";
             $("#genCode").click();
         });
@@ -1712,7 +1772,7 @@ async function renderReminders() {
     if (cnt) { cnt.textContent = open.length ? `🔔 ${open.length}` : ""; cnt.dataset.n = open.length; }
     if (!items.length) { box.innerHTML = `<p class="empty-note">Önümüzdeki 2 gün için hatırlatılacak randevu yok.</p>`; return; }
     box.innerHTML = items.map((a) => {
-        const hrs = Math.floor(a.h), mins = Math.round((a.h - hrs) * 60);
+        const totalMin = Math.max(0, Math.round(a.h * 60)), hrs = Math.floor(totalMin / 60), mins = totalMin % 60;
         const inH = `${hrs} saat${mins ? ` ${mins} dk` : ""} sonra`;
         let state, cls;
         if (a.remindedAt) { state = `✅ Hatırlatıldı: ${fmtBerlinShort(new Date(a.remindedAt))}${a.remindedVia ? ` (${a.remindedVia === "whatsapp" ? "WhatsApp" : a.remindedVia === "email" ? "E-posta" : "elle"})` : ""}`; cls = "done"; }
@@ -1955,6 +2015,18 @@ async function approveAppointment(path) {
     try {
         const slot = await fs.addDoc(fs.collection(db, "slots"), { date: app.date, time: app.time, personal: false, status: "approved", createdAt: new Date().toISOString() });
         await fs.updateDoc(fs.doc(db, path), { status: "approved", slotId: slot.id });
+        if (app.clientCode && (app.phone || app.email)) {
+            try {
+                const cref = fs.doc(db, "clients", app.clientCode);
+                const cs = await fs.getDoc(cref);
+                if (cs.exists()) {
+                    const c = cs.data(), upd = {};
+                    if (!c.phone && app.phone) upd.phone = app.phone;
+                    if (!c.email && app.email) upd.email = app.email;
+                    if (Object.keys(upd).length) await fs.updateDoc(cref, upd);
+                }
+            } catch (e) { console.warn("Kontaktdaten nicht übernommen:", e); }
+        }
         toast("Randevu onaylandı.", "success");
         await refreshMaster();
         if (app.phone) {
@@ -2077,7 +2149,7 @@ async function addNewClient(e) {
         const ref = fs.doc(db, "clients", code);
         const snap = await fs.getDoc(ref);
         if (snap.exists()) { toast(`Bu kod zaten kullanılıyor (${snap.data().name}). Lütfen farklı bir kod seçin.`, "warn", 6000); return; }
-        await fs.setDoc(ref, { code, name, phone: $("#newClientPhone").value.trim().slice(0, 40), email: $("#newClientEmail").value.trim().slice(0, 120), homework: HW_DEFAULT, homeworkDate: null, balance: 0, payment: "0 €" });
+        await fs.setDoc(ref, { code, name, phone: getPhone($("#newClientPhone")).slice(0, 40), email: $("#newClientEmail").value.trim().slice(0, 120), homework: HW_DEFAULT, homeworkDate: null, balance: 0, payment: "0 €" });
         e.target.reset();
         await populateClientSelect(code);
         await dialog({ title: "Danışan eklendi ✓", text: `İsim: ${name}\nGiriş kodu: ${code}\n\nKodu danışanla paylaşmayı unutmayın.`, okText: "Tamam", showCancel: false });
@@ -2130,7 +2202,7 @@ async function loadClientData() {
         st.textContent = adminBalance > 0 ? "Açık" : "Ödendi ✓";
         st.className = "balance-state " + (adminBalance > 0 ? "open" : "paid");
         adminClient = c;
-        $("#clientPhoneEdit").value = c.phone || "";
+        setPhone($("#clientPhoneEdit"), c.phone || "");
         $("#clientEmailEdit").value = c.email || "";
         $("#payDeadline").value = c.payDeadline && Number(c.payDeadlineMs) > 0 ? c.payDeadline : "";
         renderDeadlineState(c);
@@ -2291,7 +2363,7 @@ async function saveClientData() {
     const code = $("#clientSelect").value;
     if (!code || !(await dbReady)) return;
     const hw = $("#clientHomework").value.trim();
-    const update = { homework: hw || HW_DEFAULT, phone: $("#clientPhoneEdit").value.trim().slice(0, 40), email: $("#clientEmailEdit").value.trim().slice(0, 120) };
+    const update = { homework: hw || HW_DEFAULT, phone: getPhone($("#clientPhoneEdit")).slice(0, 40), email: $("#clientEmailEdit").value.trim().slice(0, 120) };
     if (hw && hw !== loadedHomework) update.homeworkDate = new Date().toISOString();
     if (!hw) update.homeworkDate = null;
     try {
@@ -2364,9 +2436,10 @@ async function loadClientDashboard(code) {
     } catch (e) { console.error("loadClientDashboard:", e); }
     const payments = await getPayments(code);
     clientState = { code, client: client || {}, payments, own: [], busy: [] };
-    if (client && !$("#clientName").value) $("#clientName").value = client.name || "";
-    if (client?.phone && !$("#clientPhone").value) $("#clientPhone").value = client.phone;
-    if (client?.email && !$("#clientEmail").value) $("#clientEmail").value = client.email;
+    const saved = storage.getJSON("contact_" + code, {}) || {};
+    if (!$("#clientName").value) $("#clientName").value = client?.name || saved.name || "";
+    if (!$("#clientPhone").value) setPhone($("#clientPhone"), client?.phone || saved.phone || "");
+    if (!$("#clientEmail").value) $("#clientEmail").value = client?.email || saved.email || "";
 
     const result = await initCalendar("clientCalendar", {
         mode: "client", clientCode: code,
@@ -2517,7 +2590,7 @@ async function handleClientBooking(e) {
     const inst = localInstant($("#selectedDate").value, $("#selectedTime").value);
     const de = toBerlin(inst);
     const data = {
-        name: $("#clientName").value.trim().slice(0, 100), email: $("#clientEmail").value.trim().slice(0, 120), phone: $("#clientPhone").value.trim().slice(0, 40),
+        name: $("#clientName").value.trim().slice(0, 100), email: $("#clientEmail").value.trim().slice(0, 120), phone: getPhone($("#clientPhone")).slice(0, 40),
         date: de.date, time: de.time, service: $("#serviceType").value
     };
     if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
@@ -2529,8 +2602,11 @@ async function handleClientBooking(e) {
     if (conflict) { toast(t(conflict.key), "warn"); return; }
     try {
         await fs.addDoc(fs.collection(db, "clients", code, "appointments"), { clientCode: code, ...data, tz: USER_TZ, startUTC: inst.toISOString(), lang: LANG, status: "pending", createdAt: new Date().toISOString() });
+        storage.set("contact_" + code, JSON.stringify({ name: data.name, phone: data.phone, email: data.email }));
         form.reset();
         $("#clientName").value = data.name;
+        setPhone($("#clientPhone"), data.phone);
+        $("#clientEmail").value = data.email;
         $("#clientSlotStatus").textContent = "";
         loadClientDashboard(code);
         notifyMother("🆕 Yeni randevu talebi (Portal)", {
@@ -2559,6 +2635,7 @@ function start() {
     document.documentElement.classList.remove("no-js");
     initLangSwitch();
     initHeader();
+    enhancePhoneInputs();
     initNavDrawer();
     initReveal();
     initChat();
