@@ -1748,6 +1748,11 @@ export const UI = {
   "de": "Diese Uhrzeit liegt außerhalb unserer Praxiszeiten. Termine können Mo–Do zwischen 08:30 und 17:30 Uhr und freitags zwischen 08:30 und 15:00 Uhr beginnen.",
   "en": "This time is outside our opening hours. Appointments can start Mon–Thu between 08:30 and 17:30 and on Fridays between 08:30 and 15:00 (German time)."
  },
+ "slot_dayoff": {
+  "tr": "Bu gün kapalıdır, randevu verilmemektedir. Lütfen başka bir gün seçin.",
+  "de": "An diesem Tag ist die Praxis geschlossen. Bitte wählen Sie einen anderen Tag.",
+  "en": "The practice is closed on this day. Please choose another day."
+ },
  "slot_weekend": {
   "tr": "Cumartesi ve pazar günleri randevu verilmemektedir. Lütfen hafta içi bir gün seçin.",
   "de": "Samstags und sonntags finden keine Termine statt. Bitte wählen Sie einen Wochentag.",

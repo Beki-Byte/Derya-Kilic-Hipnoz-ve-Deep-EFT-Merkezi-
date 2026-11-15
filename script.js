@@ -823,10 +823,20 @@ function initReviews() {
    --------------------------------------------------------- */
 const snapList = (snap) => snap.docs.map((d) => ({ id: d.id, _path: d.ref.path, ...d.data() }));
 
+/* Gesperrte Tage (Urlaub, freie Tage): Dokumente "closed_JJJJ-MM-TT" in slots mit status "closed" */
+const CLOSED_DAYS = new Map();
+const isClosedISO = (iso) => CLOSED_DAYS.has(iso);
+const isClosedInstant = (inst) => inst instanceof Date && !isNaN(inst) && isClosedISO(toBerlin(inst).date);
+
 /* Öffentlich: bestätigte, belegte Zeiten (ohne Personendaten) */
 async function getSlots() {
     if (!(await dbReady)) return [];
-    try { return snapList(await fs.getDocs(fs.collection(db, "slots"))).filter((s) => s.status === "approved"); }
+    try {
+        const all = snapList(await fs.getDocs(fs.collection(db, "slots")));
+        CLOSED_DAYS.clear();
+        all.forEach((s) => { if (s.status === "closed" && s.date) CLOSED_DAYS.set(s.date, s.note || ""); });
+        return all.filter((s) => s.status === "approved");
+    }
     catch (e) { console.error("getSlots:", e); return []; }
 }
 
@@ -1003,12 +1013,14 @@ async function initCalendar(elementId, opts = {}) {
         dayCellDidMount(info) {
             const iso = info.date.getFullYear() + "-" + String(info.date.getMonth() + 1).padStart(2, "0") + "-" + String(info.date.getDate()).padStart(2, "0");
             if (iso === lastSelectedDate) info.el.classList.add("is-selected");
-            if (mode !== "master" && (info.date.getDay() === 0 || info.date.getDay() === 6)) info.el.classList.add("is-closed");
+            if (mode !== "master" && (info.date.getDay() === 0 || info.date.getDay() === 6 || isClosedISO(iso))) info.el.classList.add("is-closed");
+            if (mode === "master" && isClosedISO(iso)) { info.el.classList.add("is-dayoff"); info.el.title = "Kapalı gün" + (CLOSED_DAYS.get(iso) ? " – " + CLOSED_DAYS.get(iso) : ""); }
         },
         dateClick(info) {
             const d = info.dateStr.slice(0, 10);
             if (mode !== "master" && d < todayISO()) { toast(t("cal_past", {}, calLang), "warn", 2500); return; }
             if (mode !== "master" && isWeekendISO(d)) { toast(t("slot_weekend", {}, calLang), "warn", 3000); return; }
+            if (mode !== "master" && isClosedISO(d)) { toast(t("slot_dayoff", {}, calLang), "warn", 3500); return; }
             $$(".fc-daygrid-day.is-selected", el).forEach((x) => x.classList.remove("is-selected"));
             info.dayEl?.classList.add("is-selected");
             lastSelectedDate = d;
@@ -1183,7 +1195,7 @@ function bindSlotChecker({ dateInput, timeInput, statusEl, chipsEl = null, getAp
             const chips = !date ? BERLIN_HOURS.map((h) => ({ local: h, busy: false })) : BERLIN_HOURS.map((h) => {
                 const inst = berlinToUTC(date, h);
                 const loc = toLocal(inst);
-                return loc.date === date ? { local: loc.time, busy: !!(checkSlot(busy, inst) || isPastInstant(inst) || isWeekendInstant(inst) || isOutsideHours(inst)) } : null;
+                return loc.date === date ? { local: loc.time, busy: !!(checkSlot(busy, inst) || isPastInstant(inst) || isWeekendInstant(inst) || isClosedInstant(inst) || isOutsideHours(inst)) } : null;
             }).filter(Boolean);
             chipsEl.innerHTML = chips.map((c) => `<button type="button" data-t="${c.local}" aria-pressed="${c.local === time}" ${c.busy ? "disabled" : ""}>${c.local}</button>`).join("");
         }
@@ -1193,6 +1205,7 @@ function bindSlotChecker({ dateInput, timeInput, statusEl, chipsEl = null, getAp
         const inst = localInstant(date, time);
         if (isPastInstant(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_past"))}`; return; }
         if (isWeekendInstant(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_weekend"))}`; return; }
+        if (isClosedInstant(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_dayoff"))}`; return; }
         if (isOutsideHours(inst)) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t("slot_closed"))}`; return; }
         const err = checkSlot(busy, inst);
         if (err) { statusEl.classList.add("warn"); statusEl.innerHTML = `<i class="fas fa-circle-exclamation"></i> ${escapeHTML(t(err.key))}`; return; }
@@ -1316,6 +1329,8 @@ async function initPublicBooking() {
         };
         if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
         if (isWeekendInstant(inst)) { toast(t("slot_weekend"), "warn"); return; }
+        await getSlots();
+        if (isClosedInstant(inst)) { toast(t("slot_dayoff"), "warn", 5000); return; }
         if (isOutsideHours(inst)) { toast(t("slot_closed"), "warn", 5000); return; }
         if (data.phone.replace(/\D/g, "").length < 6) { toast(t("book_phone"), "warn"); $("#pubPhone").focus(); return; }
 
@@ -1716,6 +1731,7 @@ async function loadMasterDashboard() {
         $("#debtsList")?.addEventListener("click", onDebtClick);
         $("#remindersList")?.addEventListener("click", onReminderClick);
         $("#cancelledList")?.addEventListener("click", onRestoreClick);
+        initClosedDaysCard();
         $("#newClientFromReq")?.addEventListener("change", (e) => {
             const a = reqFillCache[Number(e.target.value)];
             if (!a) return;
@@ -1849,6 +1865,99 @@ async function fillReqSelect() {
 }
 
 /* ---------- Son iptal edilenler: versehentlich abgesagte Termine zurückholen ---------- */
+/* ---------- Kapalı günler (freie Tage / Urlaub sperren) ---------- */
+function initClosedDaysCard() {
+    const anchor = $("#adminAddCard");
+    if (!anchor || $("#closedDaysCard")) return;
+    const card = document.createElement("div");
+    card.className = "card";
+    card.id = "closedDaysCard";
+    card.innerHTML = `
+        <h3><i class="fas fa-calendar-xmark"></i> Kapalı Günler</h3>
+        <p class="hint" style="display:block;margin:0 0 14px">İzin veya tatil günlerinizi buradan kapatın. Kapalı günlerde danışanlar randevu alamaz – takvimde cumartesi ve pazar gibi görünür.</p>
+        <form id="closedDayForm" class="closed-form">
+            <div class="field"><label for="closedFrom">Başlangıç</label><input type="date" id="closedFrom" required></div>
+            <div class="field"><label for="closedTo">Bitiş <small>(isteğe bağlı)</small></label><input type="date" id="closedTo"></div>
+            <div class="field closed-note"><label for="closedNote">Not <small>(sadece siz görürsünüz)</small></label><input type="text" id="closedNote" maxlength="60" placeholder="örn. Yıllık izin"></div>
+            <button type="submit" class="btn btn--primary"><i class="fas fa-ban"></i> Günü kapat</button>
+        </form>
+        <div class="list" id="closedDaysList"></div>`;
+    anchor.insertAdjacentElement("afterend", card);
+    $("#closedFrom").min = todayISO();
+    $("#closedFrom").addEventListener("change", (e) => { $("#closedTo").min = e.target.value; });
+    $("#closedDayForm").addEventListener("submit", onClosedDaySubmit);
+    $("#closedDaysList").addEventListener("click", onClosedDayClick);
+}
+const isoAddDays = (iso, n) => { const d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+/* aufeinanderfolgende Tage (Wochenenden überbrückt) zu Zeiträumen zusammenfassen */
+function closedRanges() {
+    const days = [...CLOSED_DAYS.keys()].filter((d) => d >= todayISO()).sort();
+    const out = [];
+    for (const d of days) {
+        const last = out[out.length - 1];
+        let next = last ? isoAddDays(last.to, 1) : null;
+        while (next && isWeekendISO(next)) next = isoAddDays(next, 1);
+        if (last && next === d && (CLOSED_DAYS.get(d) || "") === last.note) { last.to = d; last.days.push(d); }
+        else out.push({ from: d, to: d, days: [d], note: CLOSED_DAYS.get(d) || "" });
+    }
+    return out;
+}
+function renderClosedDays() {
+    const box = $("#closedDaysList");
+    if (!box) return;
+    const ranges = closedRanges();
+    if (!ranges.length) { box.innerHTML = `<p class="empty-note">Kapalı gün yok.</p>`; return; }
+    box.innerHTML = ranges.map((r) => `
+        <div class="list-item closed-item">
+            <div><strong>${escapeHTML(formatDateForUser(r.from))}${r.to !== r.from ? " – " + escapeHTML(formatDateForUser(r.to)) : ""}</strong>
+            <span class="hint">${r.days.length} gün${r.note ? " · " + escapeHTML(r.note) : ""}</span></div>
+            <button type="button" class="btn btn--ghost btn--sm" data-open-days="${r.days.join(",")}"><i class="fas fa-lock-open"></i> Aç</button>
+        </div>`).join("");
+}
+async function onClosedDaySubmit(e) {
+    e.preventDefault();
+    const from = $("#closedFrom").value, to = $("#closedTo").value || from, note = $("#closedNote").value.trim().slice(0, 60);
+    if (!from) return;
+    if (to < from) { toast("Bitiş tarihi başlangıçtan önce olamaz.", "warn"); return; }
+    const days = [];
+    for (let d = from; d <= to && days.length <= 62; d = isoAddDays(d, 1)) if (!isWeekendISO(d)) days.push(d);
+    if (!days.length) { toast("Seçilen günler zaten hafta sonu – hafta sonları kapalıdır.", "info"); return; }
+    if (days.length > 60) { toast("En fazla 60 gün birden kapatılabilir.", "warn"); return; }
+    try {
+        const busy = (await getAdminBusy()).filter((a) => !a.personal && days.includes(a.date));
+        if (busy.length) {
+            const ok = await dialog({
+                title: "⚠️ Bu günlerde randevu var",
+                text: `Seçtiğiniz günlerde ${busy.length} onaylı randevu var:\n${busy.slice(0, 6).map((a) => "• " + formatDateForUser(a.date) + " " + a.time + (a.name ? " – " + a.name : "")).join("\n")}\n\nBu randevular silinmez; yalnızca yeni randevu alınamaz. Devam edilsin mi?`,
+                okText: "Evet, kapat", cancelText: "Vazgeç"
+            });
+            if (ok !== true) return;
+        }
+        const now = new Date().toISOString();
+        await Promise.all(days.map((d) => fs.setDoc(fs.doc(db, "slots", "closed_" + d), { date: d, status: "closed", note, createdAt: now })));
+        toast(days.length === 1 ? "Gün kapatıldı." : `${days.length} gün kapatıldı.`, "success");
+        e.target.reset();
+        await refreshClosedDays();
+    } catch (err) { console.error(err); toast("Kaydedilemedi.", "error"); }
+}
+async function onClosedDayClick(e) {
+    const btn = e.target.closest("[data-open-days]");
+    if (!btn) return;
+    const days = btn.dataset.openDays.split(",");
+    const ok = await dialog({ title: "Günü tekrar aç", text: days.length === 1 ? `${formatDateForUser(days[0])} tekrar randevuya açılsın mı?` : `${days.length} gün tekrar randevuya açılsın mı?`, okText: "Evet, aç", cancelText: "Vazgeç" });
+    if (ok !== true) return;
+    try {
+        await Promise.all(days.map((d) => fs.deleteDoc(fs.doc(db, "slots", "closed_" + d))));
+        toast("Tekrar açıldı.", "success");
+        await refreshClosedDays();
+    } catch (err) { console.error(err); toast("Açılamadı.", "error"); }
+}
+async function refreshClosedDays() {
+    await getSlots();
+    renderClosedDays();
+    if (calendarOpts.masterCalendar) await initCalendar("masterCalendar", calendarOpts.masterCalendar);
+}
+
 async function renderCancelled() {
     const box = $("#cancelledList");
     if (!box) return;
@@ -1928,6 +2037,7 @@ async function refreshMaster() {
         mode: "master",
         onDateClick: (d, tm) => { $("#appDate").value = d; if (tm) $("#appTime").value = tm; scrollToCard($("#adminAddCard"), $("#appClientSelect")); }
     });
+    renderClosedDays();
 }
 
 function toggleSahsiFields() {
@@ -2097,7 +2207,14 @@ async function addNewAppointment(e) {
     // Regel 3: Şahsi -> keine 2-Stunden-Regel. Klienten-Termine -> Warnung mit Wahl.
     if (!personal) {
         const inst = berlinToUTC(date, time);
-        if (isWeekendInstant(inst) || isOutsideHours(inst)) {
+        if (isClosedInstant(inst)) {
+            const ok = await dialog({
+                title: "🚫 Kapalı gün",
+                text: "Bu günü kapalı olarak işaretlediniz.\n\nYine de randevu kaydetmek istiyor musunuz?",
+                okText: "Evet, kaydet", cancelText: "Hayır"
+            });
+            if (ok !== true) { toast("Randevu kaydedilmedi.", "info"); return; }
+        } else if (isWeekendInstant(inst) || isOutsideHours(inst)) {
             const ok = await dialog({
                 title: "⏰ Çalışma saatleri dışında",
                 text: "Bu saat muayenehanenin çalışma saatleri dışında (Pzt–Prş 08:30–18:30, Cuma 08:30–16:00).\n\nYine de kaydetmek istiyor musunuz?",
@@ -2595,6 +2712,8 @@ async function handleClientBooking(e) {
     };
     if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
     if (isWeekendInstant(inst)) { toast(t("slot_weekend"), "warn"); return; }
+    await getSlots();
+    if (isClosedInstant(inst)) { toast(t("slot_dayoff"), "warn", 5000); return; }
     if (isOutsideHours(inst)) { toast(t("slot_closed"), "warn", 5000); return; }
     if (isPortalLocked(clientState.client)) { toast(t("lock_book"), "error"); return; }
     clientState.busy = (await loadCalendarData("client", code)).busy;

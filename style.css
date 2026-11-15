@@ -1282,3 +1282,14 @@ body.is-admin .site-header .lang-switch { display: none; }
 /* Admin: Telefonfeld in schmalen Spalten über die ganze Breite */
 #addClientForm .field:has(.phone-field), #addClientForm .field:has(input[type="email"]),
 .client-contact-grid .field:has(.phone-field), .client-contact-grid .field:has(input[type="email"]) { grid-column: 1 / -1; }
+
+/* Kapalı günler (Admin) */
+.closed-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; align-items: end; margin-bottom: 16px; }
+.closed-form .field { margin: 0; }
+.closed-form .closed-note, .closed-form button { grid-column: 1 / -1; }
+.closed-form label small { font-weight: 400; color: var(--muted); }
+.closed-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.closed-item .hint { display: block; margin-top: 2px; }
+.fc .fc-daygrid-day.is-dayoff { background: repeating-linear-gradient(45deg, #f3dcd6 0 6px, #fbf1ee 6px 12px); }
+.fc .fc-daygrid-day.is-dayoff .fc-daygrid-day-number::after { content: " 🚫"; font-size: .75em; }
+@media (max-width: 480px) { .closed-form { grid-template-columns: 1fr; } }
