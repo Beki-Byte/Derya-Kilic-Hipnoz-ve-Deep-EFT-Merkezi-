@@ -342,6 +342,7 @@ body { transition: opacity .2s; }
     font-size: .82rem; font-weight: 600; color: var(--brown-dark);
 }
 .hero h1 { margin-bottom: 8px; }
+.hero h1 .hero-sub { display: block; margin-top: 10px; line-height: 1.3; letter-spacing: normal; text-transform: none; }
 .hero .hero-sub {
     font-family: var(--font-display); font-style: italic; font-weight: 500;
     font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--brown);
