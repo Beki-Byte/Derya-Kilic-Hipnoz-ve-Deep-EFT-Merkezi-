@@ -322,6 +322,8 @@ function setPhone(input, value) {
     if (sel) sel.value = p.cc || "49";
     input.value = p.nat || "";
 }
+const validEmail = (v) => /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[a-z]{2,}$/i.test(String(v || "").trim());
+const validPhone = (v) => String(v || "").replace(/\D/g, "").length >= 8;
 const waLink = (number, text) => `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 
 async function sha256(text) {
@@ -1073,11 +1075,10 @@ langHooks.push(() => {
 });
 
 /* Eigener Termin: Daten anzeigen, absagen (24-Stunden-Regel), Kalender-Datei */
-/* Nicht erschienen: immer 65 € (egal welche Therapie) */
-const NO_SHOW_FEE = 65;
+/* Nicht erschienen: gleich wie späte Absage (Hipnoterapi 50 €, sonst 30 €) */
 async function markNoShow(app) {
     const code = app._path.startsWith("clients/") ? app._path.split("/")[1] : null;
-    const fee = NO_SHOW_FEE;
+    const fee = lateFee(app.service);
     const ok = await dialog({
         title: "Danışan gelmedi",
         text: `${app.name} · ${formatDateForUser(app.date)} ${app.time}\n${app.service || ""}\n\n` + (code
@@ -1265,6 +1266,11 @@ async function initPublicBooking() {
     if (hizmet && [...$("#pubService").options].some((o) => o.value === hizmet)) $("#pubService").value = hizmet;
     if (params.get("sekil") === "online") $("#pubFormat").value = "Online";
 
+    const savedPub = storage.getJSON("contact_pub", {}) || {};
+    if (savedPub.name && !$("#pubName").value) $("#pubName").value = savedPub.name;
+    if (savedPub.phone && !$("#pubPhone").value) setPhone($("#pubPhone"), savedPub.phone);
+    if (savedPub.email && !$("#pubEmail").value) $("#pubEmail").value = savedPub.email;
+
     const bars = $$(".form-steps span");
     const progress = () => {
         const done = [
@@ -1306,6 +1312,8 @@ async function initPublicBooking() {
     $("#pubPhone").addEventListener("change", checkKnown);
     $("#pubEmail").addEventListener("change", checkKnown);
     langHooks.push(renderKnown);
+    if (savedPub.phone || savedPub.email) checkKnown();
+    progress();
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -1332,7 +1340,8 @@ async function initPublicBooking() {
         await getSlots();
         if (isClosedInstant(inst)) { toast(t("slot_dayoff"), "warn", 5000); return; }
         if (isOutsideHours(inst)) { toast(t("slot_closed"), "warn", 5000); return; }
-        if (data.phone.replace(/\D/g, "").length < 6) { toast(t("book_phone"), "warn"); $("#pubPhone").focus(); return; }
+        if (!validPhone(data.phone)) { toast(t("book_phone"), "warn"); $("#pubPhone").focus(); return; }
+        if (!validEmail(data.email)) { toast(t("book_email"), "warn"); $("#pubEmail").focus(); return; }
 
         const oldHTML = submitBtn.innerHTML;
         submitBtn.disabled = true;
@@ -1365,6 +1374,7 @@ async function initPublicBooking() {
                 ids.push(ref.id);
                 storage.set("myAppointmentIds", JSON.stringify(ids.slice(-20)));
                 saved = true;
+                storage.set("contact_pub", JSON.stringify({ name: data.name, phone: data.phone, email: data.email }));
                 notifyMother("🆕 Yeni randevu talebi", {
                     "Danışan": data.name, "Telefon": data.phone, "E-Posta": data.email,
                     "Tarih": formatDateForUser(data.date), "Saat (Almanya)": data.time,
@@ -2710,6 +2720,8 @@ async function handleClientBooking(e) {
         name: $("#clientName").value.trim().slice(0, 100), email: $("#clientEmail").value.trim().slice(0, 120), phone: getPhone($("#clientPhone")).slice(0, 40),
         date: de.date, time: de.time, service: $("#serviceType").value
     };
+    if (!validPhone(data.phone)) { toast(t("book_phone"), "warn"); $("#clientPhone").focus(); return; }
+    if (!validEmail(data.email)) { toast(t("book_email"), "warn"); $("#clientEmail").focus(); return; }
     if (isPastInstant(inst)) { toast(t("book_future"), "warn"); return; }
     if (isWeekendInstant(inst)) { toast(t("slot_weekend"), "warn"); return; }
     await getSlots();

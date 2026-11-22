@@ -2003,6 +2003,11 @@ export const UI = {
   "de": "Bitte geben Sie eine gültige Telefonnummer ein.",
   "en": "Please enter a valid phone number."
  },
+ "book_email": {
+  "tr": "Lütfen geçerli bir e-posta adresi giriniz.",
+  "de": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+  "en": "Please enter a valid email address."
+ },
  "sending": {
   "tr": "Gönderiliyor…",
   "de": "Wird gesendet…",
