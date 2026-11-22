@@ -324,6 +324,19 @@ function setPhone(input, value) {
 }
 const validEmail = (v) => /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[a-z]{2,}$/i.test(String(v || "").trim());
 const validPhone = (v) => String(v || "").replace(/\D/g, "").length >= 8;
+/* Fertige WhatsApp-Texte (Klient -> Mama) in der Sprache der Website */
+const WA_TEXTS = {
+    info: { tr: "Merhaba Derya Hanım, bilgi almak istiyorum.", de: "Hallo Frau Kılıç, ich hätte gerne ein paar Informationen.", en: "Hello Mrs Kılıç, I would like some information." },
+    receipt: { tr: "Merhaba, ödeme dekontumu gönderiyorum.", de: "Hallo, ich schicke Ihnen meinen Zahlungsbeleg.", en: "Hello, I'm sending you my payment receipt." }
+};
+function initWaTexts() {
+    const apply = () => $$("a[data-wa-text]").forEach((a) => {
+        const txt = WA_TEXTS[a.dataset.waText]?.[LANG] || WA_TEXTS[a.dataset.waText]?.tr;
+        if (txt) a.href = waLink(MOTHER_WHATSAPP_NUMBER, txt);
+    });
+    apply();
+    langHooks.push(apply);
+}
 const waLink = (number, text) => `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 
 async function sha256(text) {
@@ -1253,6 +1266,13 @@ function scrollToCard(card, focusEl) {
 
 /* --- Öffentliche Buchung --- */
 let successData = null;
+const optText = (sel, fallback) => ($(sel)?.selectedOptions?.[0]?.textContent || "").replace(/\s*\([^)]*€[^)]*\)/, "").trim() || fallback;
+const BOOK_MSG = {
+    tr: { hi: "Merhaba Derya Hanım,", title: "Yeni Randevu & Ön Görüşme Talebi", portalTitle: "Yeni Randevu Talebi (Portal)", name: "İsim", code: "Kod", tel: "Tel", mail: "E-Posta", date: "Tarih", time: "Saat (Almanya)", local: "Danışanın saati", service: "Hizmet", format: "Seans şekli", lang: "Site dili", pre: "Mini Ön Görüşme", reason: "Konu/Şikayet", history: "Geçmiş tedavi/ilaç", expect: "Beklenti", panel: "Yönetim paneli" },
+    de: { hi: "Hallo Frau Kılıç,", title: "Neue Terminanfrage & Vorgespräch", portalTitle: "Neue Terminanfrage (Portal)", name: "Name", code: "Code", tel: "Tel", mail: "E-Mail", date: "Datum", time: "Uhrzeit (Deutschland)", local: "Meine Uhrzeit", service: "Leistung", format: "Sitzungsart", lang: "Sprache", pre: "Kurzes Vorgespräch", reason: "Anliegen", history: "Frühere Behandlung/Medikamente", expect: "Erwartung", panel: "Verwaltung" },
+    en: { hi: "Hello Mrs Kılıç,", title: "New appointment & pre-consultation request", portalTitle: "New appointment request (portal)", name: "Name", code: "Code", tel: "Phone", mail: "Email", date: "Date", time: "Time (Germany)", local: "My local time", service: "Service", format: "Session type", lang: "Language", pre: "Short pre-consultation", reason: "Concern", history: "Previous treatment/medication", expect: "Expectation", panel: "Admin panel" }
+};
+
 async function initPublicBooking() {
     const form = $("#publicBookingForm");
     if (!form) return;
@@ -1386,23 +1406,24 @@ async function initPublicBooking() {
         submitBtn.disabled = false;
         submitBtn.innerHTML = oldHTML;
 
+        const L = BOOK_MSG[LANG] || BOOK_MSG.tr;
         const message =
-`Merhaba Derya Hanım,
+`${L.hi}
 
-*Yeni Randevu & Ön Görüşme Talebi*
+*${L.title}*
 
-👤 *İsim:* ${data.name}
-📞 *Tel:* ${data.phone}
-✉️ *E-Posta:* ${data.email}
-📅 *Tarih:* ${formatDateForUser(data.date)} - ⏰ *Saat (Almanya):* ${data.time}${data.otherTz ? `\n🌍 *Danışanın saati:* ${data.localTime} (${tzCity(USER_TZ)})` : ""}
-🩺 *Hizmet:* ${data.service}
-📍 *Seans şekli:* ${data.format}
-🌐 *Site dili:* ${LANG.toUpperCase()}
+👤 *${L.name}:* ${data.name}
+📞 *${L.tel}:* ${data.phone}
+✉️ *${L.mail}:* ${data.email}
+📅 *${L.date}:* ${formatDateForUser(data.date)} - ⏰ *${L.time}:* ${data.time}${data.otherTz ? `\n🌍 *${L.local}:* ${data.localTime} (${tzCity(USER_TZ)})` : ""}
+🩺 *${L.service}:* ${optText("#pubService", data.service)}
+📍 *${L.format}:* ${optText("#pubFormat", data.format)}
+🌐 *${L.lang}:* ${LANG.toUpperCase()}
 
-📝 *Mini Ön Görüşme:*
-• *Konu/Şikayet:* ${data.reason}
-• *Geçmiş tedavi/ilaç:* ${data.medicalHistory}
-• *Beklenti:* ${data.expectation}`;
+📝 *${L.pre}:*
+• *${L.reason}:* ${data.reason}
+• *${L.history}:* ${data.medicalHistory}
+• *${L.expect}:* ${data.expectation}`;
 
         successData = { ...data, saved, wa: waLink(MOTHER_WHATSAPP_NUMBER, message) };
         showBookingSuccess();
@@ -1763,24 +1784,34 @@ async function loadMasterDashboard() {
     renderMasterComments();
 }
 
-/* ---------- Hatırlatmalar: 26–30 Stunden vor dem Termin erinnern (Text immer Türkisch) ---------- */
+/* ---------- Hatırlatmalar: 26–30 Stunden vor dem Termin erinnern (in der Sprache des Klienten) ---------- */
 const REMIND_FROM_H = 26, REMIND_TO_H = 30;
 const fmtBerlinShort = (d) => { const b = toBerlin(d); return `${formatDateForUser(b.date)} ${b.time}`; };
+const REMIND_MSG = {
+    tr: { hi: "Merhaba", tom: "Yarın randevunuz var", soon: "Yaklaşan randevunuzu hatırlatmak isteriz", date: "Tarih", time: "Saat", de: "Almanya saati", local: "Sizin saatinizle", service: "Hizmet", format: "Seans şekli",
+          cancel: (f) => `Randevunuzu iptal etmeniz gerekirse lütfen en geç randevudan 24 saat önce bildirin. Daha geç yapılan iptallerde ${f} iptal ücreti alınır.`, bye: "Görüşmek üzere," },
+    de: { hi: "Hallo", tom: "Morgen ist Ihr Termin", soon: "Wir möchten Sie an Ihren nächsten Termin erinnern", date: "Datum", time: "Uhrzeit", de: "deutsche Zeit", local: "Bei Ihnen", service: "Leistung", format: "Sitzungsart",
+          cancel: (f) => `Falls Sie den Termin absagen müssen, geben Sie bitte spätestens 24 Stunden vorher Bescheid. Bei späteren Absagen wird eine Ausfallgebühr von ${f} berechnet.`, bye: "Bis bald," },
+    en: { hi: "Hello", tom: "Your appointment is tomorrow", soon: "This is a reminder of your upcoming appointment", date: "Date", time: "Time", de: "German time", local: "Your local time", service: "Service", format: "Session type",
+          cancel: (f) => `If you need to cancel, please let us know at least 24 hours before the appointment. Later cancellations are charged a fee of ${f}.`, bye: "See you soon," }
+};
 function reminderText(a) {
+    const lang = LANGS.includes(a.lang) ? a.lang : "tr";
+    const M = REMIND_MSG[lang];
     const inst = appInstant(a);
     const tomorrow = toBerlin(new Date(Date.now() + 86400000)).date === a.date;
     const local = a.tz && differsFromBerlin(inst, a.tz) ? toLocal(inst, a.tz) : null;
-    return `Merhaba ${a.name || ""},
+    return `${M.hi} ${a.name || ""},
 
-${tomorrow ? "Yarın randevunuz var" : "Yaklaşan randevunuzu hatırlatmak isteriz"} 🌿
+${tomorrow ? M.tom : M.soon} 🌿
 
-📅 Tarih: ${formatDateForUser(a.date)}
-⏰ Saat: ${a.time} (Almanya saati)${local ? `\n🌍 Sizin saatinizle: ${local.time} (${tzCity(a.tz)})` : ""}
-🩺 Hizmet: ${a.service || "-"}${a.format ? `\n📍 Seans şekli: ${a.format}` : ""}
+📅 ${M.date}: ${formatDateForUser(a.date)}
+⏰ ${M.time}: ${a.time} (${M.de})${local ? `\n🌍 ${M.local}: ${local.time} (${tzCity(a.tz)})` : ""}
+🩺 ${M.service}: ${a.service || "-"}${a.format ? `\n📍 ${M.format}: ${a.format}` : ""}
 
-Randevunuzu iptal etmeniz gerekirse lütfen en geç randevudan 24 saat önce bildirin. Daha geç yapılan iptallerde ${money(lateFee(a.service), "tr")} iptal ücreti alınır.
+${M.cancel(money(lateFee(a.service), lang))}
 
-Görüşmek üzere,
+${M.bye}
 Derya Kılıç`;
 }
 async function renderReminders() {
@@ -2111,11 +2142,11 @@ function clientMessage(status, app) {
     const inst = appInstant(app);
     const tzOther = app.tz && differsFromBerlin(inst, app.tz);
     const loc = tzOther ? toLocal(inst, app.tz) : null;
-    // Vorgefertigte Nachrichten immer auf Türkisch
+    // Nachricht in der Sprache, in der der Klient gebucht hat
     const when = tzOther
-        ? t("tz_both", { de: app.time, here: loc.time, zone: tzCity(app.tz) }, "tr")
-        : t("tz_de_only", { t: app.time }, "tr");
-    return t(status === "approved" ? "msg_approved" : "msg_rejected", { n: app.name, d: formatDateForUser(tzOther ? loc.date : app.date), t: when, link }, "tr");
+        ? t("tz_both", { de: app.time, here: loc.time, zone: tzCity(app.tz) }, lang)
+        : t("tz_de_only", { t: app.time }, lang);
+    return t(status === "approved" ? "msg_approved" : "msg_rejected", { n: app.name, d: formatDateForUser(tzOther ? loc.date : app.date), t: when, link }, lang);
 }
 
 async function approveAppointment(path) {
@@ -2746,7 +2777,8 @@ async function handleClientBooking(e) {
             ...(differsFromBerlin(inst) ? { "Danışanın saati": `${toLocal(inst).time} (${tzCity(USER_TZ)})` } : {}),
             "Hizmet": data.service, "Site dili": LANG.toUpperCase()
         });
-        const msg = `Yeni Randevu Talebi (Portal)\n\nİsim: ${data.name}\nKod: ${code}\nTelefon: ${data.phone}\nTarih: ${formatDateForUser(data.date)}\nSaat (Almanya): ${data.time}\nHizmet: ${data.service}\nSite dili: ${LANG.toUpperCase()}\n\nYönetim paneli: ${PORTAL_LINK}`;
+        const L = BOOK_MSG[LANG] || BOOK_MSG.tr;
+        const msg = `${L.hi}\n\n${L.portalTitle}\n\n${L.name}: ${data.name}\n${L.code}: ${code}\n${L.tel}: ${data.phone}\n${L.date}: ${formatDateForUser(data.date)}\n${L.time}: ${data.time}\n${L.service}: ${optText("#serviceType", data.service)}\n${L.lang}: ${LANG.toUpperCase()}\n\n${L.panel}: ${PORTAL_LINK}`;
         await dialog({
             title: t("req_received_title"), text: t("req_received_text"),
             okText: "", cancelText: t("close"),
@@ -2773,6 +2805,7 @@ function start() {
     initPriceCalc();
     initFAQ();
     initReviews();
+    initWaTexts();
     applyLang(LANG, { save: false });
     initCookies();
     initCopyButtons();
