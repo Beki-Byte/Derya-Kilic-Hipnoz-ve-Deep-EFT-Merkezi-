@@ -2329,9 +2329,9 @@ export const UI = {
   "en": "Hypnosis and Deep EFT are natural, drug-free methods generally considered safe with an experienced practitioner. Please mention any particular health condition before the session."
  },
  "r_forgot": {
-  "tr": "Giriş kodunuzu unuttuysanız endişelenmeyin! WhatsApp veya Instagram DM üzerinden adınız ve soyadınızla ulaşırsanız kodunuzu size hemen tekrar iletebiliriz.",
-  "de": "Code vergessen? Kein Problem! Schreiben Sie uns per WhatsApp oder Instagram mit Ihrem Vor- und Nachnamen – wir senden Ihnen den Code sofort erneut.",
-  "en": "Forgot your code? No problem! Message us on WhatsApp or Instagram with your full name and we’ll send it to you again right away."
+  "tr": "Kodunuzu mu unuttunuz? Sorun değil! Adınız ve soyadınızla WhatsApp, Instagram veya e-posta (goldensunderya@hotmail.com) üzerinden bize yazın – kodunuzu hemen tekrar göndeririz.",
+  "de": "Code vergessen? Kein Problem! Schreiben Sie uns per WhatsApp, Instagram oder E-Mail (goldensunderya@hotmail.com) mit Ihrem Vor- und Nachnamen – wir senden Ihnen den Code sofort erneut.",
+  "en": "Forgot your code? No problem! Message us via WhatsApp, Instagram or email (goldensunderya@hotmail.com) with your first and last name – we’ll send your code again right away."
  },
  "r_cancel": {
   "tr": "Randevunuzu en geç 24 saat öncesinden iptal edebilir veya değiştirebilirsiniz. Daha kısa süre kala yapılan iptallerde iptal ücreti alınır (Hipnoterapi 50 €, diğer terapiler 30 €).",
@@ -2374,9 +2374,9 @@ export const UI = {
   "en": "You receive your portal access code after your first session. For your first appointment, please use the booking page."
  },
  "r_booking": {
-  "tr": "Randevu almak için “Randevu Al” sayfasındaki takvimden uygun gün ve saati seçip kısa formu doldurmanız yeterli. Derya Hanım talebinizi onayladıktan sonra size WhatsApp üzerinden dönüş yapılır.",
-  "de": "Wählen Sie auf der Seite „Termin buchen“ im Kalender einen passenden Tag und eine Uhrzeit und füllen Sie das kurze Formular aus. Nach der Bestätigung meldet sich Derya Kılıç per WhatsApp.",
-  "en": "On the “Book” page, choose a suitable day and time in the calendar and fill in the short form. Once confirmed, Derya Kılıç will get back to you via WhatsApp."
+  "tr": "Randevu almak için “Randevu Al” sayfasındaki takvimden uygun gün ve saati seçip kısa formu doldurmanız yeterli. Derya Hanım talebinizi onayladıktan sonra size WhatsApp (veya WhatsApp’ınız yoksa e-posta) üzerinden dönüş yapar.",
+  "de": "Wählen Sie auf der Seite „Termin buchen“ im Kalender einen passenden Tag und eine Uhrzeit und füllen Sie das kurze Formular aus. Nach der Bestätigung meldet sich Derya Kılıç per WhatsApp – oder per E-Mail, falls Sie kein WhatsApp haben.",
+  "en": "On the “Book” page, choose a suitable day and time in the calendar and fill in the short form. Once confirmed, Derya Kılıç will get back to you via WhatsApp – or by email if you don’t use WhatsApp."
  },
  "r_hello": {
   "tr": "Merhaba! Terapi yöntemleri, randevu süreci veya aklınıza takılan sorular hakkında bana danışabilirsiniz.",
@@ -2389,8 +2389,143 @@ export const UI = {
   "en": "You’re welcome! If you have any other questions, I’m always here. 🌿"
  },
  "r_fallback": {
-  "tr": "Bu soruyu tam anlayamadım. Terapi seansları (Hipnoz/EFT), randevular, giriş kodları ve ücretler hakkında soru sorabilirsiniz. Kişisel sorularınız için Derya Hanım’a doğrudan WhatsApp’tan yazabilirsiniz.",
-  "de": "Das habe ich leider nicht ganz verstanden. Fragen Sie mich zu Sitzungen (Hypnose/EFT), Terminen, Zugangscodes oder Preisen. Persönliche Fragen beantwortet Derya Kılıç gern direkt per WhatsApp.",
-  "en": "Sorry, I didn’t quite understand. You can ask me about sessions (hypnosis/EFT), appointments, access codes or prices. For personal questions, message Derya Kılıç directly on WhatsApp."
+  "tr": "Bu soruyu tam anlayamadım. Bana örneğin ücretler, randevu, çalışma saatleri, hizmetler, online seans veya adres hakkında soru sorabilirsiniz. Kişisel sorularınız için Derya Hanım’a doğrudan yazabilirsiniz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Das habe ich leider nicht ganz verstanden. Fragen Sie mich zum Beispiel zu Preisen, Terminen, Öffnungszeiten, Leistungen, Online-Sitzungen oder der Adresse. Persönliche Fragen beantwortet Derya Kılıç gern direkt:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "Sorry, I didn’t quite understand. You can ask me about prices, appointments, opening hours, services, online sessions or the address, for example. For personal questions, contact Derya Kılıç directly:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+ },
+ "r_nowa": {
+  "tr": "Sorun değil! WhatsApp kullanmasanız da randevu talebi oluşturabilirsiniz. Takvimdeki formda telefon numaranızı ve e-posta adresinizi bırakmanız yeterli – Derya Hanım size e-posta ile de dönüş yapabilir. Ödeme dekontunu veya diğer sorularınızı da e-posta ile gönderebilirsiniz:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Kein Problem! Sie können auch ohne WhatsApp einen Termin anfragen. Geben Sie im Formular einfach Ihre Telefonnummer und E-Mail-Adresse an – Derya Kılıç kann sich auch per E-Mail bei Ihnen melden. Zahlungsbelege oder andere Fragen können Sie ebenfalls per E-Mail schicken:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "No problem! You can request an appointment without WhatsApp too. Just enter your phone number and email address in the form – Derya Kılıç can also get back to you by email. You can send payment receipts or other questions by email as well:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+ },
+ "r_contact": {
+  "tr": "Derya Hanım’a şu yollarla ulaşabilirsiniz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim",
+  "de": "So erreichen Sie Derya Kılıç:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim",
+  "en": "You can reach Derya Kılıç here:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim"
+ },
+ "r_hours": {
+  "tr": "Randevular pazartesi–perşembe 08:30–17:30, cuma 08:30–15:00 saatleri arasında başlayabilir. Hafta sonu kapalıyız. Boş saatleri doğrudan takvimde görebilirsiniz.",
+  "de": "Termine können montags bis donnerstags zwischen 8:30 und 17:30 Uhr und freitags zwischen 8:30 und 15:00 Uhr beginnen. Am Wochenende ist geschlossen. Freie Zeiten sehen Sie direkt im Kalender.",
+  "en": "Appointments can start Monday to Thursday between 8:30 am and 5:30 pm and on Fridays between 8:30 am and 3:00 pm (German time). We are closed at weekends. You can see free times directly in the calendar."
+ },
+ "r_services": {
+  "tr": "Derya Hanım’ın hizmetleri:\n• Hipnoterapi\n• Deep EFT\n• Bilişsel Davranışçı Terapi (BDT)\n• Şema Terapisi\n• Travma ve Yas Terapisi\n• Pozitif Psikoloji\n• Mesnevi Terapisi\n• Manevi Danışmanlık\n• Regresyon\nTümü Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca. Bir hizmet hakkında daha fazla bilgi için adını yazabilirsiniz.",
+  "de": "Derya Kılıç bietet an:\n• Hypnotherapie\n• Deep EFT\n• Kognitive Verhaltenstherapie (KVT)\n• Schematherapie\n• Trauma- und Trauertherapie\n• Positive Psychologie\n• Mesnevi-Therapie\n• Spirituelle Beratung\n• Regression\nAlles vor Ort in Kornwestheim oder online, auf Türkisch und Deutsch. Schreiben Sie mir einfach den Namen, wenn Sie mehr über eine Methode wissen möchten.",
+  "en": "Derya Kılıç offers:\n• Hypnotherapy\n• Deep EFT\n• Cognitive Behavioural Therapy (CBT)\n• Schema Therapy\n• Trauma & Grief Therapy\n• Positive Psychology\n• Masnavi Therapy\n• Spiritual Counselling\n• Regression\nAll in person in Kornwestheim or online, in Turkish and German. Just type the name if you’d like to know more about one."
+ },
+ "r_diff": {
+  "tr": "Hipnoterapi bilinçaltı düzeyinde derin bir değişim çalışmasıdır. Deep EFT ise vücuttaki belirli noktalara nazikçe dokunarak olumsuz duygulardan özgürleşmeye yardımcı olur. Hangisinin size uygun olduğundan emin değilseniz, randevu formunda “Henüz emin değilim” seçeneğini seçin – Derya Hanım sizinle birlikte uygun yöntemi belirler.",
+  "de": "Hypnotherapie arbeitet auf der Ebene des Unterbewusstseins und zielt auf tiefe Veränderung. Bei Deep EFT werden durch sanftes Berühren bestimmter Punkte am Körper belastende Gefühle gelöst. Wenn Sie nicht sicher sind, was zu Ihnen passt, wählen Sie im Terminformular einfach „Noch unsicher / Vorgespräch“ – Derya Kılıç findet gemeinsam mit Ihnen die passende Methode.",
+  "en": "Hypnotherapy works at the level of the subconscious and aims at deep change. Deep EFT releases difficult emotions by gently touching certain points on the body. If you’re not sure which suits you, just choose “Not sure yet / Initial consultation” in the booking form – Derya Kılıç will find the right method together with you."
+ },
+ "r_duration": {
+  "tr": "Hipnoterapi seanslarında süre sınırı yoktur (seans başı 170 €). Diğer tüm terapiler saatlik ücretlendirilir: 1 saat 65 €, 2 saat 130 €.",
+  "de": "Hypnotherapie-Sitzungen haben keine Zeitbegrenzung (170 € pro Sitzung). Alle anderen Therapien werden stundenweise berechnet: 1 Std. 65 €, 2 Std. 130 €.",
+  "en": "Hypnotherapy sessions have no time limit (€170 per session). All other therapies are charged by the hour: 1 hr €65, 2 hrs €130."
+ },
+ "r_count": {
+  "tr": "Kaç seans gerektiği kişiye ve konuya göre değişir. Bu konuyu Derya Hanım sizinle en iyi şekilde kişisel olarak konuşur. Kısaca yazmanız yeterli:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Wie viele Sitzungen nötig sind, hängt von Ihrem Anliegen ab. Das bespricht Derya Kılıç am besten persönlich mit Ihnen. Schreiben Sie ihr einfach kurz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "How many sessions you need depends on your situation. Derya Kılıç will be happy to discuss this with you personally. Just send her a short message:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+ },
+ "r_kids": {
+  "tr": "Bu konuyu Derya Hanım sizinle en iyi şekilde kişisel olarak konuşur. Kısaca yazmanız yeterli:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Das bespricht Derya Kılıç am besten persönlich mit Ihnen. Schreiben Sie ihr einfach kurz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "Derya Kılıç will be happy to discuss this with you personally. Just send her a short message:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+ },
+ "r_insurance": {
+  "tr": "Bu konuyu Derya Hanım sizinle en iyi şekilde kişisel olarak konuşur. Kısaca yazmanız yeterli:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Das bespricht Derya Kılıç am besten persönlich mit Ihnen. Schreiben Sie ihr einfach kurz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "Derya Kılıç will be happy to discuss this with you personally. Just send her a short message:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+ },
+ "r_parking": {
+  "tr": "Adresimiz: Biberweg 53, 70806 Kornwestheim (Stuttgart ve Ludwigsburg yakınında). Ulaşım veya park yeri hakkında sorularınız için Derya Hanım’a yazabilirsiniz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Unsere Adresse: Biberweg 53, 70806 Kornwestheim (bei Stuttgart und Ludwigsburg). Fragen zur Anfahrt oder zum Parken beantwortet Derya Kılıç gern:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "Our address: Biberweg 53, 70806 Kornwestheim (near Stuttgart and Ludwigsburg). For questions about getting here or parking, just message Derya Kılıç:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+ },
+ "r_privacy": {
+  "tr": "Paylaştığınız bilgiler gizli tutulur ve yalnızca randevu planlaması ile seanslarınız için kullanılır. Ayrıntılar Gizlilik Politikası sayfasında yer alır.",
+  "de": "Ihre Angaben werden vertraulich behandelt und nur für die Terminplanung und Ihre Sitzungen verwendet. Details finden Sie in der Datenschutzerklärung.",
+  "en": "Your information is treated confidentially and used only for scheduling and your sessions. You’ll find details in the privacy policy."
+ },
+ "r_noshow": {
+  "tr": "Randevuya haber vermeden gelmezseniz, geç iptal ücreti hesabınıza eklenir: Hipnoterapi 50 €, diğer terapiler 30 €. Lütfen gelemeyecekseniz en geç 24 saat önce haber verin.",
+  "de": "Wenn Sie ohne Absage nicht zum Termin erscheinen, wird dieselbe Gebühr wie bei einer kurzfristigen Absage berechnet: Hypnotherapie 50 €, andere Therapien 30 €. Bitte sagen Sie spätestens 24 Stunden vorher ab, wenn Sie nicht kommen können.",
+  "en": "If you miss an appointment without cancelling, the same fee as for a late cancellation applies: hypnotherapy €50, other therapies €30. Please cancel at least 24 hours in advance if you can’t come."
+ },
+ "r_payment": {
+  "tr": "Ödemeyi “Ödeme” sayfasından PayPal veya kredi kartı ile yapabilirsiniz (PayPal adresi: goldensunderya@hotmail.com). Ardından dekontu WhatsApp veya e-posta ile gönderebilirsiniz. Başka ödeme yöntemleri için Derya Hanım’a sorabilirsiniz.",
+  "de": "Bezahlen können Sie auf der Seite „Zahlung“ mit PayPal oder Kreditkarte (PayPal-Adresse: goldensunderya@hotmail.com). Den Beleg schicken Sie danach per WhatsApp oder E-Mail. Fragen zu anderen Zahlungsarten beantwortet Derya Kılıç gern.",
+  "en": "You can pay on the “Payment” page by PayPal or credit card (PayPal address: goldensunderya@hotmail.com). Afterwards, send the receipt by WhatsApp or email. For other payment methods, just ask Derya Kılıç."
+ },
+ "r_education": {
+  "tr": "Derya Hanım toplam 1.400 saati aşkın eğitim almıştır, örneğin:\n• Hipnoterapi (360 saat, 2022)\n• Yaşam Koçluğu (360 saat, 2022–2023)\n• Aile ve Yaşam Danışmanlığı (464 saat, 2023)\n• Sistemik Derin Duygu Yönetimi – SDEM (240 saat, 2025)\nTüm sertifikalar “Eğitimlerim” sayfasında.",
+  "de": "Derya Kılıç hat insgesamt über 1.400 Stunden Ausbildung, zum Beispiel:\n• Hypnotherapie (360 Std., 2022)\n• Life Coaching (360 Std., 2022–2023)\n• Familien- und Lebensberatung (464 Std., 2023)\n• Systemisches Tiefes Emotionsmanagement – SDEM (240 Std., 2025)\nAlle Zertifikate finden Sie auf der Seite „Ausbildung“.",
+  "en": "Derya Kılıç has more than 1,400 hours of training in total, for example:\n• Hypnotherapy (360 hrs, 2022)\n• Life Coaching (360 hrs, 2022–2023)\n• Family & Life Counselling (464 hrs, 2023)\n• Systemic Deep Emotion Management – SDEM (240 hrs, 2025)\nYou’ll find all certificates on the “Training” page."
+ },
+ "r_reviews": {
+  "tr": "Danışanların deneyimlerini ana sayfadaki “Yorumlar” bölümünde ve “Tecrübeler” sayfasında okuyabilirsiniz. Seansınızdan sonra kendi yorumunuzu da bırakabilirsiniz. 🌿",
+  "de": "Erfahrungen von Klientinnen und Klienten lesen Sie im Bereich „Bewertungen“ auf der Startseite und auf der Seite „Erfahrungen“. Nach Ihrer Sitzung können Sie dort auch selbst eine Bewertung schreiben. 🌿",
+  "en": "You can read clients’ experiences in the “Reviews” section on the home page and on the “Experiences” page. After your session you’re welcome to leave a review yourself. 🌿"
+ },
+ "r_about": {
+  "tr": "Derya Kılıç, Kornwestheim’da çalışan bir psikolojik danışmandır; hipnoterapi, Deep EFT ve başka yöntemlerle çalışır. Seanslarını Türkçe ve Almanca, yüz yüze veya online yürütür. Danışanlarıyla arasında güvene dayalı bir alan oluşturmak onun için en önemli şeydir.",
+  "de": "Derya Kılıç ist Psychologische Beraterin in Kornwestheim und arbeitet mit Hypnotherapie, Deep EFT und weiteren Methoden – auf Türkisch und Deutsch, vor Ort oder online. Am wichtigsten ist ihr ein vertrauensvoller Raum für ihre Klientinnen und Klienten.",
+  "en": "Derya Kılıç is a psychological counsellor in Kornwestheim working with hypnotherapy, Deep EFT and other methods – in Turkish and German, in person or online. What matters most to her is a space of trust for her clients."
+ },
+ "r_first": {
+  "tr": "Süreç üç adımda ilerler:\n1. Takvimden gün ve saat seçip kısa ön görüşme formunu doldurursunuz.\n2. Derya Hanım talebinizi inceler ve size dönüş yapar.\n3. Seansınız Kornwestheim’da yüz yüze veya online gerçekleşir.\nNe istediğinizden emin değilseniz formda “Henüz emin değilim” seçeneğini seçebilirsiniz.",
+  "de": "Der Ablauf hat drei Schritte:\n1. Sie wählen im Kalender Tag und Uhrzeit und füllen das kurze Vorgespräch-Formular aus.\n2. Derya Kılıç prüft Ihre Anfrage und meldet sich bei Ihnen.\n3. Ihre Sitzung findet vor Ort in Kornwestheim oder online statt.\nWenn Sie noch unsicher sind, wählen Sie im Formular „Noch unsicher / Vorgespräch“.",
+  "en": "It works in three steps:\n1. Choose a day and time in the calendar and fill in the short pre-consultation form.\n2. Derya Kılıç reviews your request and gets back to you.\n3. Your session takes place in person in Kornwestheim or online.\nIf you’re not sure yet, choose “Not sure yet / Initial consultation” in the form."
+ },
+ "r_kvt": {
+  "tr": "Bilişsel Davranışçı Terapi (BDT): düşünce, duygu ve davranış kalıplarını yeniden yapılandırma. Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Kognitive Verhaltenstherapie (KVT): Gedanken-, Gefühls- und Verhaltensmuster neu strukturieren. Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "Cognitive Behavioural Therapy (CBT): restructuring patterns of thought, emotion and behaviour. This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_schema": {
+  "tr": "Şema Terapisi: kısıtlayıcı yaşam şemalarını fark etmek ve çocuklukta karşılanmamış duygusal ihtiyaçları bugün yetişkin bilinciyle karşılamak. Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Schematherapie: einschränkende Lebensschemata erkennen und in der Kindheit unerfüllte emotionale Bedürfnisse heute mit dem Bewusstsein eines Erwachsenen erfüllen. Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "Schema Therapy: recognising limiting life schemas and meeting emotional needs that went unmet in childhood with today’s adult awareness. This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_trauma": {
+  "tr": "Travma ve Yas Terapisi: zorlu yaşam olaylarını işlemek ve bu duyguları yönetmeyi öğrenmek. Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Trauma- und Trauertherapie: schwierige Lebensereignisse verarbeiten und mit diesen Gefühlen umgehen lernen. Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "Trauma & Grief Therapy: processing difficult life events and learning to manage these feelings. This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_positive": {
+  "tr": "Pozitif Psikoloji: güçlü yönleri keşfetmek ve yaşam kalitesini artırmak. Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Positive Psychologie: Stärken entdecken und Lebensqualität steigern. Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "Positive Psychology: discovering strengths and improving quality of life. This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_mesnevi": {
+  "tr": "Mesnevi Terapisi: hikâyeler ve sembollerle içsel iyileşme. Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Mesnevi-Therapie: innere Heilung mit Geschichten und Symbolen. Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "Masnavi Therapy: inner healing through stories and symbols. This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_spirit": {
+  "tr": "Manevi Danışmanlık: ruhsal denge ve zihinsel hafiflik – kalbin yüklerinden iç huzura bir yolculuk. Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Spirituelle Beratung: seelisches Gleichgewicht und geistige Leichtigkeit – eine Reise von den Lasten des Herzens zu innerem Frieden. Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "Spiritual Counselling: emotional balance and mental lightness – a journey from the burdens of the heart to inner peace. This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_regress": {
+  "tr": "Regresyon: geçmişin izlerinden ve hatırlamadığınız yüklerden özgürleşme. Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Regression: Befreiung von den Spuren der Vergangenheit und von Lasten, an die Sie sich nicht erinnern. Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "Regression: freeing yourself from traces of the past and from burdens you don’t remember. This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_price_hypno": {
+  "tr": "Bir hipnoterapi seansı 170 €’dur – süre sınırı yoktur.",
+  "de": "Eine Hypnotherapie-Sitzung kostet 170 € – ohne Zeitbegrenzung.",
+  "en": "A hypnotherapy session costs €170 – with no time limit."
+ },
+ "r_price_other": {
+  "tr": "Bu terapinin ücreti saatlik 65 €’dur (2 saat: 130 €). Seanslar Kornwestheim’da yüz yüze veya online, Türkçe ve Almanca yapılır.",
+  "de": "Diese Therapie kostet 65 € pro Stunde (2 Std.: 130 €). Die Sitzungen finden vor Ort in Kornwestheim oder online statt – auf Türkisch und Deutsch.",
+  "en": "This therapy costs €65 per hour (2 hrs: €130). Sessions take place in person in Kornwestheim or online – in Turkish and German."
+ },
+ "r_bye": {
+  "tr": "Görüşmek üzere, kendinize iyi bakın! 🌿",
+  "de": "Alles Gute und bis bald! 🌿",
+  "en": "Take care and see you soon! 🌿"
  }
 };

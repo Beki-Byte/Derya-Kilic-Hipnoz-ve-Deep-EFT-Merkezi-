@@ -571,28 +571,91 @@ function normalize(s) {
     return " " + s.toLocaleLowerCase("tr").replace(/[ıİ]/g, "i").replace(/ş/g, "s").replace(/ğ/g, "g").replace(/[üÜ]/g, "u")
         .replace(/[öÖ]/g, "o").replace(/ç/g, "c").replace(/â/g, "a").replace(/ä/g, "a").replace(/ß/g, "ss").replace(/[?!.,;:]/g, " ") + " ";
 }
+/* Reihenfolge = Priorität. Stichwörter in normalisierter Form (ı→i, ş→s, ü→u, ö→o, ç→c, ğ→g, ä→a, ß→ss) */
 const CHAT_RULES = [
     ["r_stuck", ["cikama", "kalir miyim", "takili", "stecken", "hangen", "stuck", "aufwach", "wake up"]],
     ["r_control", ["bilinc", "kontrol", "kayb", "control", "bewusst"]],
     ["r_secret", [" sir ", "sirlar", "istemedigim", "geheim", "secret", "nicht will", "dont want", "don't want"]],
+    ["r_kids", ["cocuk", "cocug", "kizim", "oglum", "ergen", " genc", " kind ", " kinder", "tochter", " sohn", "jugendlich", "child", " kid", "teen", "yas sinir", "altersgrenze", "age limit"]],
     ["r_safe", ["zarar", "yan etki", "tehlike", "guvenli", "sicher", "gefahr", "nebenwirk", "safe", "danger", "side effect", "risk"]],
+    ["r_privacy", ["gizli", "schweigepflicht", "vertraulich", "datenschutz", "kvkk", "confidential", "privacy", "diskret", "discreet"]],
     ["r_forgot", ["unuttum", "kaybettim", "sifre", "hatirlamiyorum", "kodumu", "vergessen", "forgot", "lost my", "password", "passwort"]],
-    ["r_cancel", ["iptal", "erteleme", "degistir", "absag", "stornier", "verschieb", "cancel", "reschedul"]],
-    ["r_online", ["online", "uzaktan", "video", "zoom"]],
-    ["r_lang", [" dil", "almanca", "turkce", "deutsch", "sprache", "englisch", "ingilizce", "english", "language", "turkish", "german", "turkisch"]],
-    ["r_address", ["adres", "nerede", "konum", "kornwestheim", "yol tarifi", "address", " where ", "location", "praxis", " wo "]],
-    ["r_hypno", ["hipnoz", "hypnose", "hipnoterapi", "hypnosis", "hypnotherap"]],
-    ["r_eft", ["eft"]],
-    ["r_price", ["ucret", "fiyat", "preis", "koste", "odeme", "paypal", "kac para", "euro", "€", "price", "cost", " fee", " pay", "zahl", "how much", "wie viel", "wieviel"]],
+    ["r_noshow", ["gelmezsem", "gelemezsem", "gelmedim", "gelemedim", "nicht erschein", "nicht komme", "nicht kommen kann", "no show", "no-show", "miss my", "missed my", "verpass", "kacirirsam", "kacirdim"]],
+    ["r_cancel", ["iptal", "erteleme", "ertele", "degistir", "absag", "stornier", "verschieb", "cancel", "reschedul"]],
+    ["r_insurance", ["sigorta", "krankenkasse", " kasse", "versicher", "insurance", "fatura", "rechnung", "invoice"]],
+    ["r_online", ["online", "uzaktan", "video", "zoom", "skype", "internet"]],
+    ["r_lang", [" dil", "almanca", "turkce", "deutsch", "sprache", "englisch", "ingilizce", "english", "language", "turkish", "german", "turkisch", "sprechen sie"]],
+    ["r_diff", ["fark", "unterschied", "difference", " vs ", "hangisi", "which one", "welche methode", "welche therapie", "welches passt", "hangi yontem", "bana uygun", "passt zu mir", "suits me", "emin degil", "unsicher", "not sure", "bilmiyorum", "weiss nicht", "dont know", "don't know"]],
+    ["r_count", ["kac seans", "kac kez", "kac defa", "wie viele sitzung", "wieviele sitzung", "wie oft", "how many session", "how often", "anzahl"]],
+    ["r_duration", ["ne kadar sur", "kac saat", "kac dakika", " sure ", "suruyor", "dauer", "dauert", "wie lange", "how long", "duration", "minute", "dakika"]],
+    ["r_hypno", ["hipnoz", "hypnose", "hipnoterapi", "hypnosis", "hypnotherap", "hipnotiz"]],
+    ["r_eft", ["eft", "tapping", "klopf"]],
+    ["r_kvt", [" bdt", " kvt", " cbt", "bilissel", "verhaltensth", "cognitive"]],
+    ["r_schema", ["sema", "schema"]],
+    ["r_trauma", ["travma", "trauma", " yas ", "trauer", "grief", "verlust"]],
+    ["r_positive", ["pozitif", "positive psych", "positiv"]],
+    ["r_mesnevi", ["mesnevi", "masnavi", "mevlana", "rumi"]],
+    ["r_spirit", ["manevi", "spirit", "ruhani", "seelsorg"]],
+    ["r_regress", ["regres"]],
+    ["r_payment", ["kredi kart", "kreditkart", "credit card", "havale", "uberweis", "banka", " bank", "nakit", " bar ", "cash", "dekont", "beleg", "receipt", "nasil ode", "wie bezahl", "wie zahl", "how do i pay", "how to pay", "paypal"]],
+    ["r_price", ["ucret", "fiyat", "preis", "koste", "odeme", "kac para", "euro", "€", "price", "cost", " fee", " pay", "zahl", "how much", "wie viel", "wieviel", "teuer", "pahali"]],
+    ["r_services", ["hizmet", "terapi", "neler yap", "ne yapiyor", "leistung", "angebot", "was bieten", "was machen sie", "therap", "service", "what do you offer", "methode", "yontem", "method", "behandl", "treat"]],
+    ["r_education", ["egitim", "sertifika", "diploma", "ausbildung", "zertifikat", "qualifi", "certif", "training", "universit", "studiert"]],
+    ["r_reviews", ["yorum", "tecrube", "deneyim", "basari", "bewertung", "erfahrung", "erfolg", "review", "testimonial", "experience", "rezension"]],
+    ["r_about", ["kimdir", "kim bu", "hakkinda", "wer ist", "wer sind", "uber sie", "uber derya", "about her", "about you", "who is", "who are"]],
+    ["r_parking", ["park", "anfahrt", "otobus", " bus ", " bahn", "tren", "nasil gelir", "nasil gid", "ulasim", "how to get", "public transport", "stuttgart", "ludwigsburg"]],
+    ["r_address", ["adres", "nerede", "konum", "kornwestheim", "yol tarifi", "address", " where ", "location", "praxis", " wo ", "harita", "karte", "map"]],
+    ["r_hours", ["calisma saat", "acik mi", "kacta", "kaca kadar", "hangi gun", "hangi saat", "cumartesi", "pazar", "hafta sonu", "offnungszeit", "geoffnet", "offen", "wann", "samstag", "sonntag", "wochenende", "opening", "open on", "hours", "what time", "which days", "weekend", "saturday", "sunday"]],
     ["r_code", [" kod", "giris", "portal", " code", "login", "anmeld"]],
-    ["r_booking", ["randevu", "termin", "seans", "rezervasyon", "appointment", " book", "session", "sitzung"]],
-    ["r_hello", ["merhaba", "selam", "hallo", "iyi gunler", "hello", " hi ", " hey ", "guten tag", "servus"]],
-    ["r_thanks", ["tesekkur", "sagol", "danke", "eyvallah", "thank", "thx"]]
+    ["r_first", ["ilk seans", "ilk gorusme", "ilk kez", "ilk defa", "nasil gec", "nasil isl", "nasil olu", "surec", "on gorusme", "ablauf", "erste sitzung", "erstes mal", "wie lauft", "wie funktioniert", "was passiert", "vorgesprach", "first session", "first time", "how does it work", "what happens", "initial"]],
+    ["r_booking", ["randevu", "termin", "seans", "rezervasyon", "appointment", " book", "session", "sitzung", "buchen"]],
+    ["r_contact", ["iletisim", "ulas", "telefon", "numara", "arayabilir", "aramak", " ara ", "mail", "e-posta", "eposta", "instagram", "insta ", " dm ", "kontakt", "anruf", "erreich", "nummer", "contact", "phone", "call", "reach", "number", "whatsapp", "mesaj", "nachricht", "message", "konusmak", "sprechen", "talk to"]],
+    ["r_thanks", ["tesekkur", "sagol", "danke", "eyvallah", "thank", "thx", "merci"]],
+    ["r_bye", ["gorusuruz", "hosca", "bye", "tschuss", "ciao", "auf wiedersehen", "bis bald", "iyi aksam", "gute nacht"]],
+    ["r_hello", ["merhaba", "selam", "hallo", "iyi gunler", "hello", " hi ", " hey ", "guten tag", "servus", "moin", "gunaydin", "guten morgen"]]
 ];
+const CHAT_WA = ["whatsapp", "whats app", "watsap", "watsapp", "vatsap", "wats app", " wp ", " wa "];
+const CHAT_NEG = [" yok", "kullanmi", "kullanmam", " degil", "olmadan", "kein", "nicht", "ohne", " no ", " not ", "dont", "don't", "doesn't", "without", "haven't", "havent", " nie "];
+const CHAT_THERAPY = new Set(["r_eft", "r_kvt", "r_schema", "r_trauma", "r_positive", "r_mesnevi", "r_spirit", "r_regress"]);
+
+/* Tippfehler-Toleranz: Levenshtein-Abstand */
+function editDistance(a, b) {
+    if (a === b) return 0;
+    let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+    for (let i = 1; i <= a.length; i++) {
+        const cur = [i];
+        for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        prev = cur;
+    }
+    return prev[b.length];
+}
+function fuzzyHit(tokens, word) {
+    const k = word.trim();
+    if (k.length < 5 || /[\s-]/.test(k)) return false;
+    const max = k.length >= 8 ? 2 : 1;
+    return tokens.some((tk) => tk.length >= 4 && tk.length >= k.length - 1 &&
+        [tk, tk.slice(0, k.length), tk.slice(0, k.length + 1), tk.slice(0, k.length - 1)].some((c) => c.length >= 4 && editDistance(c, k) <= max));
+}
+function matchRule(q, tokens, words, fuzzy) {
+    return words.some((w) => q.includes(w) || (fuzzy && fuzzyHit(tokens, w)));
+}
+function findIntent(q) {
+    const tokens = q.trim().split(/\s+/).filter(Boolean);
+    for (const fuzzy of [false, true]) {
+        if (matchRule(q, tokens, CHAT_WA, fuzzy) && CHAT_NEG.some((n) => q.includes(n))) return "r_nowa";
+        for (const [key, words] of CHAT_RULES) if (matchRule(q, tokens, words, fuzzy)) return key;
+    }
+    return null;
+}
+const chatCtx = { last: null };
 function generateAssistantReply(input) {
     const q = normalize(input);
-    for (const [key, words] of CHAT_RULES) if (words.some((w) => q.includes(w))) return t(key);
-    return t("r_fallback");
+    let key = findIntent(q);
+    // Folgefragen: "Und was kostet das?" bezieht sich auf das vorherige Thema
+    if (key === "r_price" && chatCtx.last === "r_hypno") key = "r_price_hypno";
+    else if (key === "r_price" && CHAT_THERAPY.has(chatCtx.last)) key = "r_price_other";
+    if (key && !["r_hello", "r_thanks", "r_bye"].includes(key)) chatCtx.last = key;
+    return t(key || "r_fallback");
 }
 
 function buildChat(mount, { floating }) {
