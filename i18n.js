@@ -557,9 +557,9 @@ export const PAGE = {
 "en": "Cancellation Policy"
 },
 "tb1d06028": {
-"tr": "Randevularınızı en geç <strong>24 saat öncesinden</strong> iptal etmeniz veya değiştirmeniz gerekmektedir. 24 saatten daha kısa bir süre kala yapılan iptallerde aşağıdaki iptal ücreti bakiyenize eklenir (seansa hiç gelinmediğinde seans ücretinin tamamı tahsil edilir):",
-"de": "Termine müssen spätestens <strong>24 Stunden vorher</strong> abgesagt oder verschoben werden. Bei kurzfristigeren Absagen wird folgende Ausfallgebühr auf Ihr Konto gebucht (bei Nichterscheinen wird das volle Sitzungshonorar berechnet):",
-"en": "Appointments must be cancelled or rescheduled at least <strong>24 hours in advance</strong>. For later cancellations the following cancellation fee is added to your balance (no-shows are charged the full session fee):"
+"tr": "Randevularınızı en geç <strong>24 saat öncesinden</strong> iptal etmeniz veya değiştirmeniz gerekmektedir. 24 saatten daha kısa bir süre kala yapılan iptallerde aşağıdaki iptal ücreti bakiyenize eklenir (randevuya haber vermeden gelinmediğinde de aynı ücret geçerlidir):",
+"de": "Termine müssen spätestens <strong>24 Stunden vorher</strong> abgesagt oder verschoben werden. Bei kurzfristigeren Absagen wird folgende Ausfallgebühr auf Ihr Konto gebucht (dasselbe gilt, wenn Sie ohne Absage nicht erscheinen):",
+"en": "Appointments must be cancelled or rescheduled at least <strong>24 hours in advance</strong>. For later cancellations the following cancellation fee is added to your balance (the same applies if you miss an appointment without cancelling):"
 },
 "t2f25b4a8": {
 "tr": "Deep EFT ve diğer terapiler:",
@@ -2199,9 +2199,9 @@ export const UI = {
   "en": "Late cancellation fee"
  },
  "hist_noshow": {
-  "tr": "Gelinmeyen seans ücreti",
-  "de": "Nichterscheinen (Sitzungshonorar)",
-  "en": "No-show (session fee)"
+  "tr": "Gelinmeyen seans (iptal ücreti)",
+  "de": "Nichterscheinen (Ausfallgebühr)",
+  "en": "No-show (cancellation fee)"
  },
  "hist_pending": {
   "tr": "kontrol ediliyor",
