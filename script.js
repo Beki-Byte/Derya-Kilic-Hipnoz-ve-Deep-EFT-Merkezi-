@@ -576,6 +576,7 @@ const CHAT_RULES = [
     ["r_stuck", ["cikama", "kalir miyim", "takili", "stecken", "hangen", "stuck", "aufwach", "wake up"]],
     ["r_control", ["bilinc", "kontrol", "kayb", "control", "bewusst"]],
     ["r_secret", [" sir ", "sirlar", "istemedigim", "geheim", "secret", "nicht will", "dont want", "don't want"]],
+    ["r_exclusion", ["epilep", "sizofren", "schizophren"]],
     ["r_kids", ["cocuk", "cocug", "kizim", "oglum", "ergen", " genc", " kind ", " kinder", "tochter", " sohn", "jugendlich", "child", " kid", "teen", "yas sinir", "altersgrenze", "age limit"]],
     ["r_safe", ["zarar", "yan etki", "tehlike", "guvenli", "sicher", "gefahr", "nebenwirk", "safe", "danger", "side effect", "risk"]],
     ["r_privacy", ["gizli", "schweigepflicht", "vertraulich", "datenschutz", "kvkk", "confidential", "privacy", "diskret", "discreet"]],

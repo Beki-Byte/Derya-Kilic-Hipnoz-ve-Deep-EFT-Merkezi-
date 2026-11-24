@@ -2374,9 +2374,9 @@ export const UI = {
   "en": "You receive your portal access code after your first session. For your first appointment, please use the booking page."
  },
  "r_booking": {
-  "tr": "Randevu almak için “Randevu Al” sayfasındaki takvimden uygun gün ve saati seçip kısa formu doldurmanız yeterli. Derya Hanım talebinizi onayladıktan sonra size WhatsApp (veya WhatsApp’ınız yoksa e-posta) üzerinden dönüş yapar.",
-  "de": "Wählen Sie auf der Seite „Termin buchen“ im Kalender einen passenden Tag und eine Uhrzeit und füllen Sie das kurze Formular aus. Nach der Bestätigung meldet sich Derya Kılıç per WhatsApp – oder per E-Mail, falls Sie kein WhatsApp haben.",
-  "en": "On the “Book” page, choose a suitable day and time in the calendar and fill in the short form. Once confirmed, Derya Kılıç will get back to you via WhatsApp – or by email if you don’t use WhatsApp."
+  "tr": "Randevu almak için “Randevu Al” sayfasındaki takvimden uygun gün ve saati seçip kısa formu doldurmanız yeterli. Derya Hanım talebinizi onayladıktan sonra size WhatsApp (veya WhatsApp’ınız yoksa SMS) üzerinden dönüş yapar.",
+  "de": "Wählen Sie auf der Seite „Termin buchen“ im Kalender einen passenden Tag und eine Uhrzeit und füllen Sie das kurze Formular aus. Nach der Bestätigung meldet sich Derya Kılıç per WhatsApp – oder per SMS, falls Sie kein WhatsApp haben.",
+  "en": "On the “Book” page, choose a suitable day and time in the calendar and fill in the short form. Once confirmed, Derya Kılıç will get back to you via WhatsApp – or by text message (SMS) if you don’t use WhatsApp."
  },
  "r_hello": {
   "tr": "Merhaba! Terapi yöntemleri, randevu süreci veya aklınıza takılan sorular hakkında bana danışabilirsiniz.",
@@ -2389,19 +2389,24 @@ export const UI = {
   "en": "You’re welcome! If you have any other questions, I’m always here. 🌿"
  },
  "r_fallback": {
-  "tr": "Bu soruyu tam anlayamadım. Bana örneğin ücretler, randevu, çalışma saatleri, hizmetler, online seans veya adres hakkında soru sorabilirsiniz. Kişisel sorularınız için Derya Hanım’a doğrudan yazabilirsiniz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "de": "Das habe ich leider nicht ganz verstanden. Fragen Sie mich zum Beispiel zu Preisen, Terminen, Öffnungszeiten, Leistungen, Online-Sitzungen oder der Adresse. Persönliche Fragen beantwortet Derya Kılıç gern direkt:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "en": "Sorry, I didn’t quite understand. You can ask me about prices, appointments, opening hours, services, online sessions or the address, for example. For personal questions, contact Derya Kılıç directly:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+  "tr": "Bu soruyu tam anlayamadım. Bana örneğin ücretler, randevu, çalışma saatleri, hizmetler, online seans veya adres hakkında soru sorabilirsiniz. Kişisel sorularınız için Derya Hanım’a doğrudan yazabilirsiniz:\n📱 SMS / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Das habe ich leider nicht ganz verstanden. Fragen Sie mich zum Beispiel zu Preisen, Terminen, Öffnungszeiten, Leistungen, Online-Sitzungen oder der Adresse. Persönliche Fragen beantwortet Derya Kılıç gern direkt:\n📱 SMS / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "Sorry, I didn’t quite understand. You can ask me about prices, appointments, opening hours, services, online sessions or the address, for example. For personal questions, contact Derya Kılıç directly:\n📱 SMS / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+ },
+ "r_exclusion": {
+  "tr": "Derya Hanım epilepsi ve şizofreni hastalarıyla maalesef çalışmamaktadır. Başka sağlık durumlarınız varsa lütfen seanstan önce bildirin.",
+  "de": "Mit Menschen mit Epilepsie oder Schizophrenie arbeitet Derya Kılıç leider nicht. Andere gesundheitliche Umstände teilen Sie bitte vor der Sitzung mit.",
+  "en": "Unfortunately, Derya Kılıç does not work with people with epilepsy or schizophrenia. Please let her know about any other health conditions before the session."
  },
  "r_nowa": {
-  "tr": "Sorun değil! WhatsApp kullanmasanız da randevu talebi oluşturabilirsiniz. Takvimdeki formda telefon numaranızı ve e-posta adresinizi bırakmanız yeterli – Derya Hanım size e-posta ile de dönüş yapabilir. Ödeme dekontunu veya diğer sorularınızı da e-posta ile gönderebilirsiniz:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "de": "Kein Problem! Sie können auch ohne WhatsApp einen Termin anfragen. Geben Sie im Formular einfach Ihre Telefonnummer und E-Mail-Adresse an – Derya Kılıç kann sich auch per E-Mail bei Ihnen melden. Zahlungsbelege oder andere Fragen können Sie ebenfalls per E-Mail schicken:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "en": "No problem! You can request an appointment without WhatsApp too. Just enter your phone number and email address in the form – Derya Kılıç can also get back to you by email. You can send payment receipts or other questions by email as well:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+  "tr": "Sorun değil! WhatsApp kullanmasanız da randevu talebi oluşturabilirsiniz. Takvimdeki formda telefon numaranızı ve e-posta adresinizi bırakmanız yeterli – Derya Hanım size SMS ile dönüş yapar. Ödeme dekontunu veya diğer sorularınızı da e-posta ile gönderebilirsiniz:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "de": "Kein Problem! Sie können auch ohne WhatsApp einen Termin anfragen. Geben Sie im Formular einfach Ihre Telefonnummer und E-Mail-Adresse an – Derya Kılıç meldet sich dann per SMS bei Ihnen. Zahlungsbelege oder andere Fragen können Sie ebenfalls per E-Mail schicken:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
+  "en": "No problem! You can request an appointment without WhatsApp too. Just enter your phone number and email address in the form – Derya Kılıç will then get back to you by text message (SMS). You can send payment receipts or other questions by email as well:\n✉️ goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
  },
  "r_contact": {
-  "tr": "Derya Hanım’a şu yollarla ulaşabilirsiniz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim",
-  "de": "So erreichen Sie Derya Kılıç:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim",
-  "en": "You can reach Derya Kılıç here:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim"
+  "tr": "Derya Hanım’a şu yollarla ulaşabilirsiniz:\n📱 SMS / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim",
+  "de": "So erreichen Sie Derya Kılıç:\n📱 SMS / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim",
+  "en": "You can reach Derya Kılıç here:\n📱 SMS / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829\n📍 Biberweg 53, 70806 Kornwestheim"
  },
  "r_hours": {
   "tr": "Randevular pazartesi–perşembe 08:30–17:30, cuma 08:30–15:00 saatleri arasında başlayabilir. Hafta sonu kapalıyız. Boş saatleri doğrudan takvimde görebilirsiniz.",
@@ -2419,29 +2424,29 @@ export const UI = {
   "en": "Hypnotherapy works at the level of the subconscious and aims at deep change. Deep EFT releases difficult emotions by gently touching certain points on the body. If you’re not sure which suits you, just choose “Not sure yet / Initial consultation” in the booking form – Derya Kılıç will find the right method together with you."
  },
  "r_duration": {
-  "tr": "Hipnoterapi seanslarında süre sınırı yoktur (seans başı 170 €). Diğer tüm terapiler saatlik ücretlendirilir: 1 saat 65 €, 2 saat 130 €.",
-  "de": "Hypnotherapie-Sitzungen haben keine Zeitbegrenzung (170 € pro Sitzung). Alle anderen Therapien werden stundenweise berechnet: 1 Std. 65 €, 2 Std. 130 €.",
-  "en": "Hypnotherapy sessions have no time limit (€170 per session). All other therapies are charged by the hour: 1 hr €65, 2 hrs €130."
+  "tr": "Bir seans genellikle en az 1 ile 1,5 saat arası sürer, ancak bu kişiye göre değişir. Hipnoterapi seans başı 170 €’dur (süre sınırı yok), diğer terapiler saatlik 65 €’dur.",
+  "de": "Eine Sitzung dauert in der Regel mindestens 1 bis 1,5 Stunden – das ist aber von Person zu Person unterschiedlich. Hypnotherapie kostet 170 € pro Sitzung (ohne Zeitbegrenzung), alle anderen Therapien 65 € pro Stunde.",
+  "en": "A session usually lasts at least 1 to 1.5 hours, but this varies from person to person. Hypnotherapy costs €170 per session (no time limit), all other therapies €65 per hour."
  },
  "r_count": {
-  "tr": "Kaç seans gerektiği kişiye ve konuya göre değişir. Bu konuyu Derya Hanım sizinle en iyi şekilde kişisel olarak konuşur. Kısaca yazmanız yeterli:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "de": "Wie viele Sitzungen nötig sind, hängt von Ihrem Anliegen ab. Das bespricht Derya Kılıç am besten persönlich mit Ihnen. Schreiben Sie ihr einfach kurz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "en": "How many sessions you need depends on your situation. Derya Kılıç will be happy to discuss this with you personally. Just send her a short message:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+  "tr": "Kaç seans gerektiği danışana göre değişir. Derya Hanım bunu sizinle birlikte, sizin durumunuza göre belirler.",
+  "de": "Wie viele Sitzungen nötig sind, ist von Klient zu Klient unterschiedlich. Derya Kılıç bespricht das individuell mit Ihnen.",
+  "en": "How many sessions are needed differs from client to client. Derya Kılıç will discuss this with you individually."
  },
  "r_kids": {
-  "tr": "Bu konuyu Derya Hanım sizinle en iyi şekilde kişisel olarak konuşur. Kısaca yazmanız yeterli:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "de": "Das bespricht Derya Kılıç am besten persönlich mit Ihnen. Schreiben Sie ihr einfach kurz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "en": "Derya Kılıç will be happy to discuss this with you personally. Just send her a short message:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+  "tr": "Derya Hanım 10 yaşından itibaren çocuklarla çalışır. 10 yaşın altındaki çocuklar için ebeveyn ile vekil çalışma yapılır.",
+  "de": "Derya Kılıç arbeitet mit Kindern ab 10 Jahren. Bei Kindern unter 10 Jahren arbeitet sie stellvertretend mit einem Elternteil.",
+  "en": "Derya Kılıç works with children aged 10 and over. For children under 10, she works with a parent on the child’s behalf."
  },
  "r_insurance": {
-  "tr": "Bu konuyu Derya Hanım sizinle en iyi şekilde kişisel olarak konuşur. Kısaca yazmanız yeterli:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "de": "Das bespricht Derya Kılıç am besten persönlich mit Ihnen. Schreiben Sie ihr einfach kurz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "en": "Derya Kılıç will be happy to discuss this with you personally. Just send her a short message:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+  "tr": "Seanslar özel olarak ücretlendirilir, sağlık sigortası tarafından karşılanmaz. Ödemeniz için makbuz (Quittung) verilir.",
+  "de": "Die Sitzungen werden privat bezahlt und nicht von der Krankenkasse übernommen. Für Ihre Zahlung erhalten Sie eine Quittung.",
+  "en": "Sessions are paid privately and are not covered by health insurance. You will receive a receipt for your payment."
  },
  "r_parking": {
-  "tr": "Adresimiz: Biberweg 53, 70806 Kornwestheim (Stuttgart ve Ludwigsburg yakınında). Ulaşım veya park yeri hakkında sorularınız için Derya Hanım’a yazabilirsiniz:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-posta: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "de": "Unsere Adresse: Biberweg 53, 70806 Kornwestheim (bei Stuttgart und Ludwigsburg). Fragen zur Anfahrt oder zum Parken beantwortet Derya Kılıç gern:\n📞 Telefon / WhatsApp: +49 170 8296913\n✉️ E-Mail: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829",
-  "en": "Our address: Biberweg 53, 70806 Kornwestheim (near Stuttgart and Ludwigsburg). For questions about getting here or parking, just message Derya Kılıç:\n📞 Phone / WhatsApp: +49 170 8296913\n✉️ Email: goldensunderya@hotmail.com\n📷 Instagram: @deryakilic2829"
+  "tr": "Adresimiz: Biberweg 53, 70806 Kornwestheim (Stuttgart ve Ludwigsburg yakınında). Ücretsiz park yeri mevcuttur.",
+  "de": "Unsere Adresse: Biberweg 53, 70806 Kornwestheim (bei Stuttgart und Ludwigsburg). Kostenlose Parkmöglichkeiten sind vorhanden.",
+  "en": "Our address: Biberweg 53, 70806 Kornwestheim (near Stuttgart and Ludwigsburg). Free parking is available."
  },
  "r_privacy": {
   "tr": "Paylaştığınız bilgiler gizli tutulur ve yalnızca randevu planlaması ile seanslarınız için kullanılır. Ayrıntılar Gizlilik Politikası sayfasında yer alır.",
