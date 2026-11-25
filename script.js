@@ -458,7 +458,10 @@ function initHeader() {
         const y = window.scrollY;
         header?.classList.toggle("is-scrolled", y > 8);
         $("#toTop")?.classList.toggle("show", y > 700);
-        document.documentElement.style.setProperty("--parallax", Math.min(y * 0.25, 200).toFixed(1));
+        // Parallax der Lilien ab dem Hero gerechnet (davor kann das Intro liegen)
+        const heroEl = document.getElementById("home");
+        const rel = heroEl ? Math.max(0, (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 0) - heroEl.getBoundingClientRect().top) : y;
+        document.documentElement.style.setProperty("--parallax", Math.min(rel * 0.25, 200).toFixed(1));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
@@ -829,6 +832,9 @@ function drawComments() {
 async function renderComments() {
     commentsCache = await getComments();
     drawComments();
+    // Intro-Animation (grow.js) bekommt alle Bewertungen
+    window.__allComments = commentsCache || [];
+    document.dispatchEvent(new CustomEvent("comments-loaded"));
 }
 
 function initReviews() {

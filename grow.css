@@ -1,0 +1,100 @@
+/* =========================================================
+   Intro "Wachstum": Video (als Einzelbilder in intro/) läuft beim
+   Scrollen ab – Samen → Gießen → Setzling → Baum mit Wurzeln.
+   Bewertungen erscheinen in Sprechblasen. Logik in grow.js
+   ========================================================= */
+
+.grow { position: relative; height: 520vh; background: #3a2c22; }
+.no-js .grow, .grow.is-off { display: none; }
+
+@supports (height: 100lvh) { .grow-stage { --ui: calc(100lvh - 100svh); } }
+.grow-stage {
+    position: sticky; top: var(--header-h, 76px);
+    /* lvh = Höhe bei eingeklappter Adressleiste → kein heller Streifen unten beim Scrollen */
+    height: calc(100vh - var(--header-h, 76px));
+    height: calc(100lvh - var(--header-h, 76px));
+    overflow: hidden; isolation: isolate;
+    background: linear-gradient(#f1e7d8 0 48%, #3a2c22 62%);
+}
+.grow-fg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ---------- Texte ---------- */
+.grow-captions {
+    position: absolute; left: 50%; bottom: calc(clamp(64px, 11vh, 120px) + var(--ui, 0px)); transform: translateX(-50%);
+    width: min(820px, calc(100% - 32px)); display: grid; pointer-events: none; z-index: 3;
+}
+.grow-cap {
+    grid-area: 1 / 1; justify-self: center; text-align: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: clamp(1.45rem, 3.4vw, 2.4rem); line-height: 1.25; color: #faf6f0;
+    padding: 0 .4em;
+    text-shadow: 0 1px 3px rgba(20, 14, 10, .75), 0 0 22px rgba(20, 14, 10, .6);
+    opacity: 0; transform: translateY(10px);
+    will-change: opacity, transform;
+}
+
+/* ---------- Bewertungen in Sprechblasen ---------- */
+.grow-reviews { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.grow-review {
+    position: absolute; width: min(330px, 25vw);
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 14px 16px 12px;
+    opacity: 0; transform: scale(.85); transform-origin: var(--origin, 50% 100%);
+    will-change: opacity, transform;
+}
+.grow-review::after {
+    content: ""; position: absolute; bottom: -9px; width: 16px; height: 16px;
+    background: var(--white); border: 1px solid var(--line); border-top: 0; border-left: 0;
+    transform: rotate(45deg);
+}
+.grow-review.is-left::after { right: 34px; }
+.grow-review.is-right::after { left: 34px; }
+.grow-review p {
+    font-size: .92rem; line-height: 1.5; color: var(--ink); margin-bottom: 8px;
+    display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden;
+}
+.grow-review footer { display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--muted); }
+.grow-review footer strong { color: var(--brown-dark); }
+.grow-review .stars { color: #c8a04a; letter-spacing: 1px; }
+
+/* ---------- Bedienelemente ---------- */
+.grow-veil { position: absolute; inset: 0; background: #f8f3eb; opacity: 0; pointer-events: none; z-index: 4; }
+
+.grow-hint {
+    position: absolute; left: 50%; bottom: calc(22px + var(--ui, 0px)); transform: translateX(-50%);
+    display: grid; justify-items: center; gap: 8px; z-index: 3;
+    font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cream);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+.grow-mouse { position: relative; width: 26px; height: 40px; border-radius: 15px; border: 2px solid rgba(250, 246, 240, .8); }
+.grow-mouse::after {
+    content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; border-radius: 2px;
+    background: var(--cream); transform: translateX(-50%); animation: scrollDot 1.8s var(--ease) infinite;
+}
+
+.grow-skip {
+    position: absolute; left: 16px; bottom: calc(18px + var(--ui, 0px)); z-index: 5;
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    font: 600 .82rem var(--font-body); color: var(--brown-dark);
+    background: rgba(255, 255, 255, .8); border: 1px solid var(--line);
+    transition: background .2s, opacity .3s;
+}
+.grow-skip:hover { background: var(--white); }
+
+@media (max-height: 700px) { .grow-review p { -webkit-line-clamp: 4; } }
+
+/* Schmale Bildschirme: Bewertungen nacheinander unten statt links/rechts */
+@media (max-width: 899px) {
+    .grow-review { width: min(340px, calc(100% - 32px)); left: 50% !important; right: auto !important; top: 16px !important; bottom: auto; margin-left: calc(min(340px, 100% - 32px) / -2); }
+    .grow-review::after { left: 50% !important; right: auto !important; margin-left: -8px; }
+    .grow-skip { left: 12px; bottom: calc(14px + var(--ui, 0px)); }
+}
+
+/* Hero direkt nach dem Intro: füllt den ganzen Bildschirm (auch bei eingeklappter Adressleiste) */
+.grow + .hero { min-height: calc(100vh - var(--header-h, 76px)); min-height: calc(100lvh - var(--header-h, 76px)); }
+
+@media (prefers-reduced-motion: reduce) {
+    .grow { display: none; }
+}

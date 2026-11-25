@@ -30,6 +30,7 @@
 <link as="font" crossorigin="" href="cormorant-garamond-500italic.woff2" rel="preload" type="font/woff2"/>
 <link href="fontawesome.min.css" rel="stylesheet"/>
 <link href="style.css" rel="stylesheet"/>
+<link href="grow.css?v=9" rel="stylesheet"/>
 <meta content="AdZR63SkINOrwMYZ1tefn71snwi8K_zQpB1CFkwFUYU" name="google-site-verification"/>
 <meta content="byDxSJJO4d_mXVY_DPgX-9Tpc-hT9WHaUcJS3xCxRxA" name="google-site-verification"/>
 <script type="application/ld+json">
@@ -102,6 +103,22 @@
 </div>
 </header>
 <main id="main">
+<!-- WACHSTUM (Intro: Video-Einzelbilder laufen beim Scrollen ab, Bilder in intro/) -->
+<section aria-label="Giriş: tohumdan ağaca" class="grow" id="grow">
+<div class="grow-stage">
+<canvas aria-hidden="true" class="grow-fg"></canvas>
+<div class="grow-captions">
+<p class="grow-cap" data-range=".00 .08" data-range-wide=".00 .08">Her değişim küçük bir tohumla başlar.</p>
+<p class="grow-cap" data-range=".09 .17" data-range-wide=".09 .18">Biraz ilgi, biraz sabır…</p>
+<p class="grow-cap" data-range=".18 .27" data-range-wide=".19 .25">…ve ilk filiz toprağa merhaba der.</p>
+<p class="grow-cap" data-range=".29 .56" data-range-wide=".27 .42">Zamanla güçlü bir ağaca dönüşür.</p>
+<p class="grow-cap" data-range=".60 .94" data-range-wide=".45 .94">Asıl değişim görünmeyen yerde başlar: köklerde – bilinçaltında.</p>
+</div>
+<div class="grow-reviews"></div>
+<div aria-hidden="true" class="grow-hint"><span class="grow-mouse"></span>Aşağı kaydırın</div>
+<button class="grow-skip" type="button">Atla <i class="fas fa-arrow-down"></i></button>
+</div>
+</section>
 <!-- HERO -->
 <section class="hero" id="home">
 <div aria-hidden="true" class="orb orb-1"></div>
@@ -488,6 +505,7 @@
 </footer>
 <button aria-label="Yukarı çık" class="to-top" data-i18n-al="t8e145f18" id="toTop"><i class="fas fa-arrow-up"></i></button>
 <div data-chat-widget="" id="chatMount"></div>
-<script src="script.js" type="module"></script>
+<script src="script.js?v=2" type="module"></script>
+<script defer src="grow.js?v=10"></script>
 </body>
 </html>
