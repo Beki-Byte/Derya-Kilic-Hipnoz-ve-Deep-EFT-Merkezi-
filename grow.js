@@ -137,7 +137,7 @@
     pullReviews();
 
     const hint = sec.querySelector(".grow-hint"), skip = sec.querySelector(".grow-skip");
-    skip.addEventListener("click", () => document.getElementById("home")?.scrollIntoView({ behavior: "smooth" }));
+    skip.addEventListener("click", () => { const h = document.getElementById("home"); if (!h) return; if (window.__lenis) window.__lenis.scrollTo(h); else h.scrollIntoView({ behavior: "smooth" }); });
 
     /* ---------- Ein Bild für Fortschritt p ---------- */
     let lastP = -1;
@@ -145,6 +145,8 @@
         const rect = sec.getBoundingClientRect();
         const headerH = parseFloat(getComputedStyle(stage).top) || 0;
         const p = clamp((headerH - rect.top) / (rect.height - stage.offsetHeight));
+        // Während des Intros keine schwebenden Knöpfe über dem Text
+        document.documentElement.classList.toggle("in-intro", rect.bottom > stage.offsetHeight * 0.6);
         if (!force && p === lastP) return;
         lastP = p;
 
@@ -201,7 +203,7 @@
             const vh = window.innerHeight;
             if (Math.abs(d) < 3 || d > vh * 0.4 || d < -vh * 0.25) return;
             snapping = true;
-            window.scrollBy({ top: d, behavior: "smooth" });
+            if (window.__lenis) window.__lenis.scrollTo(window.scrollY + d, { duration: 0.6 }); else window.scrollBy({ top: d, behavior: "smooth" });
             setTimeout(() => { snapping = false; }, 700);
         }, 160);
     }, { passive: true });

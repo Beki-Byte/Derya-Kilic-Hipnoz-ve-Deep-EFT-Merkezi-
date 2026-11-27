@@ -95,6 +95,9 @@
 /* Hero direkt nach dem Intro: füllt den ganzen Bildschirm (auch bei eingeklappter Adressleiste) */
 .grow + .hero { min-height: calc(100vh - var(--header-h, 76px)); min-height: calc(100lvh - var(--header-h, 76px)); }
 
+.in-intro .to-top { opacity: 0 !important; visibility: hidden !important; }
+.grow-cap { font-family: var(--font-display); font-weight: 380; letter-spacing: -.01em; }
+
 @media (prefers-reduced-motion: reduce) {
     .grow { display: none; }
 }

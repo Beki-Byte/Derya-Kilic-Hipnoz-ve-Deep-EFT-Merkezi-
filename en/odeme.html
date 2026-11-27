@@ -25,11 +25,10 @@
 <link href="../favicon-192.png" rel="icon" sizes="192x192" type="image/png"/>
 <link href="../apple-touch-icon.png" rel="apple-touch-icon"/>
 <link href="../site.webmanifest" rel="manifest"/>
-<link as="font" crossorigin="" href="../nunito-sans-400.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../cormorant-garamond-600.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../cormorant-garamond-500italic.woff2" rel="preload" type="font/woff2"/>
 <link href="../fontawesome.min.css" rel="stylesheet"/>
-<link href="../style.css" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../fonts/fraunces-latin-wght-normal.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../fonts/manrope-latin-wght-normal.woff2" rel="preload" type="font/woff2"/>
+<link href="../style.css?v=24" rel="stylesheet"/>
 <script>
         /* Seite ist in ihrer Sprache fertig – nur ?lang=… (aus Nachrichten-Links) tauscht per JS */
         (function () {
@@ -42,6 +41,7 @@
     </script>
 </head>
 <body>
+<div aria-hidden="true" class="page-veil"><div class="veil-mark"><img alt="" height="67" src="../logobaum.png" width="64"/><span>Derya Kılıç</span><span class="veil-count">000</span></div></div>
 <a class="skip-link" data-i18n="t0cff8040" href="#main">Skip to content</a>
 <header class="site-header" id="siteHeader">
 <div class="header-inner">
@@ -173,5 +173,9 @@
 <button aria-label="Back to top" class="to-top" data-i18n-al="t8e145f18" id="toTop"><i class="fas fa-arrow-up"></i></button>
 <div data-chat-widget="" id="chatMount"></div>
 <script src="../script.js" type="module"></script>
+<script defer src="../vendor/gsap.min.js"></script>
+<script defer src="../vendor/ScrollTrigger.min.js"></script>
+<script defer src="../vendor/lenis.min.js"></script>
+<script defer src="../motion.js?v=9"></script>
 </body>
 </html>
